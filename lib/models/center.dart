@@ -1,6 +1,9 @@
 class Center {
-  int _idCenter;
-  String _name;
+  int id;
+  String name;
 
-  Center({required int idCenter, required String name}) : _idCenter = idCenter, _name = name;
+  Center({
+    required this.id,
+    required this.name,
+  });
 }

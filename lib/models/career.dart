@@ -1,9 +1,13 @@
 import 'departament.dart';
 
 class Career {
-  int _idCareer;
-  String _name;
-  Departament _departament;
+  int id;
+  Department department;
+  String name;
 
-  Career({required int idCareer, required String name, required Departament departament}) : _idCareer = idCareer, _name = name, _departament = departament;
+  Career({
+    required this.id,
+    required this.department,
+    required this.name,
+  });
 }

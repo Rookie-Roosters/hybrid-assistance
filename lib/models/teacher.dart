@@ -1,8 +1,13 @@
-class Teacher{
-  int _idTeacher;
-  String _name;
-  String _firstLastName;
-  String _secondLastName;
+class Teacher {
+  int id;
+  String name;
+  String lastName;
+  String? picture;
 
-  Teacher({required int idTeacher, required String name, required String firstLastName, required String secondLastName}) : _idTeacher = idTeacher, _name = name, _firstLastName = firstLastName, _secondLastName = secondLastName;
+  Teacher({
+    required this.id,
+    required this.name,
+    required this.lastName,
+    this.picture,
+  });
 }

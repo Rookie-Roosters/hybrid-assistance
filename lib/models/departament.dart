@@ -1,9 +1,13 @@
 import 'center.dart';
 
-class Departament {
-  int _idDepartament;
-  Center _center;
-  String _name;
+class Department {
+  int id;
+  Center center;
+  String name;
 
-  Departament({required int idDepartament, required Center center, required String name}) : _idDepartament = idDepartament, _center = center, _name = name;
+  Department({
+    required this.id,
+    required this.center,
+    required this.name,
+  });
 }

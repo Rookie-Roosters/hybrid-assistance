@@ -3,11 +3,17 @@ import 'career.dart';
 enum Turn { morning, evening }
 
 class Group {
-  int _idGroup;
-  Career _career;
-  int _generation;
-  String _letter;
-  Turn _turn;
+  int id;
+  Career career;
+  String generation;
+  String letter;
+  Turn turn;
 
-  Group({required int idGroup, required Career career, required int generation, required String letter, required Turn turn}) : _idGroup = idGroup, _career = career, _generation = generation, _letter = letter, _turn = turn;
+  Group({
+    required this.id,
+    required this.career,
+    required this.generation,
+    required this.letter,
+    required this.turn,
+  });
 }

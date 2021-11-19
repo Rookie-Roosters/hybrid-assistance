@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bootstrap/flutter_bootstrap.dart';
 import 'package:get/get.dart';
 
 // Constants & utilities
@@ -98,6 +99,7 @@ extension WidgetUtils on Widget {
   Widget aspectRatio(double aspectRatio) => AspectRatio(aspectRatio: aspectRatio, child: this);
   Widget width(double width) => SizedBox(width: width, child: this);
   Widget height(double height) => SizedBox(height: height, child: this);
+  Widget box(double width, double height) => SizedBox(width: width, height: height, child: this);
   Widget scrollable({Axis direction = Axis.vertical, ScrollPhysics physics = kBouncyScroll, EdgeInsets? padding}) =>
       SingleChildScrollView(physics: physics, scrollDirection: direction, padding: padding, child: this);
   Widget safeArea() => SafeArea(child: this);
@@ -168,8 +170,8 @@ extension WidgetUtils on Widget {
     return Padding(
       child: this,
       padding: EdgeInsets.symmetric(
-        horizontal: _sizes[scaleX < 0 || scaleX > 3 ? 0 : scaleX],
-        vertical: _sizes[scaleY < 0 || scaleY > 3 ? 0 : scaleY],
+        horizontal: _sizes[scaleX < 0 || scaleX > 5 ? 0 : scaleX],
+        vertical: _sizes[scaleY < 0 || scaleY > 5 ? 0 : scaleY],
       ),
     );
   }
@@ -178,32 +180,55 @@ extension WidgetUtils on Widget {
     return Padding(
       child: this,
       padding: EdgeInsets.fromLTRB(
-        _sizes[scaleL < 0 || scaleL > 3 ? 0 : scaleL],
-        _sizes[scaleT < 0 || scaleT > 3 ? 0 : scaleT],
-        _sizes[scaleR < 0 || scaleR > 3 ? 0 : scaleR],
-        _sizes[scaleB < 0 || scaleB > 3 ? 0 : scaleB],
+        _sizes[scaleL < 0 || scaleL > 5 ? 0 : scaleL],
+        _sizes[scaleT < 0 || scaleT > 5 ? 0 : scaleT],
+        _sizes[scaleR < 0 || scaleR > 5 ? 0 : scaleR],
+        _sizes[scaleB < 0 || scaleB > 5 ? 0 : scaleB],
       ),
     );
   }
 
-  Widget left(List<Widget> items, [MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center]) {
+  Widget left(List<Widget> items, {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center}) {
     if (items.isEmpty) return this;
     return Row(mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, mainAxisSize: MainAxisSize.min, children: [...items, this]);
   }
 
-  Widget right(List<Widget> items, [MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center]) {
+  Widget right(List<Widget> items, {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center}) {
     if (items.isEmpty) return this;
     return Row(mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, mainAxisSize: MainAxisSize.min, children: [this, ...items]);
   }
 
-  Widget top(List<Widget> items, [MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start]) {
+  Widget top(List<Widget> items, {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start}) {
     if (items.isEmpty) return this;
     return Column(mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, mainAxisSize: MainAxisSize.min, children: [...items, this]);
   }
 
-  Widget bottom(List<Widget> items, [MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start]) {
+  Widget bottom(List<Widget> items, {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start}) {
     if (items.isEmpty) return this;
     return Column(mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, mainAxisSize: MainAxisSize.min, children: [this, ...items]);
+  }
+
+  Widget focusGroup() => FocusTraversalGroup(policy: OrderedTraversalPolicy(), child: this);
+
+  Widget focusOrder(double order) => FocusTraversalOrder(order: NumericFocusOrder(order), child: this);
+
+  BootstrapCol col(
+    String sizes, {
+    String offsets = "",
+    String orders = "",
+    String? invisibleForSizes,
+    bool absoluteSizes = true,
+    FlexFit fit = FlexFit.loose,
+  }) {
+    return BootstrapCol(
+      child: this,
+      sizes: sizes,
+      offsets: offsets,
+      orders: orders,
+      invisibleForSizes: invisibleForSizes,
+      absoluteSizes: absoluteSizes,
+      fit: fit,
+    );
   }
 }
 

@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:hybrid_assistance/services/auth_controller.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'config/app_pages.dart';
 import 'config/app_themes.dart';
+import 'services/session_sevice.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await initServices();
   setPathUrlStrategy();
-  Get.put(AuthController());
   runApp(const HybridAssistance());
+}
+
+Future<void> initServices() async {
+  await GetStorage.init();
+  await Get.putAsync(() => SessionService().init());
 }
 
 class HybridAssistance extends StatelessWidget {
@@ -22,7 +30,7 @@ class HybridAssistance extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: AppThemes.main,
         getPages: AppPages.routes,
-        initialRoute: Routes.HOME,
+        initialRoute: SessionService.to.loggedIn ? Routes.HOME : Routes.LOGIN,
       ),
     );
   }

@@ -1,6 +1,9 @@
-class ClassRoom {
-  int _idClassRoom;
-  String _name;
+class Classroom {
+  int id;
+  String name;
 
-  ClassRoom({required int idClassRoom, required String name}) : _idClassRoom = idClassRoom, _name = name;
+  Classroom({
+    required this.id,
+    required this.name,
+  });
 }

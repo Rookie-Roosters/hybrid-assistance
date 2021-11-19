@@ -34,8 +34,8 @@ dependencies:
   get_storage: ^2.0.3
   intl: ^0.17.0
   logger: ^1.1.0
-  avoid_keyboard: ^0.3.0
   url_strategy: ^0.2.0
+  easy_mask: ^2.0.1
   http: ^0.13.4
   mysql1: ^0.19.2
 
@@ -43,7 +43,9 @@ dependencies:
   lottie: ^1.2.1
   derived_colors: ^0.3.0
   auto_animated: ^3.0.1
-
+  animated_size_and_fade: ^3.0.0
+  collapsible: ^1.0.0
+  flutter_bootstrap: ^2.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

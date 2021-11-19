@@ -1,14 +1,20 @@
-import 'student.dart';
 import 'schedule.dart';
+import 'student.dart';
 
-enum State { present, absent, online }
+enum AttendanceStatus { absent, present, online }
 
 class Attendance {
-  int _idAttendance;
-  DateTime _dateTime;
-  Schedule _schedule;
-  Student _student;
-  State _state;
+  int id;
+  Student student;
+  Schedule schedule;
+  DateTime dateTime;
+  AttendanceStatus status;
 
-  Attendance({required int idAttendance, required DateTime dateTime, required Schedule schedule, required Student student, required State state}) : _idAttendance = idAttendance, _dateTime = dateTime, _schedule = schedule, _student = student, _state = state;
+  Attendance({
+    required this.id,
+    required this.student,
+    required this.schedule,
+    required this.dateTime,
+    required this.status,
+  });
 }
