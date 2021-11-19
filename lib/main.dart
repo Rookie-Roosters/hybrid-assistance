@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hybrid_assistance/services/auth_controller.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'config/app_pages.dart';
 import 'config/app_themes.dart';
@@ -7,6 +8,7 @@ import 'config/app_themes.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setPathUrlStrategy();
+  Get.put(AuthController());
   runApp(const HybridAssistance());
 }
 
