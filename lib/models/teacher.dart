@@ -1,13 +1,15 @@
 class Teacher {
   int id;
   String name;
-  String lastName;
+  String firstLastName;
+  String secondLastName;
   String? picture;
 
   Teacher({
     required this.id,
     required this.name,
-    required this.lastName,
+    required this.firstLastName,
+    required this.secondLastName,
     this.picture,
   });
 }
