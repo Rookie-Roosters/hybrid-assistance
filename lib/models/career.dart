@@ -1,4 +1,4 @@
-import 'departament.dart';
+import 'department.dart';
 
 class Career {
   int id;
