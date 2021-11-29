@@ -1,4 +1,4 @@
-import 'package:hybrid_assistance/services/db_connection.dart';
+import 'package:hybrid_assistance/services/database_service.dart';
 
 class Student {
   int id;
@@ -18,10 +18,14 @@ class Student {
   });
 
   static Future<Student> findById(int id) async {
-    var conn = await DBConnection.getMySQLConn();
-    var result = await conn.query(
-        "SELECT id, name, firstLastName, secondLastName, nickname, picture FROM student WHERE id=?",
-        [id]);
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT id, name, firstLastName, secondLastName, nickname, picture 
+      FROM student
+      WHERE id=?
+      ''',
+      [id],
+    );
     if (result.length == 1) {
       for (var row in result) {
         return Student(
