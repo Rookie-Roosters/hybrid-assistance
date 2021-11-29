@@ -8,7 +8,7 @@ class DatabaseService extends GetxService {
   late final MySqlConnection connection;
 
   final _settings = ConnectionSettings(
-    host: '192.168.0.13', //ip local
+    host: '192.168.1.65', //ip local
     port: 3306,
     user: 'root',
     // password: '',
@@ -24,17 +24,3 @@ class DatabaseService extends GetxService {
     return this;
   }
 }
-
-// class DBConnection {
-//   static var settings = ConnectionSettings(
-//     host: '192.168.1.70', //ip local
-//     port: 3306,
-//     user: 'root',
-//     // password: '',
-//     db: 'hybrid_assistance'
-//   );
-
-//   static Future<MySqlConnection> getMySQLConn() async {
-//     return MySqlConnection.connect(settings);
-//   }
-// }
