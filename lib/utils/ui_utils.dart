@@ -1,8 +1,6 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bootstrap/flutter_bootstrap.dart';
 import 'package:get/get.dart';
 
 // Constants & utilities
@@ -188,22 +186,26 @@ extension WidgetUtils on Widget {
     );
   }
 
-  Widget left(List<Widget> items, {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center}) {
+  Widget left(List<Widget> items,
+      {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center}) {
     if (items.isEmpty) return this;
     return Row(mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, mainAxisSize: MainAxisSize.min, children: [...items, this]);
   }
 
-  Widget right(List<Widget> items, {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center}) {
+  Widget right(List<Widget> items,
+      {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center}) {
     if (items.isEmpty) return this;
     return Row(mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, mainAxisSize: MainAxisSize.min, children: [this, ...items]);
   }
 
-  Widget top(List<Widget> items, {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start}) {
+  Widget top(List<Widget> items,
+      {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start}) {
     if (items.isEmpty) return this;
     return Column(mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, mainAxisSize: MainAxisSize.min, children: [...items, this]);
   }
 
-  Widget bottom(List<Widget> items, {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start}) {
+  Widget bottom(List<Widget> items,
+      {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start, CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start}) {
     if (items.isEmpty) return this;
     return Column(mainAxisAlignment: mainAxisAlignment, crossAxisAlignment: crossAxisAlignment, mainAxisSize: MainAxisSize.min, children: [this, ...items]);
   }
@@ -211,25 +213,6 @@ extension WidgetUtils on Widget {
   Widget focusGroup() => FocusTraversalGroup(policy: OrderedTraversalPolicy(), child: this);
 
   Widget focusOrder(double order) => FocusTraversalOrder(order: NumericFocusOrder(order), child: this);
-
-  BootstrapCol col(
-    String sizes, {
-    String offsets = "",
-    String orders = "",
-    String? invisibleForSizes,
-    bool absoluteSizes = true,
-    FlexFit fit = FlexFit.loose,
-  }) {
-    return BootstrapCol(
-      child: this,
-      sizes: sizes,
-      offsets: offsets,
-      orders: orders,
-      invisibleForSizes: invisibleForSizes,
-      absoluteSizes: absoluteSizes,
-      fit: fit,
-    );
-  }
 }
 
 const _sizes = [0.0, kSpacing1, kSpacing2, kSpacing3, kSpacing4, kSpacing5];

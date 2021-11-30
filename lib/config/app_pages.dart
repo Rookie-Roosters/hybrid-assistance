@@ -2,6 +2,7 @@
 import 'package:get/get.dart';
 import 'package:hybrid_assistance/pages/home/home_page.dart';
 import 'package:hybrid_assistance/pages/login/login_page.dart';
+import 'package:hybrid_assistance/pages/student/student_form.dart';
 
 class AppPages {
   static final routes = [
@@ -19,10 +20,18 @@ class AppPages {
         Get.lazyPut<HomeController>(() => HomeController());
       }),
     ),
+    GetPage(
+      name: Routes.STUDENTFORM,
+      page: () => const StudentForm(),
+      binding: BindingsBuilder<dynamic>(() {
+        Get.lazyPut<StudentController>(() => StudentController());
+      }),
+    ),
   ];
 }
 
 abstract class Routes {
   static const HOME = '/';
   static const LOGIN = '/login';
+  static const STUDENTFORM = '/student_form';
 }
