@@ -28,36 +28,36 @@ class LogInPage extends GetView<LogInController> {
           height: Get.height,
           alignment: Alignment.center,
           padding: kPadding3,
-          child: Column(mainAxisSize: MainAxisSize.max, crossAxisAlignment: CrossAxisAlignment.center, children: [
+          child: Column(mainAxisSize: MainAxisSize.max, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             statusBarSpacer,
-            Image.asset('assets/uaa_logo.png', width: Get.width / 2).py2,
+            Image.asset('assets/uaa_logo.png', width: Get.width / 2).py2.centered(),
             WorthyText.heading1(
               'SISTEMA DE ASISTENCIA HÍBRIDA',
               textAlign: TextAlign.center,
               color: kDarkColor,
             ),
-            WorthyText.bodyLarge('v1.0.0', color: kPrimaryColor.withOpacity(0.5)),
+            WorthyText.bodyLarge('v1.0.0', textAlign: TextAlign.center, color: kPrimaryColor.withOpacity(0.5)),
             kSpacer,
-            WorthyContainer(
-              color: kPrimaryColor,
-              margin: kPadding2,
-              header: DirectSelectList<UserTypes>(
-                values: UserTypes.values,
-                focusedItemDecoration: const BoxDecoration(border: Border.symmetric(horizontal: BorderSide(width: 1, color: Colors.black12))),
-                onItemSelectedListener: (value, index, context) => controller.selectedUserType = value,
-                itemBuilder: (value) => DirectSelectItem(
-                  value: value,
-                  itemBuilder: (context, value) => Row(children: [Icon(value.icon).pr2, Text(value.name)]),
-                ),
-              ).expanded().right([const Icon(LineIcons.alternateArrowsVertical, color: Colors.white30, size: 25)]).pxy(2, 1),
-              child: Form(
-                key: controller.formKey,
+            Form(
+              key: controller.formKey,
+              child: WorthyContainer(
+                color: kPrimaryColor,
+                margin: kPadding2,
+                header: DirectSelectList<UserTypes>(
+                  values: UserTypes.values,
+                  focusedItemDecoration: const BoxDecoration(border: Border.symmetric(horizontal: BorderSide(width: 1, color: Colors.black12))),
+                  onItemSelectedListener: (value, index, context) => controller.selectedUserType = value,
+                  itemBuilder: (value) => DirectSelectItem(
+                    value: value,
+                    itemBuilder: (context, value) => Row(children: [Icon(value.icon).pr2, Text(value.name)]),
+                  ),
+                ).expanded().right([const Icon(LineIcons.alternateArrowsVertical, color: Colors.white30, size: 25)]).pxy(2, 1),
                 child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                   WorthyTextField(
                     label: 'Id. Personal',
                     prefix: const Icon(LineIcons.identificationCard),
                     validator: Validator.requiredField,
-                    style: WorthyTextFieldStyle.regular.copyWith(groupedBottom: true),
+                    style: WorthyTextFieldStyle.surface.copyWith(groupedBottom: true),
                     keyboardType: TextInputType.number,
                   ),
                   ValueBuilder<bool?>(
@@ -67,7 +67,7 @@ class LogInPage extends GetView<LogInController> {
                       prefix: const Icon(LineIcons.lock),
                       controller: controller.passwordField,
                       validator: Validator.requiredField,
-                      style: WorthyTextFieldStyle.regular.copyWith(groupedTop: true),
+                      style: WorthyTextFieldStyle.surface.copyWith(groupedTop: true),
                       obscureText: value!,
                       suffix: IconButton(
                         icon: Icon(value ? LineIcons.eyeSlash : LineIcons.eye),
@@ -75,22 +75,76 @@ class LogInPage extends GetView<LogInController> {
                       ),
                     ),
                   ),
-                  kDivider.py2,
                   WorthyButton.elevated(
                     key: controller.logInButtonKey,
                     child: const Text('INGRESAR'),
                     prefix: const Icon(LineIcons.alternateSignIn),
                     color: kSecondaryColor,
                     onPressed: () => controller.logIn(),
-                  ),
+                  ).p2,
                 ]),
-              ).p3,
+              ),
             ),
+            kSpacerY,
             kSpacer,
-            const LogoRookieRoosters(),
+            const LogoRookieRoosters().centered(),
             kSpacer,
           ]),
-        ).scrollable(),
+        ).scrollable(padding: EdgeInsets.only(bottom: keyboardPadding(context))),
+
+        // WorthyContainer(
+        //   color: kPrimaryColor,
+        //   margin: kPadding2,
+        //   header: DirectSelectList<UserTypes>(
+        //     values: UserTypes.values,
+        //     focusedItemDecoration: const BoxDecoration(border: Border.symmetric(horizontal: BorderSide(width: 1, color: Colors.black12))),
+        //     onItemSelectedListener: (value, index, context) => controller.selectedUserType = value,
+        //     itemBuilder: (value) => DirectSelectItem(
+        //       value: value,
+        //       itemBuilder: (context, value) => Row(children: [Icon(value.icon).pr2, Text(value.name)]),
+        //     ),
+        //   ).expanded().right([const Icon(LineIcons.alternateArrowsVertical, color: Colors.white30, size: 25)]).pxy(2, 1),
+        //   child: Form(
+        //     key: controller.formKey,
+        //     child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        //       WorthyTextField(
+        //         label: 'Id. Personal',
+        //         prefix: const Icon(LineIcons.identificationCard),
+        //         validator: Validator.requiredField,
+        //         style: WorthyTextFieldStyle.regular.copyWith(groupedBottom: true),
+        //         keyboardType: TextInputType.number,
+        //       ),
+        //       ValueBuilder<bool?>(
+        //         initialValue: true,
+        //         builder: (value, update) => WorthyTextField(
+        //           label: 'Contraseña',
+        //           prefix: const Icon(LineIcons.lock),
+        //           controller: controller.passwordField,
+        //           validator: Validator.requiredField,
+        //           style: WorthyTextFieldStyle.regular.copyWith(groupedTop: true),
+        //           obscureText: value!,
+        //           suffix: IconButton(
+        //             icon: Icon(value ? LineIcons.eyeSlash : LineIcons.eye),
+        //             onPressed: () => update(!value),
+        //           ),
+        //         ),
+        //       ),
+        //       kDivider.py2,
+        //       WorthyButton.elevated(
+        //         key: controller.logInButtonKey,
+        //         child: const Text('INGRESAR'),
+        //         prefix: const Icon(LineIcons.alternateSignIn),
+        //         color: kSecondaryColor,
+        //         onPressed: () => controller.logIn(),
+        //       ),
+        //     ]),
+        //   ).p3,
+        // ),
+        //     kSpacer,
+        //     const LogoRookieRoosters(),
+        //     kSpacer,
+        //   ]),
+        // ).scrollable(),
       ),
     ).overlayStyle(statusBar: kBackgroundColor, navigationBar: kBackgroundColor);
   }

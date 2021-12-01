@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'config/app_pages.dart';
 import 'config/app_themes.dart';
+import 'services/database_service.dart';
 import 'services/session_sevice.dart';
 
 void main() async {
@@ -15,7 +16,7 @@ void main() async {
 
 Future<void> initServices() async {
   await GetStorage.init();
-  //await Get.putAsync(() => DatabaseService().init());
+  await Get.putAsync(() => DatabaseService().init());
   await Get.putAsync(() => SessionService().init());
 }
 

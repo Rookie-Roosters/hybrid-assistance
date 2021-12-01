@@ -1,28 +1,28 @@
 import 'package:hybrid_assistance/services/database_service.dart';
 
-import 'department.dart';
+import 'center.dart';
 
-class Career {
+class Department {
   int id;
-  Department department;
+  Center center;
   String name;
 
-  Career({
+  Department({
     required this.id,
-    required this.department,
+    required this.center,
     required this.name,
   });
 
   bool validate({bool update = false}) {
     return (update ? id != null : true) &&
-        //department?
+        //center?
         name.length > 3;
   }
 
   Future<bool> exist(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
-      SELECT * FROM career WHERE `id` = ?;
+      SELECT * FROM department WHERE `id` = ?;
       ''',
       [id],
     );
@@ -30,63 +30,69 @@ class Career {
     return false;
   }
 
-  static Future<Career> findById(int id) async {
+  static Future<Department> findById(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
-      SELECT id, department, name 
-      FROM career
+      SELECT id, center, name 
+      FROM department
       WHERE id=?
       ''',
       [id],
     );
     if (result.length == 1) {
       for (var row in result) {
-        return Career(
+        return Department(
           id: row[0],
-          department: row[1],
+          center: row[1],
           name: row[2],
         );
       }
     }
-    throw Exception('Query returned more than one career or no careers.');
+    throw Exception('Query returned more than one department or no departments.');
   }
 
   Future<void> add() async {
     if (validate() && (id != null ? !(await exist(id!)) : true)) {
       //Cambiar por las validaciones
       await DatabaseService.to.connection.query('''
-        INSERT INTO `career`
-        (`id`, `department`, `name`)
+        INSERT INTO `department`
+        (`id`, `center`, `name`)
         VALUES (?,?,?);
         ''', [
         id,
-        department,
+        center,
         name,
       ]);
     } else {
-      throw Exception('Invalid Data or career already exists');
+      throw Exception('Invalid Data or Department already exists');
     }
   }
 
   Future<void> update({int? lastId}) async {
     if (validate(update: true) && (await exist(id!))) {
       await DatabaseService.to.connection.query('''
-      UPDATE `career` SET
-      `id`=?,`department`=?,`name`=?
+      UPDATE `department` SET
+      `id`=?,`center`=?,`name`=?
       WHERE `id` = ?;
-      ''', [id, department, name, (lastId ?? id)]);
+      ''', [
+        id,
+        center,
+        name,
+        (lastId ?? id)
+      ]);
     } else {
-      throw Exception('Invalid Data or career doesn\'t exist');
+      throw Exception('Invalid Data or Department doesn\'t exist');
     }
   }
 
   Future<void> delete() async {
     if (await exist(id!)) {
       await DatabaseService.to.connection.query('''
-      DELETE FROM `career` WHERE `id` = ?;
+      DELETE FROM `department` WHERE `id` = ?;
       ''', [id]);
     } else {
-      throw Exception('Career doesn\'t exist');
+      throw Exception('Department doesn\'t exist');
     }
   }
+
 }

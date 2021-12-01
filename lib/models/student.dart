@@ -9,6 +9,7 @@ class Student {
   String? nickname;
   String? picture;
 
+  //Constructur
   Student({
     this.id,
     required this.name,
@@ -19,12 +20,49 @@ class Student {
     this.picture,
   });
 
+  //validaciones
+  bool validateId(String? value) {
+    final RegExp regExp = RegExp(r"\d{6}");
+    return value != null ? regExp.hasMatch(value) : false;
+  }
+
+  bool validateName(String? value) {
+    final RegExp regExp = RegExp(r"[a-zA-ZáéíóúüÁÉÍÓÚÜ ]{3,50}");
+    return value != null ? regExp.hasMatch(value) : false;
+  }
+
+  bool validatePassword(String? value) {
+    final RegExp regExp = RegExp(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
+    return value != null ? regExp.hasMatch(value) : false;
+  }
+
   bool validate({bool update = false}) {
-    return (update ? id != null : true) &&
-        name.length > 3 &&
-        password!.length > 3 &&
-        firstLastName.length > 3 &&
-        secondLastName.length > 3;
+    return validateId(id.toString()) && validateName(name) && validatePassword(password) && validateName(firstLastName) && validateName(secondLastName);
+  }
+
+  //CRUD
+  static Future<Student> getById(int id) async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT id, name, firstLastName, secondLastName, nickname, picture 
+      FROM student
+      WHERE id=?
+      ''',
+      [id],
+    );
+    if (result.length == 1) {
+      for (var row in result) {
+        return Student(
+          id: row[0],
+          name: row[1],
+          firstLastName: row[2],
+          secondLastName: row[3],
+          nickname: row[4],
+          picture: row[5],
+        );
+      }
+    }
+    throw Exception('Query returned more than one student or no students.');
   }
 
   Future<bool> exist(int id) async {
@@ -69,15 +107,7 @@ class Student {
         INSERT INTO `student`
         (`id`, `name`, `password`, `firstLastName`, `secondLastName`, `nickname`, `picture`)
         VALUES (?,?,?,?,?,?,?);
-        ''', [
-        id,
-        name,
-        password,
-        firstLastName,
-        secondLastName,
-        nickname,
-        picture
-      ]);
+        ''', [id, name, password, firstLastName, secondLastName, nickname, picture]);
     } else {
       throw Exception('Invalid Data or Student already exist');
     }
@@ -89,16 +119,7 @@ class Student {
       UPDATE `student` SET
       `id`=?,`name`=?,`password`=?,`firstLastName`=?,`secondLastName`=?,`nickname`=?,`picture`=?
       WHERE `id` = ?;
-      ''', [
-        id,
-        name,
-        password,
-        firstLastName,
-        secondLastName,
-        nickname,
-        picture,
-        (lastId ?? id)
-      ]);
+      ''', [id, name, password, firstLastName, secondLastName, nickname, picture, (lastId ?? id)]);
     } else {
       throw Exception('Invalid Data or Student doesn\'t exist');
     }
