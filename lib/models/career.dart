@@ -52,7 +52,7 @@ class Career {
   }
 
   Future<void> add() async {
-    if (validate() && (id != null ? !(await exist(id!)) : true)) {
+    if (validate() && await exist(id)) {
       //Cambiar por las validaciones
       await DatabaseService.to.connection.query('''
         INSERT INTO `career`
@@ -69,7 +69,7 @@ class Career {
   }
 
   Future<void> update({int? lastId}) async {
-    if (validate(update: true) && (await exist(id!))) {
+    if (validate(update: true) && await exist(id)) {
       await DatabaseService.to.connection.query('''
       UPDATE `career` SET
       `id`=?,`department`=?,`name`=?

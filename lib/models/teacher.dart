@@ -18,11 +18,7 @@ class Teacher {
   });
 
   bool validate({bool update = false}) {
-    return (update ? id != null : true) &&
-        name.length > 3 &&
-        password!.length > 3 &&
-        firstLastName.length > 3 &&
-        secondLastName.length > 3;
+    return (update ? id != null : true) && name.length > 3 && password!.length > 3 && firstLastName.length > 3 && secondLastName.length > 3;
   }
 
   Future<bool> exist(int id) async {
@@ -66,14 +62,7 @@ class Teacher {
         INSERT INTO `teacher`
         (`id`, `name`, `password`, `firstLastName`, `secondLastName`, `picture`)
         VALUES (?,?,?,?,?,?);
-        ''', [
-        id,
-        name,
-        password,
-        firstLastName,
-        secondLastName,
-        picture
-      ]);
+        ''', [id, name, password, firstLastName, secondLastName, picture]);
     } else {
       throw Exception('Invalid Data or Teacher already exists');
     }
@@ -85,15 +74,7 @@ class Teacher {
       UPDATE `teacher` SET
       `id`=?,`name`=?,`password`=?,`firstLastName`=?,`secondLastName`=?,`picture`=?
       WHERE `id` = ?;
-      ''', [
-        id,
-        name,
-        password,
-        firstLastName,
-        secondLastName,
-        picture,
-        (lastId ?? id)
-      ]);
+      ''', [id, name, password, firstLastName, secondLastName, picture, (lastId ?? id)]);
     } else {
       throw Exception('Invalid Data or Teacher doesn\'t exist');
     }

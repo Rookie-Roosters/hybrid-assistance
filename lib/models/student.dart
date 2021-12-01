@@ -37,11 +37,7 @@ class Student {
   }
 
   bool validate({bool update = false}) {
-    return validateId(id.toString()) &&
-        validateName(name) &&
-        validatePassword(password) &&
-        validateName(firstLastName) &&
-        validateName(secondLastName);
+    return validateId(id.toString()) && validateName(name) && validatePassword(password) && validateName(firstLastName) && validateName(secondLastName);
   }
 
   //CRUD
@@ -111,15 +107,7 @@ class Student {
         INSERT INTO `student`
         (`id`, `name`, `password`, `firstLastName`, `secondLastName`, `nickname`, `picture`)
         VALUES (?,?,?,?,?,?,?);
-        ''', [
-        id,
-        name,
-        password,
-        firstLastName,
-        secondLastName,
-        nickname,
-        picture
-      ]);
+        ''', [id, name, password, firstLastName, secondLastName, nickname, picture]);
     } else {
       throw Exception('Invalid Data or Student already exist');
     }
@@ -131,16 +119,7 @@ class Student {
       UPDATE `student` SET
       `id`=?,`name`=?,`password`=?,`firstLastName`=?,`secondLastName`=?,`nickname`=?,`picture`=?
       WHERE `id` = ?;
-      ''', [
-        id,
-        name,
-        password,
-        firstLastName,
-        secondLastName,
-        nickname,
-        picture,
-        (lastId ?? id)
-      ]);
+      ''', [id, name, password, firstLastName, secondLastName, nickname, picture, (lastId ?? id)]);
     } else {
       throw Exception('Invalid Data or Student doesn\'t exist');
     }

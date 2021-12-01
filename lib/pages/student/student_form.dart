@@ -9,9 +9,9 @@ class StudentForm extends GetView<StudentController> {
   @override
   Widget build(BuildContext context) {
     final update = Get.arguments;
-    if(update != null) controller.student = update;
+    if (update != null) controller.student = update;
     print("Nombre: " + controller.student.name);
-    
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -32,9 +32,7 @@ class StudentForm extends GetView<StudentController> {
                     ),
                     initialValue: update == null ? '' : controller.student.id.toString(),
                     enabled: update == null,
-                    validator: (value) => controller.student.validateId(value)
-                        ? null
-                        : 'ID no válido',
+                    validator: (value) => controller.student.validateId(value) ? null : 'ID no válido',
                     onSaved: (value) => controller.student.id = value == null ? null : int.tryParse(value),
                   ),
                   const SizedBox(
@@ -45,9 +43,7 @@ class StudentForm extends GetView<StudentController> {
                       labelText: 'Nombre',
                     ),
                     initialValue: controller.student.name,
-                    validator: (value) => controller.student.validateName(value)
-                        ? null
-                        : 'Nombre no válido',
+                    validator: (value) => controller.student.validateName(value) ? null : 'Nombre no válido',
                     onSaved: (value) => controller.student.name = value ?? '',
                   ),
                   const SizedBox(
@@ -58,9 +54,7 @@ class StudentForm extends GetView<StudentController> {
                       labelText: 'Apellido Paterno',
                     ),
                     initialValue: controller.student.firstLastName,
-                    validator: (value) => controller.student.validateName(value)
-                        ? null
-                        : 'Apellido Paterno no válido',
+                    validator: (value) => controller.student.validateName(value) ? null : 'Apellido Paterno no válido',
                     onSaved: (value) => controller.student.firstLastName = value ?? '',
                   ),
                   const SizedBox(
@@ -71,9 +65,7 @@ class StudentForm extends GetView<StudentController> {
                       labelText: 'Apellido Materno',
                     ),
                     initialValue: controller.student.secondLastName,
-                    validator: (value) => controller.student.validateName(value)
-                        ? null
-                        : 'Apellido Materno no válido',
+                    validator: (value) => controller.student.validateName(value) ? null : 'Apellido Materno no válido',
                     onSaved: (value) => controller.student.secondLastName = value ?? '',
                   ),
                   const SizedBox(
@@ -85,10 +77,8 @@ class StudentForm extends GetView<StudentController> {
                     ),
                     initialValue: controller.student.password,
                     obscureText: true,
-                    validator: (value) => controller.student
-                            .validatePassword(value)
-                        ? null
-                        : 'Contraseña no válida, debe contener al menos 8 caracteres, 1 letra y 1 número',
+                    validator: (value) =>
+                        controller.student.validatePassword(value) ? null : 'Contraseña no válida, debe contener al menos 8 caracteres, 1 letra y 1 número',
                     onSaved: (value) => controller.student.password = value ?? '',
                   ),
                   const Divider(
@@ -97,7 +87,7 @@ class StudentForm extends GetView<StudentController> {
                   ElevatedButton(
                     child: update == null ? const Text('Agregar') : const Text('Modificar'),
                     onPressed: () {
-                      if(update == null) {
+                      if (update == null) {
                         controller.add();
                       } else {
                         controller.update();

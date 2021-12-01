@@ -4,8 +4,7 @@ import 'package:get/get.dart';
 
 class StudentController {
   final GlobalKey<FormState> formStateKey = GlobalKey<FormState>();
-  Student student =
-      Student(name: '', firstLastName: '', secondLastName: '', password: '');
+  Student student = Student(name: '', firstLastName: '', secondLastName: '', password: '');
 
   Future<void> add() async {
     if (formStateKey.currentState!.validate()) {
