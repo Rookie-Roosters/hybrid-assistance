@@ -1,19 +1,17 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bootstrap/flutter_bootstrap.dart';
 import 'package:get/get.dart';
 
 // Constants & utilities
-const kSpacing = 24.0;
+const kSpacing = 20.0;
 const kSpacing1 = kSpacing * 0.25;
 const kSpacing2 = kSpacing * 0.5;
 const kSpacing3 = kSpacing * 1.0;
 const kSpacing4 = kSpacing * 1.5;
 const kSpacing5 = kSpacing * 3.0;
 
-const kBorderRadius = 8.0;
+const kBorderRadius = 12.0;
 const kRoundedBorder = BorderRadius.all(Radius.circular(kBorderRadius));
 const kPillBorder = BorderRadius.all(Radius.circular(kBorderRadius));
 const kBouncyScroll = BouncingScrollPhysics();
@@ -212,22 +210,17 @@ extension WidgetUtils on Widget {
 
   Widget focusOrder(double order) => FocusTraversalOrder(order: NumericFocusOrder(order), child: this);
 
-  BootstrapCol col(
-    String sizes, {
-    String offsets = "",
-    String orders = "",
-    String? invisibleForSizes,
-    bool absoluteSizes = true,
-    FlexFit fit = FlexFit.loose,
-  }) {
-    return BootstrapCol(
+  AnnotatedRegion<SystemUiOverlayStyle> overlayStyle({Color? statusBar, Color? navigationBar}) {
+    final statusBrightness = statusBar != null ? ThemeData.estimateBrightnessForColor(statusBar) : null;
+    final navigationBrightness = navigationBar != null ? ThemeData.estimateBrightnessForColor(navigationBar) : null;
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        systemNavigationBarColor: navigationBar,
+        statusBarColor: statusBar,
+        statusBarIconBrightness: statusBrightness?.opposite,
+        systemNavigationBarIconBrightness: navigationBrightness?.opposite,
+      ),
       child: this,
-      sizes: sizes,
-      offsets: offsets,
-      orders: orders,
-      invisibleForSizes: invisibleForSizes,
-      absoluteSizes: absoluteSizes,
-      fit: fit,
     );
   }
 }

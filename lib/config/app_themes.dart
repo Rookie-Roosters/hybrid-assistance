@@ -13,7 +13,7 @@ const kWarningColor = Color(0xFFF57C00); //Orange 800
 const kBackgroundColor = Color(0xFFF9F9F9);
 const kSurfaceColor = Color(0xFFFFFFFF);
 const kLightColor = Color(0xFFE8E8E8);
-const kDarkColor = Color(0xFF979797);
+const kDarkColor = Color(0xFF12263c);
 
 class AppThemes {
   static ThemeData main = ThemeData(
@@ -48,7 +48,7 @@ class AppThemes {
       caption: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
       overline: TextStyle(fontSize: 10, fontWeight: FontWeight.w400),
     ),
-    dividerTheme: const DividerThemeData(color: kLightColor, thickness: 1),
+    dividerTheme: DividerThemeData(color: kDarkColor.withOpacity(0.1), thickness: 1.0),
     cardTheme: const CardTheme(
       elevation: 0,
       margin: EdgeInsets.zero,
@@ -87,4 +87,14 @@ class AppThemes {
       ),
     ),
   );
+}
+
+extension CustomStyles on TextTheme {
+  TextStyle get heading1 => const TextStyle(fontSize: 34, fontWeight: FontWeight.w600, height: 1.2, fontFamily: 'Poppins'); //, height: 48 / 36);
+  TextStyle get heading2 => const TextStyle(fontSize: 26, fontWeight: FontWeight.w600, fontFamily: 'Poppins'); //, height: 32 / 24);
+  TextStyle get heading3 => const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, fontFamily: 'Poppins'); //, height: 24 / 18);
+  TextStyle get bodyLarge => const TextStyle(fontSize: 16, fontFamily: 'Poppins'); //, height: 28 / 18);
+  TextStyle get body => const TextStyle(fontSize: 14, fontFamily: 'Poppins'); //, height: 24 / 16);
+  TextStyle get bodySmall => const TextStyle(fontSize: 12, fontFamily: 'Poppins'); //, height: 20 / 14);
+  TextStyle get action => const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Poppins'); //, fontWeight: FontWeight.w600);
 }

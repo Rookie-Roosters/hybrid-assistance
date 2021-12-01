@@ -11,11 +11,11 @@ class SessionService extends GetxService {
   bool get loggedIn => student != null || teacher != null;
 
   Future<SessionService> init() async {
-    final userId = GetStorage().read<int>('userId');
-    if (userId != null) {
-      // Consulta base de datos
-      student = Student(id: userId, name: 'Joaquín', lastName: 'Piedroza');
-    }
+    // final userId = GetStorage().read<int>('userId');
+    // if (userId != null) {
+    //   // Consulta base de datos
+    //   student = Student(id: userId, name: 'Joaquín', firstLastName: 'Piedroza', secondLastName: 'Godtierres');
+    // }
     return this;
   }
 
@@ -27,5 +27,11 @@ class SessionService extends GetxService {
       return true;
     }
     return false;
+  }
+
+  Future<void> logOut() async {
+    await GetStorage().remove('userId');
+    student = null;
+    teacher = null;
   }
 }
