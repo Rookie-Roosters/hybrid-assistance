@@ -63,7 +63,7 @@ class _WorthyTextFieldState extends State<WorthyTextField> {
   @override
   void initState() {
     _style = widget.style ?? WorthyTextFieldStyle.regular;
-    _focus.addListener(() => _onFocusChange);
+    _focus.addListener(_onFocusChange);
     _focus.addListener(_onChanged);
     super.initState();
   }
@@ -111,6 +111,7 @@ class _WorthyTextFieldState extends State<WorthyTextField> {
               onChanged: (value) => state.didChange(value),
               style: Get.textTheme.body.copyWith(color: textColor.withOpacity(0.5)),
               maxLines: widget.textArea ? null : 1,
+              cursorColor: textColor,
               decoration: InputDecoration(
                 labelText: widget.label,
                 prefixIcon: iconTheme(widget.prefix),
@@ -128,7 +129,8 @@ class _WorthyTextFieldState extends State<WorthyTextField> {
               maintainState: true,
               child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 const Icon(LineIcons.exclamationCircle, color: kErrorColor, size: 18).pr1,
-                Text(_errorMessage ?? 'Error', style: Get.textTheme.bodySmall.copyWith(fontStyle: FontStyle.italic, color: kErrorColor), overflow: TextOverflow.fade),
+                Text(_errorMessage ?? 'Error',
+                    style: Get.textTheme.bodySmall.copyWith(fontStyle: FontStyle.italic, color: kErrorColor), overflow: TextOverflow.fade),
               ]).pb1,
             ),
             if (_style.groupedBottom) Divider(color: textColor.withOpacity(0.1), height: 0),
@@ -161,6 +163,12 @@ class WorthyTextFieldStyle {
   static WorthyTextFieldStyle get regular => WorthyTextFieldStyle(
         color: kDarkColor,
         backgroundColor: kBackgroundColor,
+        focusColor: kPrimaryColor,
+      );
+
+  static WorthyTextFieldStyle get surface => WorthyTextFieldStyle(
+        color: kDarkColor,
+        backgroundColor: kSurfaceColor,
         focusColor: kPrimaryColor,
       );
 

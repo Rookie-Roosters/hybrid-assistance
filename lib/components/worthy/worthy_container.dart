@@ -11,6 +11,7 @@ class WorthyContainer extends StatelessWidget {
     this.leading,
     this.trailing,
     this.header,
+    this.footer,
     required this.child,
     this.padding,
     this.margin,
@@ -23,6 +24,7 @@ class WorthyContainer extends StatelessWidget {
   final Widget? leading;
   final Widget? trailing;
   final Widget? header;
+  final Widget? footer;
   final Widget child;
   final EdgeInsets? padding;
   final EdgeInsets? margin;
@@ -37,31 +39,52 @@ class WorthyContainer extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(color: color, borderRadius: kRoundedBorder),
-      child: Column(mainAxisSize: MainAxisSize.min, children: [
-        if (header != null || title != null || leading == null || trailing != null)
-          DefaultTextStyle(
-            style: Get.textTheme.heading3.copyWith(color: color.onColor, inherit: true),
-            child: IconTheme(
-              data: IconThemeData(color: color.onColor, size: 32),
-              child: header != null
-                  ? header!
-                  : Container(
-                      decoration: BoxDecoration(color: color, borderRadius: kRoundedBorder),
-                      padding: kPadding2,
-                      child: Row(children: [
-                        if (leading != null) leading!.pr2,
-                        (title != null ? WorthyText.heading3(title!, color: color.onColor).pr2 : const SizedBox()).expanded(),
-                        if (trailing != null) trailing!,
-                      ]),
-                    ),
+      child: Padding(
+        padding: const EdgeInsets.all(1),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: [
+          if (header != null || title != null || leading != null || trailing != null)
+            DefaultTextStyle(
+              style: Get.textTheme.heading3.copyWith(color: color.onColor, inherit: true),
+              child: IconTheme(
+                data: IconThemeData(color: color.onColor, size: 32),
+                child: header != null
+                    ? header!
+                    : Container(
+                        decoration: BoxDecoration(color: color, borderRadius: kRoundedBorder),
+                        padding: kPadding2,
+                        child: Row(children: [
+                          if (leading != null) leading!.pr2,
+                          (title != null ? WorthyText.heading3(title!, color: color.onColor).pr2 : const SizedBox()).expanded(),
+                          if (trailing != null) trailing!,
+                        ]),
+                      ),
+              ),
             ),
+          Container(
+            decoration: BoxDecoration(
+              color: kSurfaceColor,
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(kBorderRadius),
+                bottom: footer == null ? Radius.circular(kBorderRadius) : Radius.zero,
+              ),
+            ),
+            //border: Border.all(color: Colors.transparent)),
+            padding: padding ?? EdgeInsets.zero,
+            child: child,
           ),
-        Container(
-          decoration: BoxDecoration(color: kSurfaceColor, borderRadius: kRoundedBorder, border: Border.all(color: color)),
-          padding: padding ?? EdgeInsets.zero,
-          child: child,
-        )
-      ]),
+          if (footer != null)
+            Container(
+              decoration: BoxDecoration(
+                color: color.variants.light,
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.zero,
+                  bottom: Radius.circular(kBorderRadius),
+                ),
+              ),
+              child: footer,
+            ),
+        ]).rounded(),
+      ),
     );
   }
 }

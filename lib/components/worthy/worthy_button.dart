@@ -110,15 +110,13 @@ class WorthyButtonState extends State<WorthyButton> {
     return ConditionalWrapper(
       condition: widget.tooltip != null,
       conditionalBuilder: (child) => child.tooltip(widget.tooltip!),
-      child: AnimatedContainer(
-        duration: _kWorthyButtonAnimationDuration,
+      child: Container(
         alignment: _isCircle ? Alignment.center : null,
         decoration: BoxDecoration(
           border: Border.all(width: 1, color: _outlineColor ?? Colors.transparent),
           color: _backgroundColor,
           shape: _isCircle ? BoxShape.circle : BoxShape.rectangle,
           borderRadius: _isCircle ? null : kRoundedBorder,
-          //boxShadow: [if (_enabled && widget.type == WorthyButtonType.ELEVATED) BoxShadow(color: _color.withOpacity(0.8), offset: Offset(0.0, 2.0), blurRadius: 8.0)],
         ),
         child: DefaultTextStyle.merge(
           style: Get.textTheme.action.copyWith(color: _textColor),
@@ -128,11 +126,12 @@ class WorthyButtonState extends State<WorthyButton> {
               iconTheme: IconThemeData(color: _textColor, size: _kWorthyButtonIconSize),
             ),
             child: AnimatedSizeAndFade(
-              fadeDuration: _kWorthyButtonAnimationDuration,
-              sizeDuration: _kWorthyButtonAnimationDuration,
+              fadeDuration: _kWorthyButtonAnimationDuration * 3,
+              sizeDuration: _kWorthyButtonAnimationDuration * 3,
               child: _status.widget != null
-                  ? Center(
+                  ? Container(
                       key: ValueKey(_status.index),
+                      alignment: Alignment.center,
                       child: _status.widget?.pxy(3, _isCircle ? 3 : 2),
                     )
                   : Row(
