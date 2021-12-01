@@ -25,7 +25,7 @@ class SessionService extends GetxService {
           student = await Student.findById(int.parse(userId));
           break;
         case "UserTypes.teacher":
-          teacher = await Teacher.findById(int.parse(userId));
+          teacher = await Teacher.getById(int.parse(userId));
           break;
       }
     }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hybrid_assistance/components/worthy/worthy_text.dart';
 import 'package:hybrid_assistance/config/app_pages.dart';
 import 'package:hybrid_assistance/models/student.dart';
 import 'package:hybrid_assistance/utils/ui_utils.dart';
+import 'package:line_icons/line_icons.dart';
 import 'adm_home_controller.dart';
 export 'adm_home_controller.dart';
 
@@ -12,6 +14,13 @@ class AdminHome extends GetView<AdmHomeController> {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.max, children: [
+        kSpacer,
+        WorthyText.heading2('Admin'),
+         IconButton(
+          icon: const Icon(LineIcons.sign),
+          onPressed: () => controller.logOut(),
+        ),
+        kSpacer,
         const TestDB(),
       ],
     );
