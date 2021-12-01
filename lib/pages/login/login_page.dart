@@ -59,6 +59,7 @@ class LogInPage extends GetView<LogInController> {
                     validator: Validator.requiredField,
                     style: WorthyTextFieldStyle.surface.copyWith(groupedBottom: true),
                     keyboardType: TextInputType.number,
+                    controller: controller.userIdField,
                   ),
                   ValueBuilder<bool?>(
                     initialValue: true,
@@ -86,6 +87,7 @@ class LogInPage extends GetView<LogInController> {
               ),
             ),
             kSpacerY,
+            //WorthyText.bodyLarge(controller.errorMessage, textAlign: TextAlign.center, color: Colors.red.withOpacity(0.8)),
             kSpacer,
             const LogoRookieRoosters().centered(),
             kSpacer,

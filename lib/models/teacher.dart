@@ -89,4 +89,21 @@ class Teacher {
       throw Exception('Teacher doesn\'t exist');
     }
   }
+  
+  static Future<bool> logIn(int id, String password) async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT id 
+      FROM teacher
+      WHERE `id` = ? AND `password` = ?
+      ''',
+      [id, password],
+    );
+    if (result.length == 1) {
+        return true;
+    }else{
+      return false;
+    }
+  }
+
 }

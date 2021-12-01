@@ -15,8 +15,10 @@ class AttendanceCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: const Text('Calendario de asistencia').p3,
+    return Column(mainAxisSize: MainAxisSize.max, crossAxisAlignment: CrossAxisAlignment.center, children: [
+        const SizedBox(height: 40.0), Card(
+      child: const Text('Calendario de asistencia').p3,)
+      ]
     );
   }
 }

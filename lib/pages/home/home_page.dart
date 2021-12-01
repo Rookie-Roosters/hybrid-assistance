@@ -12,6 +12,7 @@ class HomePage extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) => controller.checkUserType());
     return Scaffold(
       body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.max, children: [
         IconButton(
@@ -19,32 +20,8 @@ class HomePage extends GetView<HomeController> {
           onPressed: () => controller.logOut(),
         ),
         const Text('Inicio'),
-        const TestDB(),
       ]).p3.safeArea(),
     );
   }
 }
 
-class TestDB extends StatelessWidget {
-  const TestDB({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            Get.toNamed(Routes.STUDENTFORM, arguments: null);
-          },
-          child: const Text('Agregar Estudiante'),
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            Get.toNamed(Routes.STUDENTFORM, arguments: (await Student.getById(269547))); //Se debe pasar por la ruta al estudiante que se quiere editar
-          },
-          child: const Text('Editar Estudiante'),
-        ),
-      ],
-    );
-  }
-}
