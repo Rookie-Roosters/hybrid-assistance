@@ -1,6 +1,7 @@
 import 'package:hybrid_assistance/services/database_service.dart';
+import 'package:hybrid_assistance/utils/validate_utils.dart';
 
-class Student {
+class Student extends ValidateUtils {
   int? id;
   String name;
   String? password;
@@ -9,7 +10,7 @@ class Student {
   String? nickname;
   String? picture;
 
-  //Constructur
+  //Constructor
   Student({
     this.id,
     required this.name,
@@ -21,23 +22,8 @@ class Student {
   });
 
   //validaciones
-  bool validateId(String? value) {
-    final RegExp regExp = RegExp(r"\d{6}");
-    return value != null ? regExp.hasMatch(value) : false;
-  }
-
-  bool validateName(String? value) {
-    final RegExp regExp = RegExp(r"[a-zA-ZáéíóúüÁÉÍÓÚÜ ]{3,50}");
-    return value != null ? regExp.hasMatch(value) : false;
-  }
-
-  bool validatePassword(String? value) {
-    final RegExp regExp = RegExp(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
-    return value != null ? regExp.hasMatch(value) : false;
-  }
-
   bool validate({bool update = false}) {
-    return validateId(id.toString()) &&
+    return validateId6(id.toString()) &&
         validateName(name) &&
         validatePassword(password) &&
         validateName(firstLastName) &&

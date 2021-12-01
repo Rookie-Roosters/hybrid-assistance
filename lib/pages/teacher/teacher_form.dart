@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'student_controller.dart';
-export 'student_controller.dart';
+import 'teacher_controller.dart';
+export 'teacher_controller.dart';
 
-class StudentForm extends GetView<StudentController> {
-  const StudentForm({Key? key}) : super(key: key);
+class TeacherForm extends GetView<TeacherController> {
+  const TeacherForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final update = Get.arguments;
-    if (update != null) controller.student = update;
+    if (update != null) controller.teacher = update;
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
         title: update == null
-            ? const Text('Agregar estudiante')
-            : const Text('Modificar estudiante'),
+            ? const Text('Agregar Maestro')
+            : const Text('Editar Maestro'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -32,13 +32,13 @@ class StudentForm extends GetView<StudentController> {
                       labelText: 'ID',
                     ),
                     initialValue:
-                        update == null ? '' : controller.student.id.toString(),
+                        update == null ? '' : controller.teacher.id.toString(),
                     enabled: update == null,
-                    validator: (value) => controller.student.validateId6(value)
+                    validator: (value) => controller.teacher.validateId5(value)
                         ? null
-                        : 'ID no válido',
-                    onSaved: (value) => controller.student.id =
-                        value == null ? null : int.tryParse(value),
+                        : 'El ID no es válido',
+                    onSaved: (value) => controller.teacher.id =
+                        value == null ? 0 : int.tryParse(value)!,
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -47,11 +47,11 @@ class StudentForm extends GetView<StudentController> {
                     decoration: const InputDecoration(
                       labelText: 'Nombre',
                     ),
-                    initialValue: controller.student.name,
-                    validator: (value) => controller.student.validateName(value)
+                    initialValue: controller.teacher.name,
+                    validator: (value) => controller.teacher.validateName(value)
                         ? null
                         : 'Nombre no válido',
-                    onSaved: (value) => controller.student.name = value ?? '',
+                    onSaved: (value) => controller.teacher.name = value ?? '',
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -60,12 +60,12 @@ class StudentForm extends GetView<StudentController> {
                     decoration: const InputDecoration(
                       labelText: 'Apellido Paterno',
                     ),
-                    initialValue: controller.student.firstLastName,
-                    validator: (value) => controller.student.validateName(value)
+                    initialValue: controller.teacher.firstLastName,
+                    validator: (value) => controller.teacher.validateName(value)
                         ? null
                         : 'Apellido Paterno no válido',
                     onSaved: (value) =>
-                        controller.student.firstLastName = value ?? '',
+                        controller.teacher.firstLastName = value ?? '',
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -74,12 +74,12 @@ class StudentForm extends GetView<StudentController> {
                     decoration: const InputDecoration(
                       labelText: 'Apellido Materno',
                     ),
-                    initialValue: controller.student.secondLastName,
-                    validator: (value) => controller.student.validateName(value)
+                    initialValue: controller.teacher.secondLastName,
+                    validator: (value) => controller.teacher.validateName(value)
                         ? null
                         : 'Apellido Materno no válido',
                     onSaved: (value) =>
-                        controller.student.secondLastName = value ?? '',
+                        controller.teacher.secondLastName = value ?? '',
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -88,30 +88,29 @@ class StudentForm extends GetView<StudentController> {
                     decoration: const InputDecoration(
                       labelText: 'Contraseña',
                     ),
-                    initialValue: controller.student.password,
                     obscureText: true,
-                    validator: (value) => controller.student
+                    initialValue: controller.teacher.password,
+                    validator: (value) => controller.teacher
                             .validatePassword(value)
                         ? null
                         : 'Contraseña no válida, debe contener al menos 8 caracteres, 1 letra y 1 número',
                     onSaved: (value) =>
-                        controller.student.password = value ?? '',
+                        controller.teacher.password = value ?? '',
                   ),
                   const Divider(
                     height: 32.0,
                   ),
                   ElevatedButton(
-                    child: update == null
-                        ? const Text('Agregar')
-                        : const Text('Modificar'),
-                    onPressed: () {
-                      if (update == null) {
-                        controller.add();
-                      } else {
-                        controller.update();
-                      }
-                    },
-                  ),
+                      child: update == null
+                          ? const Text('Agregar')
+                          : const Text('Modificar'),
+                      onPressed: () {
+                        if (update == null) {
+                          controller.add();
+                        } else {
+                          controller.update();
+                        }
+                      }),
                 ],
               ),
             ),
