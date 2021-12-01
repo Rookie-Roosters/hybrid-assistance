@@ -26,7 +26,7 @@ class HomePage extends GetView<HomeController> {
 }
 
 class TestDB extends StatelessWidget {
-  const TestDB({ Key? key }) : super(key: key);
+  const TestDB({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

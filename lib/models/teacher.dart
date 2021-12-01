@@ -82,15 +82,7 @@ class Teacher extends ValidateUtils {
       UPDATE `teacher` SET
       `id`=?,`name`=?,`password`=?,`firstLastName`=?,`secondLastName`=?,`picture`=?
       WHERE `id` = ?;
-      ''', [
-        id,
-        name,
-        password,
-        firstLastName,
-        secondLastName,
-        picture,
-        (lastId ?? id)
-      ]);
+      ''', [id, name, password, firstLastName, secondLastName, picture, (lastId ?? id)]);
     } else {
       throw Exception('Invalid Data or Teacher doesn\'t exist');
     }

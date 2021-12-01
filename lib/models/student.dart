@@ -97,15 +97,7 @@ class Student extends ValidateUtils {
         INSERT INTO `student`
         (`id`, `name`, `password`, `firstLastName`, `secondLastName`, `nickname`, `picture`)
         VALUES (?,?,?,?,?,?,?);
-        ''', [
-        id,
-        name,
-        password,
-        firstLastName,
-        secondLastName,
-        nickname,
-        picture
-      ]);
+        ''', [id, name, password, firstLastName, secondLastName, nickname, picture]);
     } else {
       throw Exception('Invalid Data or Student already exist');
     }
@@ -117,16 +109,7 @@ class Student extends ValidateUtils {
       UPDATE `student` SET
       `id`=?,`name`=?,`password`=?,`firstLastName`=?,`secondLastName`=?,`nickname`=?,`picture`=?
       WHERE `id` = ?;
-      ''', [
-        id,
-        name,
-        password,
-        firstLastName,
-        secondLastName,
-        nickname,
-        picture,
-        (lastId ?? id)
-      ]);
+      ''', [id, name, password, firstLastName, secondLastName, nickname, picture, (lastId ?? id)]);
     } else {
       throw Exception('Invalid Data or Student doesn\'t exist');
     }
