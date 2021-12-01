@@ -1,6 +1,7 @@
 import 'package:hybrid_assistance/services/database_service.dart';
+import 'package:hybrid_assistance/utils/validate_utils.dart';
 
-class Teacher {
+class Teacher extends ValidateUtils {
   int id;
   String name;
   String? password;
@@ -8,6 +9,7 @@ class Teacher {
   String secondLastName;
   String? picture;
 
+  //Constructor
   Teacher({
     required this.id,
     this.password,
@@ -17,10 +19,16 @@ class Teacher {
     this.picture,
   });
 
+  //Validaciones
   bool validate({bool update = false}) {
-    return (update ? id != null : true) && name.length > 3 && password!.length > 3 && firstLastName.length > 3 && secondLastName.length > 3;
+    return validateId5(id.toString()) &&
+        validateName(name) &&
+        validateName(firstLastName) &&
+        validateName(secondLastName) &&
+        validatePassword(password);
   }
 
+  //CRUD
   Future<bool> exist(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
@@ -28,11 +36,11 @@ class Teacher {
       ''',
       [id],
     );
-    if (result.isNotEmpty) return true;
-    return false;
+    if (result.isNotEmpty) return false;
+    return true;
   }
 
-  static Future<Teacher> findById(int id) async {
+  static Future<Teacher> getById(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
       SELECT id, name, firstLastName, secondLastName, picture 
@@ -56,7 +64,7 @@ class Teacher {
   }
 
   Future<void> add() async {
-    if (validate() && (id != null ? !(await exist(id!)) : true)) {
+    if (validate() && (await exist(id))) {
       //Cambiar por las validaciones
       await DatabaseService.to.connection.query('''
         INSERT INTO `teacher`
@@ -69,7 +77,7 @@ class Teacher {
   }
 
   Future<void> update({int? lastId}) async {
-    if (validate(update: true) && (await exist(id!))) {
+    if (validate(update: true) && !(await exist(id))) {
       await DatabaseService.to.connection.query('''
       UPDATE `teacher` SET
       `id`=?,`name`=?,`password`=?,`firstLastName`=?,`secondLastName`=?,`picture`=?
@@ -81,7 +89,7 @@ class Teacher {
   }
 
   Future<void> delete() async {
-    if (await exist(id!)) {
+    if (!await exist(id)) {
       await DatabaseService.to.connection.query('''
       DELETE FROM `teacher` WHERE `id` = ?;
       ''', [id]);

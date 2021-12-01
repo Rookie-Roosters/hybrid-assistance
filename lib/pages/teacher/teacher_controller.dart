@@ -1,24 +1,30 @@
-import 'package:flutter/material.dart';
-import 'package:hybrid_assistance/models/student.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:hybrid_assistance/models/teacher.dart';
 
-class StudentController {
+class TeacherController {
   final GlobalKey<FormState> formStateKey = GlobalKey<FormState>();
-  Student student = Student(name: '', firstLastName: '', secondLastName: '', password: '');
+  Teacher teacher = Teacher(
+      id: 0,
+      name: '',
+      firstLastName: '',
+      secondLastName: '',
+      password: '',
+      picture: '');
 
   Future<void> add() async {
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
-      student.add();
+      teacher.add();
       Get.back();
     }
   }
 
   Future<void> update() async {
-    final int lastId = student.id!;
+    final int lastId = teacher.id;
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
-      student.update(lastId: lastId);
+      teacher.update(lastId: lastId);
       Get.back();
     }
   }

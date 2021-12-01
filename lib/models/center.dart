@@ -1,16 +1,19 @@
 import 'package:hybrid_assistance/services/database_service.dart';
+import 'package:hybrid_assistance/utils/validate_utils.dart';
 
-class Center {
+class Center extends ValidateUtils {
   int id;
   String name;
 
+  //Constructor
   Center({
     required this.id,
     required this.name,
   });
-    bool validate({bool update = false}) {
-    return (update ? id != null : true) &&
-        name.length > 3;
+
+  //Validaciones
+  bool validate({bool update = false}) {
+    return validateGenericName(name) && validateNumber(id.toString());
   }
 
   Future<bool> exist(int id) async {
@@ -20,11 +23,28 @@ class Center {
       ''',
       [id],
     );
-    if (result.isNotEmpty) return true;
+    if (result.isEmpty) return true;
     return false;
   }
 
-  static Future<Center> findById(int id) async {
+  //CRUD
+  static Future<List<Center>> getAll() async {
+    final List<Center> centers = [];
+    final result = await DatabaseService.to.connection.query('''
+      SELECT id, name 
+      FROM center
+      ''');
+    for (var row in result) {
+      Center center = Center(
+        id: row[0],
+        name: row[1],
+      );
+      centers.add(center);
+    }
+    return centers;
+  }
+
+  static Future<Center> getById(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
       SELECT id, name 
@@ -45,7 +65,7 @@ class Center {
   }
 
   Future<void> add() async {
-    if (validate() && (id != null ? !(await exist(id!)) : true)) {
+    if (validate() && (await exist(id))) {
       //Cambiar por las validaciones
       await DatabaseService.to.connection.query('''
         INSERT INTO `center`
@@ -61,23 +81,19 @@ class Center {
   }
 
   Future<void> update({int? lastId}) async {
-    if (validate(update: true) && (await exist(id!))) {
+    if (validate(update: true) && !(await exist(id))) {
       await DatabaseService.to.connection.query('''
       UPDATE `center` SET
       `id`=?,`name`=?
       WHERE `id` = ?;
-      ''', [
-        id,
-        name,
-        (lastId ?? id)
-      ]);
+      ''', [id, name, (lastId ?? id)]);
     } else {
       throw Exception('Invalid Data or Center doesn\'t exist');
     }
   }
 
   Future<void> delete() async {
-    if (await exist(id!)) {
+    if (await exist(id)) {
       await DatabaseService.to.connection.query('''
       DELETE FROM `center` WHERE `id` = ?;
       ''', [id]);

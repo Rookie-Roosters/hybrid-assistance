@@ -1,19 +1,22 @@
 import 'package:hybrid_assistance/services/database_service.dart';
+import 'package:hybrid_assistance/utils/validate_utils.dart';
 
-class Classroom {
+class Classroom extends ValidateUtils {
   int id;
   String name;
 
+  //Constructor
   Classroom({
     required this.id,
     required this.name,
   });
 
-   bool validate({bool update = false}) {
-    return (update ? id != null : true) &&
-        name.length > 3;
+  //Validaciones
+  bool validate() {
+    return validateNumber(id.toString());
   }
 
+  //CRUD
   Future<bool> exist(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
@@ -21,11 +24,11 @@ class Classroom {
       ''',
       [id],
     );
-    if (result.isNotEmpty) return true;
-    return false;
+    if (result.isNotEmpty) return false;
+    return true;
   }
 
-  static Future<Classroom> findById(int id) async {
+  static Future<Classroom> getById(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
       SELECT id, name 
@@ -46,7 +49,7 @@ class Classroom {
   }
 
   Future<void> add() async {
-    if (validate() && (id != null ? !(await exist(id!)) : true)) {
+    if (validate() && (await exist(id))) {
       //Cambiar por las validaciones
       await DatabaseService.to.connection.query('''
         INSERT INTO `classroom`
@@ -62,23 +65,19 @@ class Classroom {
   }
 
   Future<void> update({int? lastId}) async {
-    if (validate(update: true) && (await exist(id!))) {
+    if (validate() && !(await exist(id))) {
       await DatabaseService.to.connection.query('''
       UPDATE `classroom` SET
       `id`=?,`name`=?
       WHERE `id` = ?;
-      ''', [
-        id,
-        name,
-        (lastId ?? id)
-      ]);
+      ''', [id, name, (lastId ?? id)]);
     } else {
       throw Exception('Invalid Data or classroom doesn\'t exist');
     }
   }
 
   Future<void> delete() async {
-    if (await exist(id!)) {
+    if (!await exist(id)) {
       await DatabaseService.to.connection.query('''
       DELETE FROM `classroom` WHERE `id` = ?;
       ''', [id]);
@@ -86,5 +85,4 @@ class Classroom {
       throw Exception('classroom doesn\'t exist');
     }
   }
-
 }

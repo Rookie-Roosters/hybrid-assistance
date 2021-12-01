@@ -1,24 +1,29 @@
 import 'package:hybrid_assistance/services/database_service.dart';
+import 'package:hybrid_assistance/utils/validate_utils.dart';
 
 import 'center.dart';
 
-class Department {
+class Department extends ValidateUtils {
   int id;
-  Center center;
+  Center? center;
   String name;
 
+  //Constructor
   Department({
     required this.id,
     required this.center,
     required this.name,
   });
 
-  bool validate({bool update = false}) {
-    return (update ? id != null : true) &&
-        //center?
-        name.length > 3;
+  //Validación
+  Future<bool> validate() async {
+    if (center != null) {
+      return validateNumber(id.toString()) && validateGenericName(name);
+    }
+    return false;
   }
 
+  //CRUD
   Future<bool> exist(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
@@ -48,19 +53,19 @@ class Department {
         );
       }
     }
-    throw Exception('Query returned more than one department or no departments.');
+    throw Exception(
+        'Query returned more than one department or no departments.');
   }
 
   Future<void> add() async {
-    if (validate() && (id != null ? !(await exist(id!)) : true)) {
-      //Cambiar por las validaciones
+    if ((await validate()) && !(await exist(id))) {
       await DatabaseService.to.connection.query('''
         INSERT INTO `department`
-        (`id`, `center`, `name`)
+        (`id`, `id_center`, `name`)
         VALUES (?,?,?);
         ''', [
         id,
-        center,
+        center!.id,
         name,
       ]);
     } else {
@@ -69,24 +74,19 @@ class Department {
   }
 
   Future<void> update({int? lastId}) async {
-    if (validate(update: true) && (await exist(id!))) {
+    if (await validate() && await exist(id)) {
       await DatabaseService.to.connection.query('''
       UPDATE `department` SET
-      `id`=?,`center`=?,`name`=?
+      `id`=?,`id_center`=?,`name`=?
       WHERE `id` = ?;
-      ''', [
-        id,
-        center,
-        name,
-        (lastId ?? id)
-      ]);
+      ''', [id, center!.id, name, (lastId ?? id)]);
     } else {
       throw Exception('Invalid Data or Department doesn\'t exist');
     }
   }
 
   Future<void> delete() async {
-    if (await exist(id!)) {
+    if (await exist(id)) {
       await DatabaseService.to.connection.query('''
       DELETE FROM `department` WHERE `id` = ?;
       ''', [id]);
@@ -94,5 +94,4 @@ class Department {
       throw Exception('Department doesn\'t exist');
     }
   }
-
 }
