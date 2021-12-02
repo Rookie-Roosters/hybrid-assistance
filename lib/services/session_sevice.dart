@@ -4,6 +4,7 @@ import 'package:hybrid_assistance/models/admin.dart';
 import 'package:hybrid_assistance/models/student.dart';
 import 'package:hybrid_assistance/models/teacher.dart';
 import 'package:hybrid_assistance/pages/login/login_page.dart';
+import 'package:hybrid_assistance/config/app_pages.dart';
 
 class SessionService extends GetxService {
   static SessionService get to => Get.find<SessionService>();
@@ -11,7 +12,20 @@ class SessionService extends GetxService {
   Student? student;
   Teacher? teacher;
   Admin? admin;
-  bool get loggedIn => student != null || teacher != null || admin != null;
+  String get loggedIn { 
+    final userType = GetStorage().read<String>('userType');
+    if (userType != null) {
+    switch (userType) {
+        case "UserTypes.admin":
+          return Routes.ADMINHOME;
+        case "UserTypes.student":
+          return Routes.STUDENTHOME;
+        case "UserTypes.teacher":
+          return Routes.TEACHERHOME;
+      }
+    }
+      return Routes.LOGIN;
+    }
 
   Future<SessionService> init() async {
     final userId = GetStorage().read<String>('userId');

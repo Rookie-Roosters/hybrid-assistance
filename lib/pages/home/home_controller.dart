@@ -7,23 +7,6 @@ import 'package:hybrid_assistance/services/session_sevice.dart';
 
 class HomeController extends GetxController {
   final formKey = GlobalKey<FormState>();
-  final userType = GetStorage().read<String>('userType');
-
-  void checkUserType(){
-    if (userType != null) {
-      switch (userType) {
-        case "UserTypes.admin":
-          Get.offAllNamed(Routes.ADMINHOME);
-          break;
-        case "UserTypes.student":
-          Get.offAllNamed(Routes.STUDENTHOME);
-          break;
-        case "UserTypes.teacher":
-          Get.offAllNamed(Routes.TEACHERHOME);
-          break;
-      }
-    }
-  }
 
   Future<void> logOut() async {
     SessionService.to.logOut();

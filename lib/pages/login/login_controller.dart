@@ -20,7 +20,7 @@ class LogInController extends GetxController {
       //await 2.seconds.delay();
       final loggedIn = await SessionService.to.logIn(userIdField.text, passwordField.text, selectedUserType);
        if (loggedIn) {
-         Get.offAllNamed(Routes.HOME);
+         Get.offAllNamed(SessionService.to.loggedIn);
        }else{
          errorMessage.value = 'Usuario o contraseña incorrectos';
        }
