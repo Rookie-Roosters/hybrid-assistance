@@ -1,10 +1,12 @@
+import 'package:hybrid_assistance/utils/validate_utils.dart';
+
 import 'career.dart';
 
 enum Turn { morning, evening }
 
-class Group {
+class Group with ValidateUtils{
   int id;
-  Career career;
+  Career? career;
   String generation;
   String letter;
   Turn turn;

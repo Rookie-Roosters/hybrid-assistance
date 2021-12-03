@@ -1,11 +1,14 @@
 // ignore_for_file: constant_identifier_names
 import 'package:get/get.dart';
+import 'package:hybrid_assistance/pages/career/career_form.dart';
 import 'package:hybrid_assistance/pages/center/center_form.dart';
 import 'package:hybrid_assistance/pages/departament/department_form.dart';
+import 'package:hybrid_assistance/pages/group/gropu_form.dart';
 import 'package:hybrid_assistance/pages/home/home_page.dart';
 import 'package:hybrid_assistance/pages/login/login_page.dart';
 import 'package:hybrid_assistance/pages/student/student_form.dart';
 import 'package:hybrid_assistance/pages/classroom/classroom_form.dart';
+import 'package:hybrid_assistance/pages/subject/subject_form.dart';
 import 'package:hybrid_assistance/pages/teacher/teacher_form.dart';
 
 class AppPages {
@@ -59,6 +62,27 @@ class AppPages {
         Get.lazyPut<DepartmentController>(() => DepartmentController());
       }),
     ),
+    GetPage(
+      name: Routes.CAREERFORM,
+      page: () => const CareerForm(),
+      binding: BindingsBuilder<dynamic>(() {
+        Get.lazyPut<CareerController>(() => CareerController());
+      }),
+    ),
+    GetPage(
+      name: Routes.SUBJECTFORM,
+      page: () => const SubjectForm(),
+      binding: BindingsBuilder<dynamic>(() {
+        Get.lazyPut<SubjectController>(() => SubjectController());
+      }),
+    ),
+    GetPage(
+      name: Routes.GROUPFORM,
+      page: () => const GroupForm(),
+      binding: BindingsBuilder<dynamic>(() {
+        Get.lazyPut<GroupController>(() => GroupController());
+      }),
+    ),
   ];
 }
 
@@ -70,4 +94,7 @@ abstract class Routes {
   static const CLASSROOMFORM = '/classroom_form';
   static const TEACHERFORM = '/teacher_form';
   static const DEPARTMENTFORM = '/department_form';
+  static const CAREERFORM = '/career_form';
+  static const SUBJECTFORM = '/subject_form';
+  static const GROUPFORM = '/group_form';
 }

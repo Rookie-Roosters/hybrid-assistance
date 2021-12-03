@@ -16,8 +16,8 @@ class DepartmentForm extends GetView<DepartmentController> {
       appBar: AppBar(
         backgroundColor: Colors.blue,
         title: update == null
-            ? const Text('Agregar Centro')
-            : const Text('Editar Centro'),
+            ? const Text('Agregar Departamento')
+            : const Text('Editar Departamento'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

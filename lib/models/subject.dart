@@ -1,24 +1,26 @@
 import 'package:hybrid_assistance/services/database_service.dart';
+import 'package:hybrid_assistance/utils/validate_utils.dart';
 
 import 'department.dart';
 
-class Subject {
+class Subject extends ValidateUtils {
   int id;
-  Department department;
+  Department? department;
   String name;
 
+  //Constructor
   Subject({
     required this.id,
     required this.department,
     required this.name,
   });
 
-    bool validate({bool update = false}) {
-    return (update ? id != null : true) &&
-        //department?
-        name.length > 3;
+  //Validar
+  bool validate() {
+    return validateNumber(id.toString()) && validateGenericName(name);
   }
 
+  //CRUD
   Future<bool> exist(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
@@ -30,10 +32,10 @@ class Subject {
     return false;
   }
 
-  static Future<Subject> findById(int id) async {
+  static Future<Subject> getById(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
-      SELECT id, department, name 
+      SELECT id, id_department, name 
       FROM subject
       WHERE id=?
       ''',
@@ -43,7 +45,7 @@ class Subject {
       for (var row in result) {
         return Subject(
           id: row[0],
-          department: row[1],
+          department: await Department.getById(row[1]),
           name: row[2],
         );
       }
@@ -52,15 +54,15 @@ class Subject {
   }
 
   Future<void> add() async {
-    if (validate() && (id != null ? !(await exist(id!)) : true)) {
+    if (validate() && !await exist(id)) {
       //Cambiar por las validaciones
       await DatabaseService.to.connection.query('''
         INSERT INTO `subject`
-        (`id`, `department`, `name`)
+        (`id`, `id_department`, `name`)
         VALUES (?,?,?);
         ''', [
         id,
-        department,
+        department!.id,
         name,
       ]);
     } else {
@@ -69,24 +71,19 @@ class Subject {
   }
 
   Future<void> update({int? lastId}) async {
-    if (validate(update: true) && (await exist(id!))) {
+    if (validate() && await exist(id)) {
       await DatabaseService.to.connection.query('''
       UPDATE `subject` SET
-      `id`=?,`department`=?,`name`=?
+      `id`=?,`id_department`=?,`name`=?
       WHERE `id` = ?;
-      ''', [
-        id,
-        department,
-        name,
-        (lastId ?? id)
-      ]);
+      ''', [id, department!.id, name, (lastId ?? id)]);
     } else {
       throw Exception('Invalid Data or subject doesn\'t exist');
     }
   }
 
   Future<void> delete() async {
-    if (await exist(id!)) {
+    if (await exist(id)) {
       await DatabaseService.to.connection.query('''
       DELETE FROM `subject` WHERE `id` = ?;
       ''', [id]);
@@ -94,5 +91,4 @@ class Subject {
       throw Exception('subject doesn\'t exist');
     }
   }
-
 }
