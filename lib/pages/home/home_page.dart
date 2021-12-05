@@ -111,7 +111,7 @@ class TestDB extends StatelessWidget {
         ElevatedButton(
           onPressed: () async {
             Get.toNamed(Routes.DEPARTMENTFORM,
-                arguments: await Department.getById(1));
+                arguments: await Department.getById(6));
           },
           child: const Text('Modificar Departamento'),
         ),

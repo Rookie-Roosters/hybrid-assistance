@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart' hide Center;
 import 'package:get/get.dart';
-import 'package:hybrid_assistance/models/center.dart';
-import 'package:hybrid_assistance/models/department.dart';
 import 'package:hybrid_assistance/models/subject.dart';
+import 'package:hybrid_assistance/widgets/department_dropdown.dart';
 import 'subject_controller.dart';
 export 'subject_controller.dart';
 
@@ -11,7 +10,7 @@ class SubjectForm extends GetView<SubjectController> {
 
   @override
   Widget build(BuildContext context) {
-    final update = Get.arguments;
+    final Subject? update = Get.arguments;
     if (update != null) controller.subject = update;
 
     return Scaffold(
@@ -47,10 +46,11 @@ class SubjectForm extends GetView<SubjectController> {
                   const SizedBox(
                     height: 20.0,
                   ),
-                  SubjectDropdownButtons(
-                    controller: controller,
-                    update: update,
-                  ),
+                  DepartmentDropdownButton(
+                      update: update?.department,
+                      onSaved: (newValue) =>
+                          controller.subject.department = newValue,
+                      onChanged: (value) {}),
                   const SizedBox(
                     height: 20.0,
                   ),
@@ -86,112 +86,5 @@ class SubjectForm extends GetView<SubjectController> {
         ),
       ),
     );
-  }
-}
-
-class SubjectDropdownButtons extends StatefulWidget {
-  final SubjectController controller;
-  final Subject? update;
-
-  const SubjectDropdownButtons(
-      {Key? key, required this.controller, required this.update})
-      : super(key: key);
-
-  @override
-  _SubjectDropdownButtonsState createState() => _SubjectDropdownButtonsState();
-}
-
-class _SubjectDropdownButtonsState extends State<SubjectDropdownButtons> {
-  List<Center> centers = [];
-  List<Department> departments = [];
-  Center? centerValue;
-  Department? departmentValue;
-  bool show = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    loadData().then((value) {
-      setState(() {
-        show = true;
-      });
-    });
-  }
-
-  Future<void> loadData() async {
-    centers = await Center.getAll();
-    if (centers.isNotEmpty) {
-      centerValue = centers[0];
-      if (widget.update != null) {
-        final index = centers.indexWhere(
-            (element) => element.id == widget.update!.department!.center!.id);
-        if (index != -1) centerValue = centers[index];
-      }
-      departments = await Department.getByCenter(centerValue!.id);
-      if (departments.isNotEmpty) {
-        departmentValue = departments[0];
-        if (widget.update != null) {
-          final index = departments.indexWhere(
-              (element) => element.id == widget.update!.department!.id);
-          if (index != -1) departmentValue = departments[index];
-        }
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (!show) {
-      return const Text('No se encontró ningún Centro y Departamento');
-    } else {
-      return Column(
-        children: [
-          DropdownButtonFormField<Center>(
-            decoration: const InputDecoration(labelText: 'Centro'),
-            items: centers.map<DropdownMenuItem<Center>>((Center value) {
-              return DropdownMenuItem<Center>(
-                value: value,
-                child: Text(value.name),
-              );
-            }).toList(),
-            value: centerValue,
-            onChanged: (Center? newValue) async {
-              centerValue = newValue;
-              if (centerValue != null) {
-                departments = await Department.getByCenter(centerValue!.id);
-                if (departments.isNotEmpty) {
-                  departmentValue = departments[0];
-                } else {
-                  departmentValue = null;
-                }
-              }
-              setState(() {});
-            },
-            validator: (value) => value == null ? 'Centro no válido' : null,
-          ),
-          const SizedBox(height: 20.0),
-          DropdownButtonFormField<Department?>(
-            decoration: const InputDecoration(labelText: 'Departamento'),
-            items: departments
-                .map<DropdownMenuItem<Department?>>((Department? value) {
-              return DropdownMenuItem<Department?>(
-                value: value,
-                child: value == null ? const Text('') : Text(value.name),
-              );
-            }).toList(),
-            value: departmentValue,
-            onChanged: (Department? newValue) {
-              setState(() {
-                departmentValue = newValue;
-              });
-            },
-            validator: (value) =>
-                value != null ? null : 'Departamento no válido',
-            onSaved: (value) => widget.controller.subject.department = value,
-          ),
-        ],
-      );
-    }
   }
 }
