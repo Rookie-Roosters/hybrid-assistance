@@ -2,7 +2,9 @@ import 'package:flutter/material.dart' hide Center;
 import 'package:get/get.dart';
 import 'package:hybrid_assistance/config/app_pages.dart';
 import 'package:hybrid_assistance/models/career.dart';
+import 'package:hybrid_assistance/models/course.dart';
 import 'package:hybrid_assistance/models/department.dart';
+import 'package:hybrid_assistance/models/group.dart';
 import 'package:hybrid_assistance/models/student.dart';
 import 'package:hybrid_assistance/models/center.dart';
 import 'package:hybrid_assistance/models/classroom.dart';
@@ -56,7 +58,7 @@ class TestDB extends StatelessWidget {
                 arguments: (await Student.getById(
                     269547))); //Se debe pasar por la ruta al estudiante que se quiere editar
           },
-          child: const Text('Editar Estudiante'),
+          child: const Text('Modificar Estudiante'),
         ),
         ElevatedButton(
           onPressed: () {
@@ -70,7 +72,7 @@ class TestDB extends StatelessWidget {
                 arguments: (await Center.getById(
                     1))); //Se debe pasar por la ruta al centro que se quiere editar
           },
-          child: const Text('Editar Centro'),
+          child: const Text('Modificar Centro'),
         ),
         ElevatedButton(
           onPressed: () {
@@ -84,7 +86,7 @@ class TestDB extends StatelessWidget {
                 arguments: (await Classroom.getById(
                     1))); //Se debe pasar por la ruta al centro que se quiere editar
           },
-          child: const Text('Editar Salón de Clases'),
+          child: const Text('Modificar Salón de Clases'),
         ),
         ElevatedButton(
           onPressed: () {
@@ -98,7 +100,7 @@ class TestDB extends StatelessWidget {
                 arguments: (await Teacher.getById(
                     28386))); //Se debe pasar por la ruta al centro que se quiere editar
           },
-          child: const Text('Editar Maestro'),
+          child: const Text('Modificar Maestro'),
         ),
         ElevatedButton(
           onPressed: () {
@@ -111,7 +113,7 @@ class TestDB extends StatelessWidget {
             Get.toNamed(Routes.DEPARTMENTFORM,
                 arguments: await Department.getById(1));
           },
-          child: const Text('Editar Departamento'),
+          child: const Text('Modificar Departamento'),
         ),
         ElevatedButton(
           onPressed: () {
@@ -124,7 +126,7 @@ class TestDB extends StatelessWidget {
             Get.toNamed(Routes.CAREERFORM,
                 arguments: await Career.getById(1));
           },
-          child: const Text('Editar Carrera'),
+          child: const Text('Modificar Carrera'),
         ),
         ElevatedButton(
           onPressed: () {
@@ -137,7 +139,7 @@ class TestDB extends StatelessWidget {
             Get.toNamed(Routes.SUBJECTFORM,
                 arguments: await Subject.getById(1));
           },
-          child: const Text('Editar Materia'),
+          child: const Text('Modificar Materia'),
         ),
         ElevatedButton(
           onPressed: () {
@@ -145,6 +147,41 @@ class TestDB extends StatelessWidget {
           },
           child: const Text('Agregar Grupo'),
         ),
+        ElevatedButton(
+          onPressed: () async {
+            Get.toNamed(Routes.GROUPFORM,
+                arguments: await Group.getById(1));
+          },
+          child: const Text('Modificar Grupo'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Get.toNamed(Routes.COURSEFORM, arguments: null);
+          },
+          child: const Text('Agregar Curso'),
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            Get.toNamed(Routes.COURSEFORM,
+                arguments: await Course.getById(1));
+          },
+          child: const Text('Modificar Curso'),
+        ),
+        // ElevatedButton(
+        //   onPressed: () {
+        //     Get.toNamed(Routes.ACADEMICLOADFORM, arguments: null);
+        //   },
+        //   child: const Text('Agregar Carga Académica'),
+        // ),
+        // ElevatedButton(
+        //   onPressed: () async {
+        //     Get.toNamed(Routes.ACADEMICLOADFORM,
+        //         arguments: await AcademicLoad.getById(1));
+        //   },
+        //   child: const Text('Modificar Curso'),
+        // ),
+        
+        //Academic_load -> Schedule -> Vistas
       ],
     );
   }

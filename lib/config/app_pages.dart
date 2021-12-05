@@ -1,9 +1,11 @@
 // ignore_for_file: constant_identifier_names
 import 'package:get/get.dart';
+import 'package:hybrid_assistance/pages/academic_load/academic_load_form.dart';
 import 'package:hybrid_assistance/pages/career/career_form.dart';
 import 'package:hybrid_assistance/pages/center/center_form.dart';
+import 'package:hybrid_assistance/pages/course/course_form.dart';
 import 'package:hybrid_assistance/pages/departament/department_form.dart';
-import 'package:hybrid_assistance/pages/group/gropu_form.dart';
+import 'package:hybrid_assistance/pages/group/group_form.dart';
 import 'package:hybrid_assistance/pages/home/home_page.dart';
 import 'package:hybrid_assistance/pages/login/login_page.dart';
 import 'package:hybrid_assistance/pages/student/student_form.dart';
@@ -83,6 +85,20 @@ class AppPages {
         Get.lazyPut<GroupController>(() => GroupController());
       }),
     ),
+    GetPage(
+      name: Routes.COURSEFORM,
+      page: () => const CourseForm(),
+      binding: BindingsBuilder<dynamic>(() {
+        Get.lazyPut<CourseController>(() => CourseController());
+      }),
+    ),
+    GetPage(
+      name: Routes.ACADEMICLOADFORM,
+      page: () => const AcademicLoadForm(),
+      binding: BindingsBuilder<dynamic>(() {
+        Get.lazyPut<AcademicLoadController>(() => AcademicLoadController());
+      }),
+    ),
   ];
 }
 
@@ -97,4 +113,6 @@ abstract class Routes {
   static const CAREERFORM = '/career_form';
   static const SUBJECTFORM = '/subject_form';
   static const GROUPFORM = '/group_form';
+  static const COURSEFORM = '/course_form';
+  static const ACADEMICLOADFORM = '/academic_load';
 }

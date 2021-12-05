@@ -4,12 +4,12 @@ import 'package:hybrid_assistance/models/group.dart';
 
 class GroupController {
   final GlobalKey<FormState> formStateKey = GlobalKey<FormState>();
-  Group group = Group(id: 0, career: null, generation: '', letter: '', turn: Turn.morning);
+  Group group = Group(id: 0, career: null, generation: '', letter: '');
 
   Future<void> add() async {
-    if(formStateKey.currentState!.validate()){
+    if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
-      //group.add();
+      group.add();
       Get.back();
     }
   }
@@ -18,7 +18,7 @@ class GroupController {
     final int lastId = group.id;
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
-      //group.update(lastId: lastId);
+      group.update(lastId: lastId);
       Get.back();
     }
   }

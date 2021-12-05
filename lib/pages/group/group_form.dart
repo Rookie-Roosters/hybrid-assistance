@@ -54,6 +54,31 @@ class GroupForm extends GetView<GroupController> {
                   const SizedBox(
                     height: 20.0,
                   ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                        labelText: 'Generación', hintText: 'Ej. 2000-2005'),
+                    initialValue:
+                        update == null ? '' : controller.group.generation,
+                    validator: (value) =>
+                        controller.group.validateGeneration(value)
+                            ? null
+                            : 'Generación no válida',
+                    onSaved: (value) =>
+                        controller.group.generation = value ?? '',
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Letra',
+                    ),
+                    initialValue: update == null ? '' : controller.group.letter,
+                    validator: (value) => controller.group.validateLetter(value)
+                        ? null
+                        : 'Letra no válida',
+                    onSaved: (value) => controller.group.letter = value ?? '',
+                  ),
                   const Divider(
                     height: 32.0,
                   ),
@@ -206,21 +231,22 @@ class _GroupDropdownButtonsState extends State<GroupDropdownButtons> {
           ),
           const SizedBox(height: 20.0),
           DropdownButtonFormField<Career?>(
-              decoration: const InputDecoration(labelText: 'Carrera'),
-              items: careers.map<DropdownMenuItem<Career?>>((Career? value) {
-                return DropdownMenuItem<Career?>(
-                  value: value,
-                  child: value == null ? const Text('') : Text(value.name),
-                );
-              }).toList(),
-              value: careerValue,
-              onChanged: (Career? newValue) {
-                setState(() {
-                  careerValue = newValue;
-                });
-              },
-              validator: (value) => value != null ? null : 'Carrera no válida',
-              onSaved: (value) => {}),
+            decoration: const InputDecoration(labelText: 'Carrera'),
+            items: careers.map<DropdownMenuItem<Career?>>((Career? value) {
+              return DropdownMenuItem<Career?>(
+                value: value,
+                child: value == null ? const Text('') : Text(value.name),
+              );
+            }).toList(),
+            value: careerValue,
+            onChanged: (Career? newValue) {
+              setState(() {
+                careerValue = newValue;
+              });
+            },
+            validator: (value) => value != null ? null : 'Carrera no válida',
+            onSaved: (value) => widget.controller.group.career = careerValue,
+          ),
         ],
       );
     }

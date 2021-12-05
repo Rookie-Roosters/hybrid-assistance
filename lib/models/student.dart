@@ -55,7 +55,7 @@ class Student extends ValidateUtils {
     throw Exception('Query returned more than one student or no students.');
   }
 
-  Future<bool> exist(int id) async {
+  static Future<bool> exist(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
       SELECT * FROM student WHERE `id` = ?;

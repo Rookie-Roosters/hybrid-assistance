@@ -28,4 +28,14 @@ class ValidateUtils {
     final RegExp regExp = RegExp(r"\d");
     return value != null ? regExp.hasMatch(value) : false;
   }
+
+  bool validateGeneration(String? value) {
+    final RegExp regExp = RegExp(r"^20\d\d-20\d\d$");
+    return value != null ? regExp.hasMatch(value) : false;
+  }
+
+  bool validateLetter(String? value) {
+    final RegExp regExp = RegExp(r"^[A-Z]$");
+    return value != null ? regExp.hasMatch(value) : false;
+  }
 }

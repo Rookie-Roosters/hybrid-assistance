@@ -53,6 +53,27 @@ class Subject extends ValidateUtils {
     throw Exception('Query returned more than one subject or no subjects.');
   }
 
+  static Future<List<Subject>> getByDepartment(int id) async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT id, id_department, name 
+      FROM subject
+      WHERE id_department=?
+      ''',
+      [id],
+    );
+    List<Subject> subjects = [];
+    for (var row in result) {
+      Subject subject = Subject(
+        id: row[0],
+        department: await Department.getById(row[1]),
+        name: row[2],
+      );
+      subjects.add(subject);
+    }
+    return subjects;
+  }
+
   Future<void> add() async {
     if (validate() && !await exist(id)) {
       //Cambiar por las validaciones
