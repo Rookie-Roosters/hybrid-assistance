@@ -38,4 +38,9 @@ class ValidateUtils {
     final RegExp regExp = RegExp(r"^[A-Z]$");
     return value != null ? regExp.hasMatch(value) : false;
   }
+
+  bool validateTime(String? value) {
+    final RegExp regExp = RegExp(r"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$");
+    return value != null ? regExp.hasMatch(value) : false;
+  }
 }

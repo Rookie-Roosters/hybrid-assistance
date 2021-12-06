@@ -21,6 +21,7 @@ class CourseController {
     final int lastId = course.id;
     if(formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
+      course.teacher = await Teacher.getById(idTeacher!);
       course.update(lastId: lastId);
       Get.back();
     }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart' hide Center;
 import 'package:get/get.dart';
 import 'package:hybrid_assistance/config/app_pages.dart';
+import 'package:hybrid_assistance/models/academic_load.dart';
 import 'package:hybrid_assistance/models/career.dart';
 import 'package:hybrid_assistance/models/course.dart';
 import 'package:hybrid_assistance/models/department.dart';
 import 'package:hybrid_assistance/models/group.dart';
+import 'package:hybrid_assistance/models/schedule.dart';
 import 'package:hybrid_assistance/models/student.dart';
 import 'package:hybrid_assistance/models/center.dart';
 import 'package:hybrid_assistance/models/classroom.dart';
@@ -167,21 +169,33 @@ class TestDB extends StatelessWidget {
           },
           child: const Text('Modificar Curso'),
         ),
-        // ElevatedButton(
-        //   onPressed: () {
-        //     Get.toNamed(Routes.ACADEMICLOADFORM, arguments: null);
-        //   },
-        //   child: const Text('Agregar Carga Académica'),
-        // ),
-        // ElevatedButton(
-        //   onPressed: () async {
-        //     Get.toNamed(Routes.ACADEMICLOADFORM,
-        //         arguments: await AcademicLoad.getById(1));
-        //   },
-        //   child: const Text('Modificar Curso'),
-        // ),
-        
-        //Academic_load -> Schedule -> Vistas
+        ElevatedButton(
+          onPressed: () {
+            Get.toNamed(Routes.ACADEMICLOADFORM, arguments: null);
+          },
+          child: const Text('Agregar Carga Académica'),
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            Get.toNamed(Routes.ACADEMICLOADFORM,
+                arguments: await AcademicLoad.getById(1));
+          },
+          child: const Text('Modificar Carga Académica'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Get.toNamed(Routes.SCHEDULEFORM, arguments: null);
+          },
+          child: const Text('Agregar Horario'),
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            Get.toNamed(Routes.SCHEDULEFORM,
+                arguments: await Schedule.getById(1));
+          },
+          child: const Text('Modificar Modificar Horario'),
+        ),
+        //Schedule -> Vistas
       ],
     );
   }

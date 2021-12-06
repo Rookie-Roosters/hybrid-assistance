@@ -17,7 +17,7 @@ class Classroom extends ValidateUtils {
   }
 
   //CRUD
-  Future<bool> exist(int id) async {
+  static Future<bool> exist(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
       SELECT * FROM classroom WHERE `id` = ?;

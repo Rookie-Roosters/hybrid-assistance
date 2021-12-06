@@ -49,6 +49,7 @@ class CourseForm extends GetView<CourseController> {
                     decoration: const InputDecoration(
                       labelText: 'ID',
                     ),
+                    enabled: update == null,
                     initialValue:
                         update == null ? '' : controller.course.id.toString(),
                     validator: (value) =>
@@ -61,18 +62,19 @@ class CourseForm extends GetView<CourseController> {
                   const SizedBox(height: 20.0),
                   const Text('Grupo'),
                   GroupDropdownButton(
-                      update: update?.group,
-                      onSaved: (newValue) => controller.course.group = newValue,
-                      onChanged: (value) {}),
+                    update: update?.group,
+                    onSaved: (newValue) => controller.course.group = newValue,
+                    onChanged: (value) {},
+                  ),
                   const SizedBox(
                     height: 20.0,
                   ),
                   const Text('Materia'),
                   SubjectDropdownButton(
-                      update: update?.subject,
-                      onSaved: (newValue) =>
-                          controller.course.subject = newValue,
-                      onChanged: (value) {}),
+                    update: update?.subject,
+                    onSaved: (newValue) => controller.course.subject = newValue,
+                    onChanged: (value) {},
+                  ),
                   const SizedBox(height: 20.0),
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'ID Maestro'),

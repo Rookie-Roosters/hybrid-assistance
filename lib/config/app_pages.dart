@@ -8,6 +8,7 @@ import 'package:hybrid_assistance/pages/departament/department_form.dart';
 import 'package:hybrid_assistance/pages/group/group_form.dart';
 import 'package:hybrid_assistance/pages/home/home_page.dart';
 import 'package:hybrid_assistance/pages/login/login_page.dart';
+import 'package:hybrid_assistance/pages/shedule/schedule_form.dart';
 import 'package:hybrid_assistance/pages/student/student_form.dart';
 import 'package:hybrid_assistance/pages/classroom/classroom_form.dart';
 import 'package:hybrid_assistance/pages/subject/subject_form.dart';
@@ -99,6 +100,13 @@ class AppPages {
         Get.lazyPut<AcademicLoadController>(() => AcademicLoadController());
       }),
     ),
+    GetPage(
+      name: Routes.SCHEDULEFORM,
+      page: () => const ScheduleForm(),
+      binding: BindingsBuilder<dynamic>(() {
+        Get.lazyPut<ScheduleController>(() => ScheduleController());
+      }),
+    ),
   ];
 }
 
@@ -115,4 +123,5 @@ abstract class Routes {
   static const GROUPFORM = '/group_form';
   static const COURSEFORM = '/course_form';
   static const ACADEMICLOADFORM = '/academic_load';
+  static const SCHEDULEFORM = '/schedule_form';
 }

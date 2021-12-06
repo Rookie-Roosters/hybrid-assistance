@@ -31,9 +31,10 @@ class Course with ValidateUtils {
     final result = await DatabaseService.to.connection.query(
       '''
       SELECT * FROM `course` WHERE `id`=?;
-      ''', [id],
+      ''',
+      [id],
     );
-    if(result.isNotEmpty) return true;
+    if (result.isNotEmpty) return true;
     return false;
   }
 
@@ -49,21 +50,44 @@ class Course with ValidateUtils {
     if (result.length == 1) {
       for (var row in result) {
         return Course(
-            id: row[0],
-            group: await Group.getById(row[1]),
-            subject: await Subject.getById(row[2]),
-            teacher: await Teacher.getById(row[3]),
-            attendanceCode: row[4],
+          id: row[0],
+          group: await Group.getById(row[1]),
+          subject: await Subject.getById(row[2]),
+          teacher: await Teacher.getById(row[3]),
+          attendanceCode: row[4],
         );
       }
     }
     throw Exception('Query returned more than one group or no groups.');
   }
 
+  static Future<List<Course>> getByGroupAndSubject(
+      int idGroup, int idSubject) async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT `id`, `id_group`, `id_subject`, `id_teacher`, `attendance_code`
+      FROM `course`
+      WHERE `id_group`=? AND `id_subject`=?;
+      ''',
+      [idGroup, idSubject],
+    );
+    List<Course> courses = [];
+    for (var row in result) {
+      Course course = Course(
+        id: row[0],
+        group: await Group.getById(row[1]),
+        subject: await Subject.getById(row[2]),
+        teacher: await Teacher.getById(row[3]),
+        attendanceCode: row[4],
+      );
+      courses.add(course);
+    }
+    return courses;
+  }
+
   Future<void> add() async {
     if (validate() && !await exist(id)) {
-      await DatabaseService.to.connection.query(
-        '''
+      await DatabaseService.to.connection.query('''
         INSERT INTO `course`
         (`id`, `id_group`, `id_subject`, `id_teacher`, `attendance_code`)
         VALUES (?,?,?,?,?);
@@ -75,12 +99,18 @@ class Course with ValidateUtils {
 
   Future<void> update({int? lastId}) async {
     if (validate() && await exist(id)) {
-      await DatabaseService.to.connection.query(
-        '''
+      await DatabaseService.to.connection.query('''
         UPDATE `course`
         SET `id`=?,`id_group`=?,`id_subject`=?,`id_teacher`=?,`attendance_code`=?
         WHERE `id`=?;
-        ''', [id, group!.id, subject!.id, teacher!.id, attendanceCode, lastId ?? id]);
+        ''', [
+        id,
+        group!.id,
+        subject!.id,
+        teacher!.id,
+        attendanceCode,
+        lastId ?? id
+      ]);
     } else {
       throw Exception('Invalid Data or Group doesn\'t exist');
     }
