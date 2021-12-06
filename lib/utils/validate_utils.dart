@@ -10,12 +10,12 @@ class ValidateUtils {
   }
 
   bool validateName(String? value) {
-    final RegExp regExp = RegExp(r"[a-zA-ZáéíóúüÁÉÍÓÚÜ ]{3,100}");
+    final RegExp regExp = RegExp(r"[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ ]{3,100}");
     return value != null ? regExp.hasMatch(value) : false;
   }
 
   bool validateGenericName(String? value) {
-    final RegExp regExp = RegExp(r"[a-zA-ZáéíóúüÁÉÍÓÚÜ ]{3,50}");
+    final RegExp regExp = RegExp(r"[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ ]{3,50}");
     return value != null ? regExp.hasMatch(value) : false;
   }
 

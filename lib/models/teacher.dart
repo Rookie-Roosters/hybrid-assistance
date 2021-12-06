@@ -40,6 +40,27 @@ class Teacher extends ValidateUtils {
     return true;
   }
 
+  static Future<List<Teacher>> getAll() async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT id, name, firstLastName, secondLastName, picture 
+      FROM teacher
+      ORDER BY id
+      '''
+    );
+    List<Teacher> teachers = [];
+      for (var row in result) {
+        teachers.add(Teacher(
+          id: row[0],
+          name: row[1],
+          firstLastName: row[2],
+          secondLastName: row[3],
+          picture: row[4],
+        ));
+    }
+    return teachers;
+  }
+
   static Future<Teacher> getById(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''

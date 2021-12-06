@@ -64,8 +64,8 @@ class WorthyContainer extends StatelessWidget {
             decoration: BoxDecoration(
               color: kSurfaceColor,
               borderRadius: BorderRadius.vertical(
-                top: Radius.circular(kBorderRadius),
-                bottom: footer == null ? Radius.circular(kBorderRadius) : Radius.zero,
+                top: const Radius.circular(kBorderRadius),
+                bottom: footer == null ? const Radius.circular(kBorderRadius) : Radius.zero,
               ),
             ),
             //border: Border.all(color: Colors.transparent)),
@@ -76,7 +76,7 @@ class WorthyContainer extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 color: color.variants.light,
-                borderRadius: BorderRadius.vertical(
+                borderRadius: const BorderRadius.vertical(
                   top: Radius.zero,
                   bottom: Radius.circular(kBorderRadius),
                 ),

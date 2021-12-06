@@ -22,7 +22,7 @@ class Student extends ValidateUtils {
   });
 
   //validaciones
-  bool validate({bool update = false}) {
+  bool validate() {
     return validateId6(id.toString()) &&
         validateName(name) &&
         validatePassword(password) &&
@@ -31,6 +31,40 @@ class Student extends ValidateUtils {
   }
 
   //CRUD
+  static Future<bool> exist(int id) async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT * FROM student WHERE `id` = ?;
+      ''',
+      [id],
+    );
+    if (result.isNotEmpty) return true;
+    return false;
+  }
+
+  static Future<List<Student>> getAll() async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT id, name, firstLastName, secondLastName, nickname, picture 
+      FROM student
+      ORDER BY id
+      ''',
+    );
+    List<Student> students = [];
+      for (var row in result) {
+        Student student = Student(
+          id: row[0],
+          name: row[1],
+          firstLastName: row[2],
+          secondLastName: row[3],
+          nickname: row[4],
+          picture: row[5],
+        );
+        students.add(student);
+      }
+    return students;
+  }
+
   static Future<Student> getById(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
@@ -53,17 +87,6 @@ class Student extends ValidateUtils {
       }
     }
     throw Exception('Query returned more than one student or no students.');
-  }
-
-  static Future<bool> exist(int id) async {
-    final result = await DatabaseService.to.connection.query(
-      '''
-      SELECT * FROM student WHERE `id` = ?;
-      ''',
-      [id],
-    );
-    if (result.isNotEmpty) return true;
-    return false;
   }
 
   static Future<Student> findById(int id) async {
@@ -91,7 +114,7 @@ class Student extends ValidateUtils {
   }
 
   Future<void> add() async {
-    if (validate() && (id != null ? !(await exist(id!)) : true)) {
+    if (validate() && !(await exist(id!))) {
       //Cambiar por las validaciones
       await DatabaseService.to.connection.query('''
         INSERT INTO `student`
@@ -104,7 +127,7 @@ class Student extends ValidateUtils {
   }
 
   Future<void> update({int? lastId}) async {
-    if (validate(update: true) && (await exist(id!))) {
+    if (validate() && (await exist(id!))) {
       await DatabaseService.to.connection.query('''
       UPDATE `student` SET
       `id`=?,`name`=?,`password`=?,`firstLastName`=?,`secondLastName`=?,`nickname`=?,`picture`=?

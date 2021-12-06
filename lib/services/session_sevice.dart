@@ -26,7 +26,6 @@ class SessionService extends GetxService {
       await GetStorage().write('userId', userId);
       return true;
     }
-    return false;
   }
 
   Future<void> logOut() async {

@@ -16,6 +16,7 @@ class Center extends ValidateUtils {
     return validateGenericName(name) && validateNumber(id.toString());
   }
 
+   //CRUD
   Future<bool> exist(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
@@ -23,11 +24,24 @@ class Center extends ValidateUtils {
       ''',
       [id],
     );
-    if (result.isEmpty) return true;
+    if (result.isNotEmpty) return true;
     return false;
   }
 
-  //CRUD
+  static Future<int> getId() async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT MAX(`id`) FROM `center`;
+      ''',
+    );
+    if (result.length == 1) {
+      for (var row in result) {
+        return (row[0] ?? 0) + 1;
+      }
+    }
+    throw Exception('Bad consult');
+  }
+
   static Future<List<Center>> getAll() async {
     final List<Center> centers = [];
     final result = await DatabaseService.to.connection.query('''
@@ -65,7 +79,7 @@ class Center extends ValidateUtils {
   }
 
   Future<void> add() async {
-    if (validate() && (await exist(id))) {
+    if (validate() && !(await exist(id))) {
       //Cambiar por las validaciones
       await DatabaseService.to.connection.query('''
         INSERT INTO `center`
@@ -81,7 +95,7 @@ class Center extends ValidateUtils {
   }
 
   Future<void> update({int? lastId}) async {
-    if (validate(update: true) && !(await exist(id))) {
+    if (validate(update: true) && (await exist(id))) {
       await DatabaseService.to.connection.query('''
       UPDATE `center` SET
       `id`=?,`name`=?

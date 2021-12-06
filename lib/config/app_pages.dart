@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:hybrid_assistance/pages/academic_load/academic_load_form.dart';
 import 'package:hybrid_assistance/pages/career/career_form.dart';
 import 'package:hybrid_assistance/pages/center/center_form.dart';
+import 'package:hybrid_assistance/pages/center/centers_page.dart';
+import 'package:hybrid_assistance/pages/classroom/classrooms_page.dart';
 import 'package:hybrid_assistance/pages/course/course_form.dart';
 import 'package:hybrid_assistance/pages/departament/department_form.dart';
 import 'package:hybrid_assistance/pages/group/group_form.dart';
@@ -11,8 +13,10 @@ import 'package:hybrid_assistance/pages/login/login_page.dart';
 import 'package:hybrid_assistance/pages/shedule/schedule_form.dart';
 import 'package:hybrid_assistance/pages/student/student_form.dart';
 import 'package:hybrid_assistance/pages/classroom/classroom_form.dart';
+import 'package:hybrid_assistance/pages/student/students_page.dart';
 import 'package:hybrid_assistance/pages/subject/subject_form.dart';
 import 'package:hybrid_assistance/pages/teacher/teacher_form.dart';
+import 'package:hybrid_assistance/pages/teacher/teachers_page.dart';
 
 class AppPages {
   static final routes = [
@@ -107,15 +111,35 @@ class AppPages {
         Get.lazyPut<ScheduleController>(() => ScheduleController());
       }),
     ),
+    GetPage(
+      name: Routes.CENTERS,
+      page: () => const CentersPage(),
+    ),
+    GetPage(
+      name: Routes.CLASSROOMS,
+      page: () => const ClassroomsPage(),
+    ),
+    GetPage(
+      name: Routes.STUDENTS,
+      page: () => const StudentsPage(),
+    ),
+    GetPage(
+      name: Routes.TEACHERS,
+      page: () => const TeachersPage(),
+    ),
   ];
 }
 
 abstract class Routes {
   static const HOME = '/';
   static const LOGIN = '/login';
+  static const STUDENTS = '/students';
   static const STUDENTFORM = '/student_form';
+  static const CENTERS = '/centers';
   static const CENTERFORM = '/center_form';
+  static const CLASSROOMS = '/classrooms';
   static const CLASSROOMFORM = '/classroom_form';
+  static const TEACHERS = '/teachers';
   static const TEACHERFORM = '/teacher_form';
   static const DEPARTMENTFORM = '/department_form';
   static const CAREERFORM = '/career_form';

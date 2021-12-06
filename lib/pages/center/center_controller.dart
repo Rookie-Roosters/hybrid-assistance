@@ -9,7 +9,7 @@ class CenterController {
   Future<void> add() async {
     if(formStateKey.currentState!.validate()){
       formStateKey.currentState!.save();
-      center.add();
+      await center.add();
       Get.back();
     }
   }
@@ -18,7 +18,7 @@ class CenterController {
     final int lastId = center.id;
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
-      center.update(lastId: lastId);
+      await center.update(lastId: lastId);
       Get.back();
     }
   }

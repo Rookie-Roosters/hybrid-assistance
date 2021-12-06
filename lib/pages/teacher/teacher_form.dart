@@ -8,7 +8,7 @@ class TeacherForm extends GetView<TeacherController> {
 
   @override
   Widget build(BuildContext context) {
-    final update = Get.arguments;
+    final update = Get.arguments['update'];
     if (update != null) controller.teacher = update;
 
     return Scaffold(
