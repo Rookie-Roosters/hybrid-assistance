@@ -1,16 +1,18 @@
 // ignore_for_file: constant_identifier_names
 import 'package:get/get.dart';
+import 'package:hybrid_assistance/components/calendar_controller.dart';
 import 'package:hybrid_assistance/pages/admin/adm_home_controller.dart';
 import 'package:hybrid_assistance/pages/admin/admin_home.dart';
 import 'package:hybrid_assistance/pages/center/center_form.dart';
 import 'package:hybrid_assistance/pages/departament/department_form.dart';
+import 'package:hybrid_assistance/pages/home/home_controller.dart';
 import 'package:hybrid_assistance/pages/home/home_page.dart';
 import 'package:hybrid_assistance/pages/login/login_page.dart';
-import 'package:hybrid_assistance/pages/student/std_home_controller.dart';
+import 'package:hybrid_assistance/pages/student/class_details.dart';
+import 'package:hybrid_assistance/pages/student/class_details_controller.dart';
 import 'package:hybrid_assistance/pages/student/student_form.dart';
-import 'package:hybrid_assistance/pages/student/student_home.dart';
-import 'package:hybrid_assistance/pages/teacher/tch_home_controller.dart';
-import 'package:hybrid_assistance/pages/teacher/teacher_home.dart';
+import 'package:hybrid_assistance/pages/teacher/list_controller.dart';
+import 'package:hybrid_assistance/pages/teacher/student_list.dart';
 import 'package:hybrid_assistance/pages/classroom/classroom_form.dart';
 import 'package:hybrid_assistance/pages/teacher/teacher_form.dart';
 
@@ -28,22 +30,23 @@ class AppPages {
       page: () => const HomePage(),
       binding: BindingsBuilder<dynamic>(() {
         Get.lazyPut<HomeController>(() => HomeController());
+        Get.lazyPut<TheCalendarController>(() => TheCalendarController());
       }),
     ),
     GetPage(
-      name: Routes.STUDENTHOME,
-      page: () => const StudentHome(),
+      name: Routes.STUDENTLIST,
+      page: () => const StudentList(),
       binding: BindingsBuilder<dynamic>(() {
-        Get.lazyPut<StdHomeController>(() => StdHomeController());
+        Get.lazyPut<ListController>(() => ListController());
       }),
     ),
     GetPage(
-      name: Routes.TEACHERHOME,
-      page: () => const TeacherHome(),
+      name: Routes.CLASSDETAILS, 
+      page: () => const ClassDetails(),
       binding: BindingsBuilder<dynamic>(() {
-        Get.lazyPut<TchHomeController>(() => TchHomeController());
+        Get.lazyPut<ClassDetailsController>(() => ClassDetailsController());
       }),
-    ),
+      ),
     GetPage(
       name: Routes.ADMINHOME,
       page: () => const AdminHome(),
@@ -94,6 +97,8 @@ abstract class Routes {
   static const LOGIN = '/login';
   static const STUDENTHOME = '/student_home';
   static const TEACHERHOME = '/teacher_home';
+  static const STUDENTLIST = '/student_list';
+  static const CLASSDETAILS = '/class_details';
   static const ADMINHOME = '/admin_home';
   static const STUDENTFORM = '/student_form';
   static const CENTERFORM = '/center_form';

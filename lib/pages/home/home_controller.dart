@@ -10,5 +10,6 @@ class HomeController extends GetxController {
 
   Future<void> logOut() async {
     SessionService.to.logOut();
+    Get.offAllNamed(Routes.LOGIN);
   }
 }

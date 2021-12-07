@@ -12,6 +12,7 @@ class SessionService extends GetxService {
   Student? student;
   Teacher? teacher;
   Admin? admin;
+  
   String get loggedIn { 
     final userType = GetStorage().read<String>('userType');
     if (userType != null) {
@@ -19,9 +20,9 @@ class SessionService extends GetxService {
         case "UserTypes.admin":
           return Routes.ADMINHOME;
         case "UserTypes.student":
-          return Routes.STUDENTHOME;
+          return Routes.HOME;
         case "UserTypes.teacher":
-          return Routes.TEACHERHOME;
+          return Routes.HOME;
       }
     }
       return Routes.LOGIN;
