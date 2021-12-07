@@ -9,7 +9,15 @@ class ScheduleTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: const Text('Clases de toda la semana').p3,
+      child: Column(mainAxisSize: MainAxisSize.max, crossAxisAlignment: CrossAxisAlignment.stretch, 
+      children: [const Text('Clases de toda la semana').p3,
+      Row(
+        children: [
+          Column()
+        ],
+      )
+      ],
+      )
     );
   }
 }
