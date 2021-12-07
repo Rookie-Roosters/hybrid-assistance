@@ -2,12 +2,15 @@
 import 'package:get/get.dart';
 import 'package:hybrid_assistance/pages/academic_load/academic_load_form.dart';
 import 'package:hybrid_assistance/pages/career/career_form.dart';
+import 'package:hybrid_assistance/pages/career/careers_page.dart';
 import 'package:hybrid_assistance/pages/center/center_form.dart';
 import 'package:hybrid_assistance/pages/center/centers_page.dart';
 import 'package:hybrid_assistance/pages/classroom/classrooms_page.dart';
 import 'package:hybrid_assistance/pages/course/course_form.dart';
 import 'package:hybrid_assistance/pages/departament/department_form.dart';
+import 'package:hybrid_assistance/pages/departament/departments_page.dart';
 import 'package:hybrid_assistance/pages/group/group_form.dart';
+import 'package:hybrid_assistance/pages/group/groups_page.dart';
 import 'package:hybrid_assistance/pages/home/home_page.dart';
 import 'package:hybrid_assistance/pages/login/login_page.dart';
 import 'package:hybrid_assistance/pages/shedule/schedule_form.dart';
@@ -15,6 +18,7 @@ import 'package:hybrid_assistance/pages/student/student_form.dart';
 import 'package:hybrid_assistance/pages/classroom/classroom_form.dart';
 import 'package:hybrid_assistance/pages/student/students_page.dart';
 import 'package:hybrid_assistance/pages/subject/subject_form.dart';
+import 'package:hybrid_assistance/pages/subject/subjects_page.dart';
 import 'package:hybrid_assistance/pages/teacher/teacher_form.dart';
 import 'package:hybrid_assistance/pages/teacher/teachers_page.dart';
 
@@ -127,6 +131,22 @@ class AppPages {
       name: Routes.TEACHERS,
       page: () => const TeachersPage(),
     ),
+    GetPage(
+      name: Routes.DEPARTMENTS,
+      page: () => const DepartmentsPage(),
+    ),
+    GetPage(
+      name: Routes.CAREERS,
+      page: () => const CareersPage(),
+    ),
+    GetPage(
+      name: Routes.SUBJECTS,
+      page: () => const SubjectsPage(),
+    ),
+    GetPage(
+      name: Routes.GROUPS,
+      page: () => const GroupsPage(),
+    ),
   ];
 }
 
@@ -141,9 +161,13 @@ abstract class Routes {
   static const CLASSROOMFORM = '/classroom_form';
   static const TEACHERS = '/teachers';
   static const TEACHERFORM = '/teacher_form';
+  static const DEPARTMENTS = '/departments';
   static const DEPARTMENTFORM = '/department_form';
+  static const CAREERS = '/careers';
   static const CAREERFORM = '/career_form';
+  static const SUBJECTS = '/subjects';
   static const SUBJECTFORM = '/subject_form';
+  static const GROUPS = '/groups';
   static const GROUPFORM = '/group_form';
   static const COURSEFORM = '/course_form';
   static const ACADEMICLOADFORM = '/academic_load';

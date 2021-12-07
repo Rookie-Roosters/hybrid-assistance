@@ -47,7 +47,7 @@ class _CourseDropdownButtonState extends State<CourseDropdownButton> {
       final index = courses.indexWhere((element) => element.id == widget.update!.id);
       if(index != -1) courseValue = courses[index];
     } else {
-      courses = await Course.getByGroupAndSubject(0, 0);
+      courses = await Course.getByGroupAndSubject(1, 1);
       if(courses.isNotEmpty) {
         courseValue = courses[0];
         groupValue = courseValue!.group;

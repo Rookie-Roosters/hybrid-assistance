@@ -9,7 +9,7 @@ class GroupController {
   Future<void> add() async {
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
-      group.add();
+      await group.add();
       Get.back();
     }
   }
@@ -18,7 +18,7 @@ class GroupController {
     final int lastId = group.id;
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
-      group.update(lastId: lastId);
+      await group.update(lastId: lastId);
       Get.back();
     }
   }

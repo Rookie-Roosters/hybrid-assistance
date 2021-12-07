@@ -10,7 +10,7 @@ class SubjectForm extends GetView<SubjectController> {
 
   @override
   Widget build(BuildContext context) {
-    final Subject? update = Get.arguments;
+    final Subject? update = Get.arguments['update'];
     if (update != null) controller.subject = update;
 
     return Scaffold(
@@ -33,9 +33,10 @@ class SubjectForm extends GetView<SubjectController> {
                     decoration: const InputDecoration(
                       labelText: 'ID',
                     ),
-                    initialValue:
-                        update == null ? '' : controller.subject.id.toString(),
-                    enabled: update == null,
+                    initialValue: update == null
+                        ? Get.arguments['initialId'].toString()
+                        : controller.subject.id.toString(),
+                    enabled: false,
                     validator: (value) =>
                         controller.subject.validateNumber(value)
                             ? null
@@ -47,7 +48,9 @@ class SubjectForm extends GetView<SubjectController> {
                     height: 20.0,
                   ),
                   DepartmentDropdownButton(
-                      update: update?.department,
+                      update: update == null
+                          ? Get.arguments['initialValues']
+                          : update.department,
                       onSaved: (newValue) =>
                           controller.subject.department = newValue,
                       onChanged: (value) {}),

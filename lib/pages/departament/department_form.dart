@@ -10,7 +10,7 @@ class DepartmentForm extends GetView<DepartmentController> {
 
   @override
   Widget build(BuildContext context) {
-    final Department? update = Get.arguments;
+    final Department? update = Get.arguments['update'];
     if (update != null) controller.department = update;
 
     return Scaffold(
@@ -34,9 +34,9 @@ class DepartmentForm extends GetView<DepartmentController> {
                       labelText: 'ID',
                     ),
                     initialValue: update == null
-                        ? ''
+                        ? Get.arguments['initialId'].toString()
                         : controller.department.id.toString(),
-                    enabled: update == null,
+                    enabled: false,
                     validator: (value) =>
                         controller.department.validateNumber(value)
                             ? null
@@ -48,7 +48,7 @@ class DepartmentForm extends GetView<DepartmentController> {
                     height: 20.0,
                   ),
                   CenterDropdownButton(
-                    update: update?.center,
+                    update: update == null ? Get.arguments['initialValues'] : update.center,
                     onSaved: (value) => controller.department.center = value,
                     onChanged: (value) {}
                   ),

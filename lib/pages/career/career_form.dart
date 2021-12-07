@@ -10,7 +10,7 @@ class CareerForm extends GetView<CareerController> {
 
   @override
   Widget build(BuildContext context) {
-    final Career? update = Get.arguments;
+    final Career? update = Get.arguments['update'];
     if (update != null) controller.career = update;
 
     return Scaffold(
@@ -18,7 +18,7 @@ class CareerForm extends GetView<CareerController> {
         backgroundColor: Colors.blue,
         title: update == null
             ? const Text('Agregar Carrera')
-            : const Text('Editar Carrera'),
+            : const Text('Modificar Carrera'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -33,9 +33,10 @@ class CareerForm extends GetView<CareerController> {
                     decoration: const InputDecoration(
                       labelText: 'ID',
                     ),
-                    initialValue:
-                        update == null ? '' : controller.career.id.toString(),
-                    enabled: update == null,
+                    initialValue: update == null
+                        ? Get.arguments['initialId'].toString()
+                        : controller.career.id.toString(),
+                    enabled: false,
                     validator: (value) =>
                         controller.career.validateNumber(value)
                             ? null
@@ -47,7 +48,9 @@ class CareerForm extends GetView<CareerController> {
                     height: 20.0,
                   ),
                   DepartmentDropdownButton(
-                      update: update?.department,
+                      update: update == null
+                          ? Get.arguments['initialValues']
+                          : update.department,
                       onChanged: (value) {},
                       onSaved: (newValue) {
                         controller.career.department = newValue;

@@ -32,6 +32,21 @@ class Subject extends ValidateUtils {
     return false;
   }
 
+  static Future<int> getId() async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT MAX(id)
+      FROM subject
+      '''
+    );
+    if (result.length == 1) {
+      for (var row in result) {
+        return (row[0] ?? 0) + 1;
+      }
+    }
+    throw Exception('Query returned more than one subject or no subjects.');
+  }
+
   static Future<Subject> getById(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''

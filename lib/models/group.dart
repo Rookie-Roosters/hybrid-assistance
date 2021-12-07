@@ -35,6 +35,21 @@ class Group with ValidateUtils {
     return false;
   }
 
+  static Future<int> getId() async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT MAX(id)
+      FROM `group`
+      '''
+    );
+    if (result.length == 1) {
+      for (var row in result) {
+        return (row[0] ?? 0) + 1;
+      }
+    }
+    throw Exception('Query returned more than one group or no groups.');
+  }
+
   static Future<Group> getById(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
@@ -98,6 +113,16 @@ class Group with ValidateUtils {
         ''', [id, career!.id, generation, letter, lastId ?? id]);
     } else {
       throw Exception('Invalid Data or Group doesn\'t exist');
+    }
+  }
+
+  Future<void> delete() async {
+    if (await exist()) {
+      await DatabaseService.to.connection.query('''
+      DELETE FROM `group` WHERE `id` = ?;
+      ''', [id]);
+    } else {
+      throw Exception('Group doesn\'t exist');
     }
   }
 }

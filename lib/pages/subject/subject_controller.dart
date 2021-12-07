@@ -9,7 +9,7 @@ class SubjectController {
   Future<void> add() async {
     if(formStateKey.currentState!.validate()){
       formStateKey.currentState!.save();
-      subject.add();
+      await subject.add();
       Get.back();
     }
   }
@@ -18,7 +18,7 @@ class SubjectController {
     final int lastId = subject.id;
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
-      subject.update(lastId: lastId);
+      await subject.update(lastId: lastId);
       Get.back();
     }
   }

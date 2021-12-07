@@ -65,6 +65,34 @@ class TestDB extends StatelessWidget {
           },
           child: const Text('Maestros'),
         ),
+        const SizedBox(height: 10.0,),
+        ElevatedButton(
+          onPressed: () {
+            Get.toNamed(Routes.DEPARTMENTS);
+          },
+          child: const Text('Departamentos'),
+        ),
+        const SizedBox(height: 10.0,),
+        ElevatedButton(
+          onPressed: () {
+            Get.toNamed(Routes.CAREERS);
+          },
+          child: const Text('Carreras'),
+        ),
+        const SizedBox(height: 10.0,),
+        ElevatedButton(
+          onPressed: () {
+            Get.toNamed(Routes.SUBJECTS);
+          },
+          child: const Text('Materias'),
+        ),
+        const SizedBox(height: 10.0,),
+        ElevatedButton(
+          onPressed: () {
+            Get.toNamed(Routes.GROUPS);
+          },
+          child: const Text('Grupos'),
+        ),
       ],
     );
   }

@@ -9,7 +9,7 @@ class CareerController {
   Future<void> add() async {
     if(formStateKey.currentState!.validate()){
       formStateKey.currentState!.save();
-      career.add();
+      await career.add();
       Get.back();
     }
   }
@@ -18,7 +18,7 @@ class CareerController {
     final int lastId = career.id;
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
-      career.update(lastId: lastId);
+      await career.update(lastId: lastId);
       Get.back();
     }
   }

@@ -38,7 +38,7 @@ class _CareerDropdownButtonState extends State<CareerDropdownButton> {
 
   Future<void> loadData() async {
     departments = widget.update == null
-        ? await Department.getByCenter(0)
+        ? await Department.getByCenter(1)
         : await Department.getByCenter(widget.update!.department!.center!.id);
     if (departments.isNotEmpty) {
       departmentValue = departments[0];
@@ -71,7 +71,11 @@ class _CareerDropdownButtonState extends State<CareerDropdownButton> {
           update: departmentValue,
           onChanged: (newValue) async {
             departmentValue = newValue;
-            careers = await Career.getByDepartment(departmentValue!.id);
+            if(departmentValue != null) {
+              careers = await Career.getByDepartment(departmentValue!.id);
+            } else {
+              careers = [];
+            }
             setState(() {
               if (careers.isNotEmpty) {
                 careerValue = careers[0];

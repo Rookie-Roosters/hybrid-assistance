@@ -38,7 +38,7 @@ class _SubjectDropdownButtonState extends State<SubjectDropdownButton> {
 
   Future<void> loadData() async {
     departments = widget.update == null
-        ? await Department.getByCenter(0)
+        ? await Department.getByCenter(1)
         : await Department.getByCenter(widget.update!.department!.center!.id);
     if (departments.isNotEmpty) {
       departmentValue = departments[0];
@@ -71,7 +71,11 @@ class _SubjectDropdownButtonState extends State<SubjectDropdownButton> {
           update: departmentValue,
           onChanged: (newValue) async {
             departmentValue = newValue;
-            subjects = await Subject.getByDepartment(departmentValue!.id);
+            if(subjectValue != null) {
+              subjects = await Subject.getByDepartment(departmentValue!.id);
+            } else {
+              subjects = [];
+            }
             setState(() {
               if (subjects.isNotEmpty) {
                 subjectValue = subjects[0];

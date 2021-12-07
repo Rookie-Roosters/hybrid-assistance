@@ -38,7 +38,7 @@ class _GroupDropdownButtonState extends State<GroupDropdownButton> {
 
   Future<void> loadData() async {
     careers = widget.update == null
-        ? await Career.getByDepartment(0)
+        ? await Career.getByDepartment(1)
         : await Career.getByDepartment(widget.update!.career!.department!.id);
     if (careers.isNotEmpty) {
       careerValue = careers[0];
@@ -71,7 +71,11 @@ class _GroupDropdownButtonState extends State<GroupDropdownButton> {
           update: careerValue,
           onChanged: (newValue) async {
             careerValue = newValue;
-            groups = await Group.getByCareer(careerValue!.id);
+            if(careerValue != null) {
+              groups = await Group.getByCareer(careerValue!.id);
+            } else {
+              groups = [];
+            }
             setState(() {
               if (groups.isNotEmpty) {
                 groupValue = groups[0];

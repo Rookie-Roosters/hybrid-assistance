@@ -10,7 +10,7 @@ class GroupForm extends GetView<GroupController> {
 
   @override
   Widget build(BuildContext context) {
-    final Group? update = Get.arguments;
+    final Group? update = Get.arguments['update'];
     if (update != null) controller.group = update;
 
     return Scaffold(
@@ -34,8 +34,8 @@ class GroupForm extends GetView<GroupController> {
                       labelText: 'ID',
                     ),
                     initialValue:
-                        update == null ? '' : controller.group.id.toString(),
-                    enabled: update == null,
+                        update == null ? Get.arguments['initialId'].toString() : controller.group.id.toString(),
+                    enabled: false,
                     validator: (value) => controller.group.validateNumber(value)
                         ? null
                         : 'ID no válido',
@@ -46,7 +46,7 @@ class GroupForm extends GetView<GroupController> {
                     height: 20.0,
                   ),
                   CareerDropdownButton(
-                      update: update?.career,
+                      update: update == null ? Get.arguments['initialValues'] : update.career,
                       onSaved: (newValue) => controller.group.career = newValue,
                       onChanged: (value) {}),
                   const SizedBox(
@@ -101,152 +101,3 @@ class GroupForm extends GetView<GroupController> {
     );
   }
 }
-
-// class GroupDropdownButtons extends StatefulWidget {
-//   final GroupController controller;
-//   final Group? update;
-
-//   const GroupDropdownButtons(
-//       {Key? key, required this.controller, required this.update})
-//       : super(key: key);
-
-//   @override
-//   _GroupDropdownButtonsState createState() => _GroupDropdownButtonsState();
-// }
-
-// class _GroupDropdownButtonsState extends State<GroupDropdownButtons> {
-//   List<Center> centers = [];
-//   List<Department> departments = [];
-//   List<Career> careers = [];
-//   Center? centerValue;
-//   Department? departmentValue;
-//   Career? careerValue;
-//   bool show = false;
-
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     loadData().then((value) {
-//       setState(() {
-//         show = true;
-//       });
-//     });
-//   }
-
-//   Future<void> loadData() async {
-//     centers = await Center.getAll();
-//     if (centers.isNotEmpty) {
-//       centerValue = centers[0];
-//       if (widget.update != null) {
-//         final index = centers.indexWhere((element) =>
-//             element.id == widget.update!.career!.department!.center!.id);
-//         if (index != -1) centerValue = centers[index];
-//       }
-//       departments = await Department.getByCenter(centerValue!.id);
-//       if (departments.isNotEmpty) {
-//         departmentValue = departments[0];
-//         if (widget.update != null) {
-//           final index = departments.indexWhere(
-//               (element) => element.id == widget.update!.career!.department!.id);
-//           if (index != -1) departmentValue = departments[index];
-//         }
-//         careers = await Career.getByDepartment(departmentValue!.id);
-//         if (careers.isNotEmpty) {
-//           careerValue = careers[0];
-//           if (widget.update != null) {
-//             final index = careers.indexWhere(
-//                 (element) => element.id == widget.update!.career!.id);
-//             if (index != -1) careerValue = careers[index];
-//           }
-//         }
-//       }
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     if (!show) {
-//       return const Text('No se encontró ningún Centro y Departamento');
-//     } else {
-//       return Column(
-//         children: [
-//           DropdownButtonFormField<Center>(
-//             decoration: const InputDecoration(labelText: 'Centro'),
-//             items: centers.map<DropdownMenuItem<Center>>((Center value) {
-//               return DropdownMenuItem<Center>(
-//                 value: value,
-//                 child: Text(value.name),
-//               );
-//             }).toList(),
-//             value: centerValue,
-//             onChanged: (Center? newValue) async {
-//               centerValue = newValue;
-//               if (centerValue != null) {
-//                 departments = await Department.getByCenter(centerValue!.id);
-//                 if (departments.isNotEmpty) {
-//                   departmentValue = departments[0];
-//                   careers = await Career.getByDepartment(departmentValue!.id);
-//                   if (careers.isNotEmpty) {
-//                     careerValue = careers[0];
-//                   } else {
-//                     careerValue = null;
-//                   }
-//                 } else {
-//                   departmentValue = null;
-//                   careerValue = null;
-//                 }
-//               }
-//               setState(() {});
-//             },
-//             validator: (value) => value == null ? 'Centro no válido' : null,
-//           ),
-//           const SizedBox(height: 20.0),
-//           DropdownButtonFormField<Department?>(
-//             decoration: const InputDecoration(labelText: 'Departamento'),
-//             items: departments
-//                 .map<DropdownMenuItem<Department?>>((Department? value) {
-//               return DropdownMenuItem<Department?>(
-//                 value: value,
-//                 child: value == null ? const Text('') : Text(value.name),
-//               );
-//             }).toList(),
-//             value: departmentValue,
-//             onChanged: (Department? newValue) async {
-//               departmentValue = newValue;
-//               if (departmentValue != null) {
-//                 careers = await Career.getByDepartment(departmentValue!.id);
-//                 if (careers.isNotEmpty) {
-//                   careerValue = careers[0];
-//                 } else {
-//                   careerValue = null;
-//                 }
-//               }
-//               setState(() {});
-//             },
-//             validator: (value) =>
-//                 value != null ? null : 'Departamento no válido',
-//           ),
-//           const SizedBox(height: 20.0),
-//           DropdownButtonFormField<Career?>(
-//             decoration: const InputDecoration(labelText: 'Carrera'),
-//             items: careers.map<DropdownMenuItem<Career?>>((Career? value) {
-//               return DropdownMenuItem<Career?>(
-//                 value: value,
-//                 child: value == null ? const Text('') : Text(value.name),
-//               );
-//             }).toList(),
-//             value: careerValue,
-//             onChanged: (Career? newValue) {
-//               setState(() {
-//                 careerValue = newValue;
-//               });
-//             },
-//             validator: (value) => value != null ? null : 'Carrera no válida',
-//             onSaved: (value) => widget.controller.group.career = careerValue,
-//           ),
-//         ],
-//       );
-//     }
-//   }
-// }

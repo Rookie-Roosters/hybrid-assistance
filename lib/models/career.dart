@@ -32,6 +32,21 @@ class Career extends ValidateUtils {
     return false;
   }
 
+  static Future<int> getId() async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT MAX(id)
+      FROM career
+      '''
+    );
+    if (result.length == 1) {
+      for (var row in result) {
+        return (row[0] ?? 0) + 1;
+      }
+    }
+    throw Exception('Bad consult.');
+  }
+
   static Future<Career> getById(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
