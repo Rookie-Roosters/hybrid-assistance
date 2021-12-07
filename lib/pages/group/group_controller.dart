@@ -1,30 +1,24 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hybrid_assistance/models/teacher.dart';
+import 'package:hybrid_assistance/models/group.dart';
 
-class TeacherController {
+class GroupController {
   final GlobalKey<FormState> formStateKey = GlobalKey<FormState>();
-  Teacher teacher = Teacher(
-      id: 0,
-      name: '',
-      firstLastName: '',
-      secondLastName: '',
-      password: '',
-      picture: '');
+  Group group = Group(id: 0, career: null, generation: '', letter: '');
 
   Future<void> add() async {
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
-      await teacher.add();
+      await group.add();
       Get.back();
     }
   }
 
   Future<void> update() async {
-    final int lastId = teacher.id;
+    final int lastId = group.id;
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
-      await teacher.update(lastId: lastId);
+      await group.update(lastId: lastId);
       Get.back();
     }
   }

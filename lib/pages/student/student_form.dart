@@ -8,7 +8,7 @@ class StudentForm extends GetView<StudentController> {
 
   @override
   Widget build(BuildContext context) {
-    final update = Get.arguments;
+    final update = Get.arguments['update'];
     if (update != null) controller.student = update;
 
     return Scaffold(
@@ -37,7 +37,9 @@ class StudentForm extends GetView<StudentController> {
                     validator: (value) => controller.student.validateId6(value)
                         ? null
                         : 'ID no válido',
+                    onSaved: (value) => controller.student.id = value == null ? 0 : int.tryParse(value),
                   ),
+                  const SizedBox(height: 20.0),
                   TextFormField(
                     decoration: const InputDecoration(
                       labelText: 'Nombre',

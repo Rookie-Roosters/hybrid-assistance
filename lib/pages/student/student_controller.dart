@@ -9,7 +9,7 @@ class StudentController {
   Future<void> add() async {
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
-      student.add();
+      await student.add();
       Get.back();
     }
   }
@@ -18,7 +18,7 @@ class StudentController {
     final int lastId = student.id!;
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
-      student.update(lastId: lastId);
+      await student.update(lastId: lastId);
       Get.back();
     }
   }

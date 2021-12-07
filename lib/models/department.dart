@@ -35,10 +35,26 @@ class Department extends ValidateUtils {
     return false;
   }
 
-  static Future<Department> findById(int id) async {
+  static Future<int> getId() async {
     final result = await DatabaseService.to.connection.query(
       '''
-      SELECT id, center, name 
+      SELECT MAX(id)
+      FROM department
+      '''
+    );
+    if (result.length == 1) {
+      for (var row in result) {
+        return (row[0] ?? 0) + 1;
+      }
+    }
+    throw Exception(
+        'Bad consult.');
+  }
+
+  static Future<Department> getById(int id) async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT id, id_center, name 
       FROM department
       WHERE id=?
       ''',
@@ -48,13 +64,34 @@ class Department extends ValidateUtils {
       for (var row in result) {
         return Department(
           id: row[0],
-          center: row[1],
+          center: await Center.getById(row[1]),
           name: row[2],
         );
       }
     }
     throw Exception(
         'Query returned more than one department or no departments.');
+  }
+
+  static Future<List<Department>> getByCenter(int idCenter) async {
+    List<Department> departments = [];
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT id, id_center, name 
+      FROM department
+      WHERE id_center=?
+      ''',
+      [idCenter],
+    );
+    for (var row in result) {
+      Department department = Department(
+        id: row[0],
+        center: await Center.getById(row[1]),
+        name: row[2],
+      );
+      departments.add(department);
+    }
+    return departments;
   }
 
   Future<void> add() async {

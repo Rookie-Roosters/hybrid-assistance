@@ -1,24 +1,24 @@
-import 'package:flutter/material.dart' hide Center;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hybrid_assistance/models/center.dart';
+import 'package:hybrid_assistance/models/subject.dart';
 
-class CenterController {
+class SubjectController {
   final GlobalKey<FormState> formStateKey = GlobalKey<FormState>();
-  Center center = Center(id: 0, name: '');
+  Subject subject = Subject(id: 0, department: null, name: '');
 
   Future<void> add() async {
     if(formStateKey.currentState!.validate()){
       formStateKey.currentState!.save();
-      await center.add();
+      await subject.add();
       Get.back();
     }
   }
 
   Future<void> update() async {
-    final int lastId = center.id;
+    final int lastId = subject.id;
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
-      await center.update(lastId: lastId);
+      await subject.update(lastId: lastId);
       Get.back();
     }
   }

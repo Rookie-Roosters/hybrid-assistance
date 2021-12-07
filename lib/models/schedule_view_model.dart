@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hybrid_assistance/services/database_service.dart';
-import 'package:hybrid_assistance/utils/semester_dates.dart';
 import 'package:intl/intl.dart';
 
 import 'course.dart';

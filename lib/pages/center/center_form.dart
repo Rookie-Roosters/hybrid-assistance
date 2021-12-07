@@ -8,7 +8,7 @@ class CenterForm extends GetView<CenterController> {
 
   @override
   Widget build(BuildContext context) {
-    final update = Get.arguments;
+    final update = Get.arguments['update'];
     if (update != null) controller.center = update;
 
     return Scaffold(
@@ -32,8 +32,8 @@ class CenterForm extends GetView<CenterController> {
                       labelText: 'ID',
                     ),
                     initialValue:
-                        update == null ? '' : controller.center.id.toString(),
-                    enabled: update == null,
+                        update == null ? Get.arguments['initialId'].toString() : controller.center.id.toString(),
+                    enabled: false,
                     validator: (value) =>
                         controller.center.validateNumber(value)
                             ? null

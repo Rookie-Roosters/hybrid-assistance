@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart' hide Center;
 import 'package:get/get.dart';
-import 'package:hybrid_assistance/models/department.dart';
-import 'package:hybrid_assistance/widgets/center_dropdown.dart';
-import 'department_controller.dart';
-export 'department_controller.dart';
+import 'package:hybrid_assistance/models/subject.dart';
+import 'package:hybrid_assistance/widgets/department_dropdown.dart';
+import 'subject_controller.dart';
+export 'subject_controller.dart';
 
-class DepartmentForm extends GetView<DepartmentController> {
-  const DepartmentForm({Key? key}) : super(key: key);
+class SubjectForm extends GetView<SubjectController> {
+  const SubjectForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final Department? update = Get.arguments['update'];
-    if (update != null) controller.department = update;
+    final Subject? update = Get.arguments['update'];
+    if (update != null) controller.subject = update;
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
         title: update == null
-            ? const Text('Agregar Departamento')
-            : const Text('Editar Departamento'),
+            ? const Text('Agregar Materia')
+            : const Text('Editar Materia'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -35,23 +35,25 @@ class DepartmentForm extends GetView<DepartmentController> {
                     ),
                     initialValue: update == null
                         ? Get.arguments['initialId'].toString()
-                        : controller.department.id.toString(),
+                        : controller.subject.id.toString(),
                     enabled: false,
                     validator: (value) =>
-                        controller.department.validateNumber(value)
+                        controller.subject.validateNumber(value)
                             ? null
                             : 'ID no válido',
-                    onSaved: (value) => controller.department.id =
+                    onSaved: (value) => controller.subject.id =
                         value == null ? 0 : int.tryParse(value)!,
                   ),
                   const SizedBox(
                     height: 20.0,
                   ),
-                  CenterDropdownButton(
-                    update: update == null ? Get.arguments['initialValues'] : update.center,
-                    onSaved: (value) => controller.department.center = value,
-                    onChanged: (value) {}
-                  ),
+                  DepartmentDropdownButton(
+                      update: update == null
+                          ? Get.arguments['initialValues']
+                          : update.department,
+                      onSaved: (newValue) =>
+                          controller.subject.department = newValue,
+                      onChanged: (value) {}),
                   const SizedBox(
                     height: 20.0,
                   ),
@@ -59,13 +61,12 @@ class DepartmentForm extends GetView<DepartmentController> {
                     decoration: const InputDecoration(
                       labelText: 'Nombre',
                     ),
-                    initialValue: controller.department.name,
+                    initialValue: controller.subject.name,
                     validator: (value) =>
-                        controller.department.validateGenericName(value)
+                        controller.subject.validateGenericName(value)
                             ? null
                             : 'Nombre no válido',
-                    onSaved: (value) =>
-                        controller.department.name = value ?? '',
+                    onSaved: (value) => controller.subject.name = value ?? '',
                   ),
                   const Divider(
                     height: 32.0,

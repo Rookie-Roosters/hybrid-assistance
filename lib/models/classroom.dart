@@ -17,7 +17,7 @@ class Classroom extends ValidateUtils {
   }
 
   //CRUD
-  Future<bool> exist(int id) async {
+  static Future<bool> exist(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
       SELECT * FROM classroom WHERE `id` = ?;
@@ -26,6 +26,38 @@ class Classroom extends ValidateUtils {
     );
     if (result.isNotEmpty) return false;
     return true;
+  }
+
+  static Future<int> getId() async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT MAX(`id`) FROM classroom;
+      '''
+    );
+    if (result.length == 1) {
+      for (var row in result) {
+        return (row[0] ?? 0) + 1;
+      }
+    }
+    throw Exception('Bad consult.');
+  }
+
+  static Future<List<Classroom>> getAll() async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT id, name 
+      FROM classroom
+      '''
+    );
+    List<Classroom> classrooms = [];
+      for (var row in result) {
+        Classroom classroom = Classroom(
+          id: row[0],
+          name: row[1],
+        );
+        classrooms.add(classroom);
+      }
+    return classrooms;
   }
 
   static Future<Classroom> getById(int id) async {

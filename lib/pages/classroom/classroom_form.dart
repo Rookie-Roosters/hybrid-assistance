@@ -8,7 +8,7 @@ class ClassroomForm extends GetView<ClassroomController> {
 
   @override
   Widget build(BuildContext context) {
-    final update = Get.arguments;
+    final update = Get.arguments['update'];
     if (update != null) controller.classroom = update;
     
     return Scaffold(
@@ -29,8 +29,8 @@ class ClassroomForm extends GetView<ClassroomController> {
                     decoration: const InputDecoration(
                       labelText: 'ID',
                     ),
-                    initialValue: update == null ? '' : controller.classroom.id.toString(),
-                    enabled: update == null,
+                    initialValue: update == null ? Get.arguments['initialId'].toString() : controller.classroom.id.toString(),
+                    enabled: false,
                     validator: (value) => controller.classroom.validateNumber(value) ? null : 'ID no válido',
                     onSaved: (value) => controller.classroom.id = value == null ? 0 : int.tryParse(value)!,
                   ),

@@ -10,12 +10,12 @@ class ValidateUtils {
   }
 
   bool validateName(String? value) {
-    final RegExp regExp = RegExp(r"[a-zA-ZáéíóúüÁÉÍÓÚÜ ]{3,100}");
+    final RegExp regExp = RegExp(r"[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ ]{3,100}");
     return value != null ? regExp.hasMatch(value) : false;
   }
 
   bool validateGenericName(String? value) {
-    final RegExp regExp = RegExp(r"[a-zA-ZáéíóúüÁÉÍÓÚÜ ]{3,50}");
+    final RegExp regExp = RegExp(r"[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ ]{3,50}");
     return value != null ? regExp.hasMatch(value) : false;
   }
 
@@ -26,6 +26,21 @@ class ValidateUtils {
 
   bool validateNumber(String? value) {
     final RegExp regExp = RegExp(r"\d");
+    return value != null ? regExp.hasMatch(value) : false;
+  }
+
+  bool validateGeneration(String? value) {
+    final RegExp regExp = RegExp(r"^20\d\d-20\d\d$");
+    return value != null ? regExp.hasMatch(value) : false;
+  }
+
+  bool validateLetter(String? value) {
+    final RegExp regExp = RegExp(r"^[A-Z]$");
+    return value != null ? regExp.hasMatch(value) : false;
+  }
+
+  bool validateTime(String? value) {
+    final RegExp regExp = RegExp(r"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$");
     return value != null ? regExp.hasMatch(value) : false;
   }
 }
