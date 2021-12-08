@@ -12,7 +12,7 @@ class CourseController {
     if(formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
       course.teacher = await Teacher.getById(idTeacher!);
-      course.add();
+      await course.add();
       Get.back();
     }
   }
@@ -22,7 +22,7 @@ class CourseController {
     if(formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
       course.teacher = await Teacher.getById(idTeacher!);
-      course.update(lastId: lastId);
+      await course.update(lastId: lastId);
       Get.back();
     }
   }

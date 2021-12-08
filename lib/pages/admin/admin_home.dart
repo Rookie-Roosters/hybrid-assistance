@@ -92,6 +92,27 @@ class TestDB extends StatelessWidget {
           },
           child: const Text('Grupos'),
         ),
+        const SizedBox(height: 10.0,),
+        ElevatedButton(
+          onPressed: () {
+            Get.toNamed(Routes.COURSES);
+          },
+          child: const Text('Cursos'),
+        ),
+        const SizedBox(height: 10.0,),
+        ElevatedButton(
+          onPressed: () {
+            Get.toNamed(Routes.ACADEMICLOADS);
+          },
+          child: const Text('Cargas Académicas'),
+        ),
+        const SizedBox(height: 10.0,),
+        ElevatedButton(
+          onPressed: () {
+            Get.toNamed(Routes.SCHEDULES);
+          },
+          child: const Text('Horario'),
+        ),
       ],
     );
   }

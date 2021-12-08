@@ -25,7 +25,7 @@ class AcademicLoadForm extends GetView<AcademicLoadController> {
 
   @override
   Widget build(BuildContext context) {
-    final AcademicLoad? update = Get.arguments;
+    final AcademicLoad? update = Get.arguments['update'];
     if (update != null) controller.academicLoad = update;
 
     return Scaffold(
@@ -48,9 +48,9 @@ class AcademicLoadForm extends GetView<AcademicLoadController> {
                     decoration: const InputDecoration(
                       labelText: 'ID',
                     ),
-                    enabled: update == null,
+                    enabled: false,
                     initialValue: update == null
-                        ? ''
+                        ? Get.arguments['initialId'].toString()
                         : controller.academicLoad.id.toString(),
                     validator: (value) =>
                         controller.academicLoad.validateNumber(value)
@@ -75,7 +75,7 @@ class AcademicLoadForm extends GetView<AcademicLoadController> {
                     height: 20.0,
                   ),
                   CourseDropdownButton(
-                    update: update?.course,
+                    update: update == null ? Get.arguments['initialValues'] : update.course,
                     onSaved: (newValue) =>
                         controller.academicLoad.course = newValue,
                     onChanged: (value) {},

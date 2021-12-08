@@ -30,7 +30,7 @@ class HybridAssistance extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: AppThemes.main,
         getPages: AppPages.routes,
-        initialRoute: SessionService.to.loggedIn,
+        initialRoute: Routes.ADMINHOME,
       ),
     );
   }

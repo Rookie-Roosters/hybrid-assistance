@@ -71,7 +71,7 @@ class _SubjectDropdownButtonState extends State<SubjectDropdownButton> {
           update: departmentValue,
           onChanged: (newValue) async {
             departmentValue = newValue;
-            if(subjectValue != null) {
+            if(departmentValue != null) {
               subjects = await Subject.getByDepartment(departmentValue!.id);
             } else {
               subjects = [];

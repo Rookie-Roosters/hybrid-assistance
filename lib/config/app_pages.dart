@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 import 'package:get/get.dart';
 import 'package:hybrid_assistance/components/calendar_controller.dart';
+import 'package:hybrid_assistance/pages/academic_load/academic_loads_page.dart';
 import 'package:hybrid_assistance/pages/admin/adm_home_controller.dart';
 import 'package:hybrid_assistance/pages/admin/admin_home.dart';
 import 'package:hybrid_assistance/pages/academic_load/academic_load_form.dart';
@@ -10,17 +11,17 @@ import 'package:hybrid_assistance/pages/center/center_form.dart';
 import 'package:hybrid_assistance/pages/center/centers_page.dart';
 import 'package:hybrid_assistance/pages/classroom/classrooms_page.dart';
 import 'package:hybrid_assistance/pages/course/course_form.dart';
+import 'package:hybrid_assistance/pages/course/courses_page.dart';
 import 'package:hybrid_assistance/pages/departament/department_form.dart';
 import 'package:hybrid_assistance/pages/home/home_controller.dart';
 import 'package:hybrid_assistance/pages/home/home_page.dart';
 import 'package:hybrid_assistance/pages/login/login_page.dart';
+import 'package:hybrid_assistance/pages/shedule/schedules_page.dart';
 import 'package:hybrid_assistance/pages/student/class_details.dart';
 import 'package:hybrid_assistance/pages/student/class_details_controller.dart';
 import 'package:hybrid_assistance/pages/departament/departments_page.dart';
 import 'package:hybrid_assistance/pages/group/group_form.dart';
 import 'package:hybrid_assistance/pages/group/groups_page.dart';
-import 'package:hybrid_assistance/pages/home/home_page.dart';
-import 'package:hybrid_assistance/pages/login/login_page.dart';
 import 'package:hybrid_assistance/pages/shedule/schedule_form.dart';
 import 'package:hybrid_assistance/pages/student/student_form.dart';
 import 'package:hybrid_assistance/pages/teacher/list_controller.dart';
@@ -179,6 +180,18 @@ class AppPages {
       name: Routes.GROUPS,
       page: () => const GroupsPage(),
     ),
+    GetPage(
+      name: Routes.COURSES,
+      page: () => const CoursesPage(),
+    ),
+    GetPage(
+      name: Routes.ACADEMICLOADS,
+      page: () => const AcademicLoadsPage(),
+    ),
+    GetPage(
+      name: Routes.SCHEDULES,
+      page: () => const SchedulesPage(),
+    ),
   ];
 }
 
@@ -204,7 +217,10 @@ abstract class Routes {
   static const SUBJECTFORM = '/subject_form';
   static const GROUPS = '/groups';
   static const GROUPFORM = '/group_form';
+  static const COURSES = '/courses';
   static const COURSEFORM = '/course_form';
-  static const ACADEMICLOADFORM = '/academic_load';
+  static const ACADEMICLOADS = '/academic_loads';
+  static const ACADEMICLOADFORM = '/academic_load_form';
+  static const SCHEDULES = '/schedules';
   static const SCHEDULEFORM = '/schedule_form';
 }

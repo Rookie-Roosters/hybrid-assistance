@@ -26,7 +26,7 @@ class ScheduleForm extends GetView<ScheduleController> {
 
   @override
   Widget build(BuildContext context) {
-    final Schedule? update = Get.arguments;
+    final Schedule? update = Get.arguments['update'];
     if (update != null) controller.schedule = update;
 
     return Scaffold(
@@ -49,9 +49,10 @@ class ScheduleForm extends GetView<ScheduleController> {
                     decoration: const InputDecoration(
                       labelText: 'ID',
                     ),
-                    enabled: update == null,
-                    initialValue:
-                        update == null ? '' : controller.schedule.id.toString(),
+                    enabled: false,
+                    initialValue: update == null
+                        ? Get.arguments['initialId'].toString()
+                        : controller.schedule.id.toString(),
                     validator: (value) =>
                         controller.schedule.validateNumber(value)
                             ? null
@@ -61,7 +62,9 @@ class ScheduleForm extends GetView<ScheduleController> {
                   ),
                   const SizedBox(height: 20.0),
                   CourseDropdownButton(
-                    update: update?.course,
+                    update: update == null
+                        ? Get.arguments['initialValues']
+                        : update.course,
                     onSaved: (newValue) =>
                         controller.schedule.course = newValue,
                     onChanged: (value) {},

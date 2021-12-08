@@ -32,6 +32,19 @@ class AcademicLoad with ValidateUtils {
     return false;
   }
 
+  static Future<int> getId() async {
+    final result = await DatabaseService.to.connection.query('''
+      SELECT MAX(`id`)
+      FROM `academic_load`
+      ''');
+    if (result.length == 1) {
+      for (var row in result) {
+        return (row[0] ?? 0) + 1;
+      }
+    }
+    throw Exception('Bad consult.');
+  }
+
   static Future<AcademicLoad> getById(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
@@ -50,7 +63,28 @@ class AcademicLoad with ValidateUtils {
         );
       }
     }
-    throw Exception('Query returned more than one academic load or no academic load.');
+    throw Exception(
+        'Query returned more than one academic load or no academic load.');
+  }
+
+  static Future<List<AcademicLoad>> getByCourse(int id) async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT `id`, `id_student`, `id_course`
+      FROM `academic_load`
+      WHERE `id_course`=?;
+      ''',
+      [id],
+    );
+    List<AcademicLoad> academicLoads = [];
+    for (var row in result) {
+      academicLoads.add(AcademicLoad(
+        id: row[0],
+        student: await Student.getById(row[1]),
+        course: await Course.getById(row[2]),
+      ));
+    }
+    return academicLoads;
   }
 
   Future<void> add() async {
@@ -71,14 +105,19 @@ class AcademicLoad with ValidateUtils {
         UPDATE `academic_load`
         SET `id`=?,`id_student`=?,`id_course`=?
         WHERE `id`=?;
-        ''', [
-        id,
-        student!.id,
-        course!.id,
-        lastId ?? id
-      ]);
+        ''', [id, student!.id, course!.id, lastId ?? id]);
     } else {
       throw Exception('Invalid Data or academi load doesn\'t exist');
+    }
+  }
+
+  Future<void> delete() async {
+    if (await exist(id)) {
+      await DatabaseService.to.connection.query('''
+      DELETE FROM `academic_load` WHERE `id` = ?;
+      ''', [id]);
+    } else {
+      throw Exception('Academic Load doesn\'t exist');
     }
   }
 }

@@ -26,7 +26,7 @@ class CourseForm extends GetView<CourseController> {
 
   @override
   Widget build(BuildContext context) {
-    final Course? update = Get.arguments;
+    final Course? update = Get.arguments['update'];
     if (update != null) controller.course = update;
 
     return Scaffold(
@@ -49,9 +49,9 @@ class CourseForm extends GetView<CourseController> {
                     decoration: const InputDecoration(
                       labelText: 'ID',
                     ),
-                    enabled: update == null,
+                    enabled: false,
                     initialValue:
-                        update == null ? '' : controller.course.id.toString(),
+                        update == null ? Get.arguments['initialId'].toString() : controller.course.id.toString(),
                     validator: (value) =>
                         controller.course.validateNumber(value)
                             ? null
@@ -62,7 +62,7 @@ class CourseForm extends GetView<CourseController> {
                   const SizedBox(height: 20.0),
                   const Text('Grupo'),
                   GroupDropdownButton(
-                    update: update?.group,
+                    update: update == null ? Get.arguments['initialValues']['group'] : update.group,
                     onSaved: (newValue) => controller.course.group = newValue,
                     onChanged: (value) {},
                   ),
@@ -71,7 +71,7 @@ class CourseForm extends GetView<CourseController> {
                   ),
                   const Text('Materia'),
                   SubjectDropdownButton(
-                    update: update?.subject,
+                    update: update == null ? Get.arguments['initialValues']['subject'] : update.subject,
                     onSaved: (newValue) => controller.course.subject = newValue,
                     onChanged: (value) {},
                   ),

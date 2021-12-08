@@ -38,6 +38,21 @@ class Course with ValidateUtils {
     return false;
   }
 
+  static Future<int> getId() async {
+    final result = await DatabaseService.to.connection.query(
+      '''
+      SELECT MAX(`id`)
+      FROM `course`
+      '''
+    );
+    if (result.length == 1) {
+      for (var row in result) {
+        return (row[0] ?? 0) + 1;
+      }
+    }
+    throw Exception('Bad consult.');
+  }
+
   static Future<Course> getById(int id) async {
     final result = await DatabaseService.to.connection.query(
       '''
@@ -113,6 +128,16 @@ class Course with ValidateUtils {
       ]);
     } else {
       throw Exception('Invalid Data or Group doesn\'t exist');
+    }
+  }
+
+  Future<void> delete() async {
+    if (await exist(id)) {
+      await DatabaseService.to.connection.query('''
+      DELETE FROM `course` WHERE `id` = ?;
+      ''', [id]);
+    } else {
+      throw Exception('Course doesn\'t exist');
     }
   }
 }

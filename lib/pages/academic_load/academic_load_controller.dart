@@ -12,7 +12,7 @@ class AcademicLoadController {
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
       academicLoad.student = await Student.getById(idStudent!);
-      academicLoad.add();
+      await academicLoad.add();
       Get.back();
     }
   }
@@ -22,7 +22,7 @@ class AcademicLoadController {
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
       academicLoad.student = await Student.getById(idStudent!);
-      academicLoad.update(lastId: lastId);
+      await academicLoad.update(lastId: lastId);
       Get.back();
     }
   }

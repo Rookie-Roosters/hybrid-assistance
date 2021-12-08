@@ -12,7 +12,7 @@ class ScheduleController {
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
       schedule.classroom = await Classroom.getById(idClassroom!);
-      schedule.add();
+      await schedule.add();
       Get.back();
     }
   }
@@ -22,7 +22,7 @@ class ScheduleController {
     if (formStateKey.currentState!.validate()) {
       formStateKey.currentState!.save();
       schedule.classroom = await Classroom.getById(idClassroom!);
-      schedule.update(lastId: lastId);
+      await schedule.update(lastId: lastId);
       Get.back();
     }
   }
