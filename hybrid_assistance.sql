@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-12-2021 a las 02:23:33
+-- Tiempo de generación: 09-12-2021 a las 21:32:08
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.12
 
@@ -33,6 +33,15 @@ CREATE TABLE `academic_load` (
   `id_course` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `academic_load`
+--
+
+INSERT INTO `academic_load` (`id`, `id_student`, `id_course`) VALUES
+(5, 227832, 7),
+(4, 228552, 7),
+(3, 269547, 7);
+
 -- --------------------------------------------------------
 
 --
@@ -44,6 +53,13 @@ CREATE TABLE `admin` (
   `password` varchar(20) NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `admin`
+--
+
+INSERT INTO `admin` (`id`, `password`, `name`) VALUES
+(1, 'Admin1234', 'Admin1234');
 
 -- --------------------------------------------------------
 
@@ -71,6 +87,13 @@ CREATE TABLE `career` (
   `name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `career`
+--
+
+INSERT INTO `career` (`id`, `id_department`, `name`) VALUES
+(66, 10, 'Ingeniería en Computación Inteligente');
+
 -- --------------------------------------------------------
 
 --
@@ -82,6 +105,21 @@ CREATE TABLE `center` (
   `name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `center`
+--
+
+INSERT INTO `center` (`id`, `name`) VALUES
+(67545, 'Centro de Ciencias Agropecuarias'),
+(67546, 'Centro de Ciencias Básicas'),
+(67547, 'Centro de Ciencias de la Ingeniería'),
+(67548, 'Centro de Ciencias de la Salud'),
+(67549, 'Centro de Ciencias del Diseño y la Construcción'),
+(67550, 'Centro de Ciencias Económicas y Administrativas'),
+(67551, 'Centro de Ciencias Empresariales'),
+(67552, 'Centro de Ciencias Sociales y Humanidades'),
+(67553, 'Centro de las Artes y la Cultura');
+
 -- --------------------------------------------------------
 
 --
@@ -92,6 +130,13 @@ CREATE TABLE `classroom` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `classroom`
+--
+
+INSERT INTO `classroom` (`id`, `name`) VALUES
+(1, '54-A');
 
 -- --------------------------------------------------------
 
@@ -107,6 +152,13 @@ CREATE TABLE `course` (
   `attendance_code` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `course`
+--
+
+INSERT INTO `course` (`id`, `id_group`, `id_subject`, `id_teacher`, `attendance_code`) VALUES
+(7, 1, 10, 9864, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -118,6 +170,23 @@ CREATE TABLE `department` (
   `id_center` int(11) NOT NULL,
   `name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `department`
+--
+
+INSERT INTO `department` (`id`, `id_center`, `name`) VALUES
+(9, 67546, 'Biología'),
+(10, 67546, 'Ciencias de la Computación'),
+(11, 67546, 'Estadística'),
+(12, 67546, 'Fisiología y Farmacología'),
+(13, 67546, 'Ingenería Bioquímica'),
+(14, 67546, 'Matemáticas y Física'),
+(15, 67546, 'Microbiología'),
+(16, 67546, 'Morfología'),
+(17, 67546, 'Química'),
+(18, 67546, 'Sistemas de Información'),
+(19, 67546, 'Sistemas Electrónicos');
 
 -- --------------------------------------------------------
 
@@ -131,6 +200,13 @@ CREATE TABLE `group` (
   `generation` varchar(50) NOT NULL,
   `letter` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `group`
+--
+
+INSERT INTO `group` (`id`, `id_career`, `generation`, `letter`) VALUES
+(1, 66, '2019-2023', 'A');
 
 -- --------------------------------------------------------
 
@@ -163,6 +239,15 @@ CREATE TABLE `student` (
   `picture` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `student`
+--
+
+INSERT INTO `student` (`id`, `name`, `password`, `firstLastName`, `secondLastName`, `nickname`, `picture`) VALUES
+(227832, 'Sandra Jacqueline', 'Contra1234', 'López', 'Serna', NULL, NULL),
+(228552, 'Manuel', 'Contra1234', 'González', 'Martínez', NULL, NULL),
+(269547, 'Leonel Iván', 'Contra1234', 'Fernández', 'Carrillo', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -174,6 +259,18 @@ CREATE TABLE `subject` (
   `id_department` int(11) NOT NULL,
   `name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `subject`
+--
+
+INSERT INTO `subject` (`id`, `id_department`, `name`) VALUES
+(5, 10, 'Optimización Inteligente'),
+(6, 10, 'Autómatas I'),
+(7, 10, 'Arquitectura Inteligente de Desarrollo Híbrido'),
+(8, 10, 'Lenguajes Inteligentes'),
+(9, 14, 'Ecuaciones Diferenciales'),
+(10, 18, 'Base de Datos');
 
 -- --------------------------------------------------------
 
@@ -195,7 +292,7 @@ CREATE TABLE `teacher` (
 --
 
 INSERT INTO `teacher` (`id`, `name`, `firstLastName`, `secondLastName`, `password`, `picture`) VALUES
-(10000, 'Aurora', 'Torres', 'Soto', 'Admin1234', '');
+(9864, 'Cesar Eduardo', 'Velazquez', 'Amador', 'Profe1234', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -300,7 +397,7 @@ ALTER TABLE `teacher`
 -- AUTO_INCREMENT de la tabla `academic_load`
 --
 ALTER TABLE `academic_load`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `admin`
@@ -324,7 +421,7 @@ ALTER TABLE `career`
 -- AUTO_INCREMENT de la tabla `center`
 --
 ALTER TABLE `center`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67545;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67554;
 
 --
 -- AUTO_INCREMENT de la tabla `classroom`
@@ -336,13 +433,13 @@ ALTER TABLE `classroom`
 -- AUTO_INCREMENT de la tabla `course`
 --
 ALTER TABLE `course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `department`
 --
 ALTER TABLE `department`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `group`
@@ -366,7 +463,7 @@ ALTER TABLE `student`
 -- AUTO_INCREMENT de la tabla `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `teacher`
