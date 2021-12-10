@@ -33,7 +33,7 @@ class ClassDetailsController extends GetxController with StateMixin {
         await getStatus();
       }
     } else {
-      if (daysBetween(selectedDate, DateTime.now()) > 0) {
+      if (daysBetween(selectedDate, DateTime.now()) >= 0) {
         await getStatus();
       }
     }
@@ -44,7 +44,9 @@ class ClassDetailsController extends GetxController with StateMixin {
     try {
       todaysAttendance = await Attendance.getAttendance(selectedClass.id, int.parse(userId!), selectedDate);
     } on Exception catch (_) {
+      if (daysBetween(selectedDate, DateTime.now()) > 0){
       message = 'No hubo asistencia este dia';
+      }
       stat = false;
     }
   }
