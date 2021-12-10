@@ -18,10 +18,10 @@ class Calendar extends GetView<TheCalendarController> {
                 // Metanle bustra
                 return Container(
                   constraints: const BoxConstraints(maxHeight: 55),
-                  child: WorthyText.bodySmall(
+                  child: Card(color:Colors.blue[100], child:WorthyText.bodySmall(
                     events[0].title,
                     style: const TextStyle(overflow: TextOverflow.fade),
-                  ),
+                  )),
                 );
               },
               showLiveTimeLineInAllDays: true,

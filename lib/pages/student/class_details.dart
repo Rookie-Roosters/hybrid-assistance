@@ -18,21 +18,21 @@ class ClassDetails extends GetView<ClassDetailsController> {
   Widget build(BuildContext context) {
     return controller.obx((state) {
       return Scaffold(
-          body: Column(mainAxisSize: MainAxisSize.max, crossAxisAlignment: CrossAxisAlignment.center, children: [
+          body: Column(mainAxisSize: MainAxisSize.max, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         kSpacer,
-        WorthyText.body(controller.selectedDate.toString()),
+        WorthyText.body(controller.selectedDate.toString().substring(0,10), textAlign: TextAlign.center),
         IconButton(
           icon: const Icon(LineIcons.arrowLeft),
           onPressed: () => controller.returnHome(),
         ),
-        WorthyText.heading2(controller.selectedClass.subject),
+        WorthyText.heading2(controller.selectedClass.subject, textAlign: TextAlign.center),
         WorthyText.body(
-            controller.selectedClass.startTime.toString().substring(11, 16) + " - " + controller.selectedClass.endTime.toString().substring(11, 16)),
-        WorthyText.body("Edificio " + controller.selectedClass.classroom!),
+            controller.selectedClass.startTime.toString().substring(11, 16) + " - " + controller.selectedClass.endTime.toString().substring(11, 16), textAlign: TextAlign.center),
+        WorthyText.body("Edificio " + controller.selectedClass.classroom!, textAlign: TextAlign.center),
         kSpacerY5,
         Visibility(
           visible: (controller.todaysAttendance.status.index == 0),
-          child: Column(mainAxisSize: MainAxisSize.max, crossAxisAlignment: CrossAxisAlignment.center, children: [
+          child: Column(mainAxisSize: MainAxisSize.max, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             WorthyText.heading3('Confirmar asistencia'),
             Form(
                 key: controller.formStateKey,
@@ -68,12 +68,12 @@ class ClassDetails extends GetView<ClassDetailsController> {
           ]),
         ),
         if (controller.todaysAttendance.id != 0 && (controller.todaysAttendance.status.index != 0))
-          Column(mainAxisSize: MainAxisSize.max, crossAxisAlignment: CrossAxisAlignment.center, children: [
-            WorthyText.heading3('Asistencia de hoy'),
-            WorthyText.heading2(controller.todaysAttendance.status.statusName),
+          Column(mainAxisSize: MainAxisSize.max, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            WorthyText.heading3('Asistencia de hoy', textAlign: TextAlign.center),
+            WorthyText.heading2(controller.todaysAttendance.status.statusName, textAlign: TextAlign.center),
           ])
         else if (!controller.stat)
-          WorthyText.heading3(controller.message),
+          WorthyText.heading3(controller.message, textAlign: TextAlign.center),
         kSpacer,
       ]));
     }, onLoading: const Scaffold(body: CircularProgressIndicator()));

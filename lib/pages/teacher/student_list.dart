@@ -19,7 +19,7 @@ class StudentList extends GetView<ListController> {
           body: Column(mainAxisSize: MainAxisSize.max, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         kSpacer,
         WorthyText.body(
-          controller.selectedDate.toString(),
+          controller.selectedDate.toString().substring(0,10),
           textAlign: TextAlign.center,
         ),
         IconButton(
