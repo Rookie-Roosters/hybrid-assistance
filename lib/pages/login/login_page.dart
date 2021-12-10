@@ -9,6 +9,7 @@ import 'package:hybrid_assistance/components/worthy/worthy_container.dart';
 import 'package:hybrid_assistance/components/worthy/worthy_text.dart';
 import 'package:hybrid_assistance/components/worthy/worthy_text_field.dart';
 import 'package:hybrid_assistance/config/app_themes.dart';
+import 'package:hybrid_assistance/services/session_sevice.dart';
 import 'package:hybrid_assistance/utils/format_utils.dart';
 import 'package:hybrid_assistance/utils/ui_utils.dart';
 import 'package:line_icons/line_icons.dart';
@@ -45,6 +46,7 @@ class LogInPage extends GetView<LogInController> {
                 margin: kPadding2,
                 header: DirectSelectList<UserTypes>(
                   values: UserTypes.values,
+                  defaultItemIndex: controller.selectedUserType.index,
                   focusedItemDecoration: const BoxDecoration(border: Border.symmetric(horizontal: BorderSide(width: 1, color: Colors.black12))),
                   onItemSelectedListener: (value, index, context) => controller.selectedUserType = value,
                   itemBuilder: (value) => DirectSelectItem(
@@ -87,7 +89,9 @@ class LogInPage extends GetView<LogInController> {
               ),
             ),
             kSpacerY,
-            //WorthyText.bodyLarge(controller.errorMessage, textAlign: TextAlign.center, color: Colors.red.withOpacity(0.8)),
+            Obx(
+              () => WorthyText.bodyLarge(controller.errorMessage.value, textAlign: TextAlign.center, color: Colors.red.withOpacity(0.8)),
+            ),
             kSpacer,
             const LogoRookieRoosters().centered(),
             kSpacer,

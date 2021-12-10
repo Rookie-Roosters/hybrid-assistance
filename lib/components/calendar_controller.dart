@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hybrid_assistance/config/app_pages.dart';
 import 'package:hybrid_assistance/models/schedule_view_model.dart';
 import 'package:hybrid_assistance/pages/login/login_page.dart';
+import 'package:hybrid_assistance/services/session_sevice.dart';
 import 'package:intl/intl.dart';
 
 class TheCalendarController extends GetxController with StateMixin {

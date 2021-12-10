@@ -1,7 +1,5 @@
 import 'dart:math';
-
 import 'package:hybrid_assistance/services/database_service.dart';
-import 'package:hybrid_assistance/utils/format_utils.dart';
 import 'package:intl/intl.dart';
 
 enum AttendanceStatus { absent, present, online }
@@ -88,7 +86,7 @@ class StudentAttendance {
           INSERT INTO `attendance`
           (`id`,`id_student`,`id_schedule`,`date_time`,`status`)
           VALUES (NULL,?,?,?,?);
-          ''', [studentId, scheduleId, DateTime.now().subtract(const Duration(hours:2)).toUtc(), 0]);
+          ''', [studentId, scheduleId, DateTime.now().subtract(const Duration(hours: 2)).toUtc(), 0]);
         if (result.isEmpty) {
           code = 2;
         }
@@ -97,10 +95,9 @@ class StudentAttendance {
     return code.toString();
   }
 
-  static Future<List<StudentAttendance>> getAttendanceList(
-      int scheduleId, DateTime date) async {
-      List<String> targetDay = date.subtract(const Duration(hours:6)).toString().split('.');
-      List<String> nextDay = date.add(const Duration(days:1)).subtract(const Duration(hours:6)).toString().split('.');
+  static Future<List<StudentAttendance>> getAttendanceList(int scheduleId, DateTime date) async {
+    List<String> targetDay = date.subtract(const Duration(hours: 6)).toString().split('.');
+    List<String> nextDay = date.add(const Duration(days: 1)).subtract(const Duration(hours: 6)).toString().split('.');
     List<StudentAttendance>? attendanceList = [];
     final result = await DatabaseService.to.connection.query(
       '''
@@ -116,12 +113,7 @@ class StudentAttendance {
     if (result.isNotEmpty) {
       for (var row in result) {
         attendanceList.add(StudentAttendance(
-            id: row[0],
-            name: row[1],
-            firstLastName: row[2],
-            secondLastName: row[3],
-            status: AttendanceStatus.values[row[4]],
-            attendanceId: row[5]));
+            id: row[0], name: row[1], firstLastName: row[2], secondLastName: row[3], status: AttendanceStatus.values[row[4]], attendanceId: row[5]));
       }
     }
     return attendanceList;
@@ -137,7 +129,6 @@ class StudentAttendance {
     }
   }
 }
-
 
 extension AttendanceExtension on AttendanceStatus {
   String get statusName {

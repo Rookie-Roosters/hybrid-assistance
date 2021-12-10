@@ -6,7 +6,6 @@ import 'package:hybrid_assistance/config/app_pages.dart';
 import 'package:hybrid_assistance/models/attendance.dart';
 import 'package:hybrid_assistance/models/schedule_view_model.dart';
 import 'package:get/get.dart';
-import 'package:hybrid_assistance/pages/teacher/list_controller.dart';
 
 class ClassDetailsController extends GetxController with StateMixin {
   final GlobalKey<FormState> formStateKey = GlobalKey<FormState>();
@@ -28,7 +27,7 @@ class ClassDetailsController extends GetxController with StateMixin {
 
   void checkCode() async {
     change(null, status: RxStatus.loading());
-    if ((daysBetween(selectedDate, DateTime.now()) == 0) && (checkTime())){
+    if ((daysBetween(selectedDate, DateTime.now()) == 0) && (checkTime())) {
       stat = await Attendance.checkCode(selectedClass.id, int.parse(userId!));
       if (stat) {
         await getStatus();
@@ -42,17 +41,16 @@ class ClassDetailsController extends GetxController with StateMixin {
   }
 
   Future<void> getStatus() async {
-    try{
-    todaysAttendance = await Attendance.getAttendance(
-        selectedClass.id, int.parse(userId!), selectedDate);
-    }on Exception catch(_){
+    try {
+      todaysAttendance = await Attendance.getAttendance(selectedClass.id, int.parse(userId!), selectedDate);
+    } on Exception catch (_) {
       message = 'No hubo asistencia este dia';
       stat = false;
     }
   }
 
-void changeStatus(AttendanceStatus value) {
-  selectedStatus = value;
+  void changeStatus(AttendanceStatus value) {
+    selectedStatus = value;
     update();
   }
 
@@ -63,29 +61,30 @@ void changeStatus(AttendanceStatus value) {
   Future<void> edit() async {
     if (formStateKey.currentState?.validate() ?? false) {
       buttonKey.currentState?.setStatus(WorthyButtonStatus.LOADING);
-    message = await Attendance.update(todaysAttendance.id, todaysAttendance.schedule!, code.text, selectedStatus);
-    if(message == ''){
-      stat = true;
-      todaysAttendance.status = selectedStatus;
-    }else{
-      stat = false;
-    }
-    update();
-    buttonKey.currentState?.setStatus(WorthyButtonStatus.IDLE);
+      message = await Attendance.update(todaysAttendance.id, todaysAttendance.schedule!, code.text, selectedStatus);
+      if (message == '') {
+        stat = true;
+        todaysAttendance.status = selectedStatus;
+      } else {
+        stat = false;
+      }
+      update();
+      buttonKey.currentState?.setStatus(WorthyButtonStatus.IDLE);
     }
   }
-  bool checkTime(){
-    if((DateTime.now().hour == selectedClass.startTime.hour)||((DateTime.now().hour+1 == selectedClass.endTime.hour)&&(DateTime.now().minute < selectedClass.endTime.minute+15))){
+
+  bool checkTime() {
+    if ((DateTime.now().hour == selectedClass.startTime.hour) ||
+        ((DateTime.now().hour + 1 == selectedClass.endTime.hour) && (DateTime.now().minute < selectedClass.endTime.minute + 15))) {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   }
 
-    int daysBetween(DateTime from, DateTime to) {
+  int daysBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
-  return (to.difference(from).inHours / 24).round();
-}
+    return (to.difference(from).inHours / 24).round();
+  }
 }

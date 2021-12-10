@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hybrid_assistance/config/app_pages.dart';
+import 'package:hybrid_assistance/config/app_themes.dart';
 import 'package:hybrid_assistance/models/course.dart';
 import 'package:hybrid_assistance/models/schedule.dart';
+import 'package:hybrid_assistance/utils/ui_utils.dart';
 import 'package:hybrid_assistance/widgets/course_dropdown.dart';
 import 'package:intl/intl.dart';
 
@@ -42,9 +44,9 @@ class _SchedulesPageState extends State<SchedulesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       appBar: AppBar(
         title: const Text('Horario'),
-        backgroundColor: Colors.blue,
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -59,8 +61,11 @@ class _SchedulesPageState extends State<SchedulesPage> {
           ),
         ],
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(kBorderRadius)),
+        child: Container(
+          color: kSurfaceColor,
+          alignment: Alignment.center,
           child: Column(
             children: [
               const SizedBox(height: 20.0),
@@ -78,23 +83,20 @@ class _SchedulesPageState extends State<SchedulesPage> {
                 height: 20.0,
               ),
               schedules.isNotEmpty
-                  ? SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      child: Expanded(
-                        child: ListView.builder(
-                          itemCount: schedules.length,
-                          itemBuilder: (context, index) {
-                            return ScheduleCard(
-                              schedule: schedules[index],
-                              onChanged: loadData,
-                            );
-                          },
-                        ),
-                      ),
+                  ? ListView.builder(
+                      itemCount: schedules.length,
+                      shrinkWrap: true,
+                      physics: kNeverScroll,
+                      itemBuilder: (context, index) {
+                        return ScheduleCard(
+                          schedule: schedules[index],
+                          onChanged: loadData,
+                        );
+                      },
                     )
                   : const Text('No se encontró ningúna Hora'),
             ],
-          ),
+          ).scrollable(padding: kPadding).aligned(Alignment.topCenter),
         ),
       ),
     );
@@ -104,9 +106,7 @@ class _SchedulesPageState extends State<SchedulesPage> {
 class ScheduleCard extends StatelessWidget {
   final Schedule schedule;
   final void Function() onChanged;
-  const ScheduleCard(
-      {Key? key, required this.schedule, required this.onChanged})
-      : super(key: key);
+  const ScheduleCard({Key? key, required this.schedule, required this.onChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -133,11 +133,7 @@ class ScheduleCard extends StatelessWidget {
             },
           ),
           onTap: () async {
-            await Get.toNamed(Routes.SCHEDULEFORM, arguments: {
-              "update": schedule,
-              "initialId": null,
-              "initialValues": null
-            });
+            await Get.toNamed(Routes.SCHEDULEFORM, arguments: {"update": schedule, "initialId": null, "initialValues": null});
             onChanged();
           }),
     );

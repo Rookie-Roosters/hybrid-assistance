@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hybrid_assistance/config/app_pages.dart';
+import 'package:hybrid_assistance/config/app_themes.dart';
 import 'package:hybrid_assistance/models/department.dart';
 import 'package:hybrid_assistance/models/subject.dart';
+import 'package:hybrid_assistance/utils/ui_utils.dart';
 import 'package:hybrid_assistance/widgets/department_dropdown.dart';
 
 class SubjectsPage extends StatefulWidget {
@@ -41,9 +43,9 @@ class _SubjectsPageState extends State<SubjectsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       appBar: AppBar(
         title: const Text('Materias'),
-        backgroundColor: Colors.blue,
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -58,37 +60,42 @@ class _SubjectsPageState extends State<SubjectsPage> {
           ),
         ],
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 20.0),
-            DepartmentDropdownButton(
-              onSaved: (value) {},
-              update: null,
-              onChanged: (value) {
-                setState(() {
-                  department = value;
-                  loadData();
-                });
-              },
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            subjects.isNotEmpty
-                ? Expanded(
-                    child: ListView.builder(
+      body: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(kBorderRadius)),
+        child: Container(
+          color: kSurfaceColor,
+          alignment: Alignment.center,
+          child: Column(
+            children: [
+              const SizedBox(height: 20.0),
+              DepartmentDropdownButton(
+                onSaved: (value) {},
+                update: null,
+                onChanged: (value) {
+                  setState(() {
+                    department = value;
+                    loadData();
+                  });
+                },
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              subjects.isNotEmpty
+                  ? ListView.builder(
                       itemCount: subjects.length,
+                      shrinkWrap: true,
+                      physics: kNeverScroll,
                       itemBuilder: (context, index) {
                         return SubjectCard(
                           subject: subjects[index],
                           onChanged: loadData,
-                        );
+                        ).pb2;
                       },
-                    ),
-                  )
-                : const Text('No se encontró ningúna Materia'),
-          ],
+                    )
+                  : const Text('No se encontró ningúna Materia'),
+            ],
+          ).scrollable(padding: kPadding).aligned(Alignment.topCenter),
         ),
       ),
     );
@@ -98,9 +105,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
 class SubjectCard extends StatelessWidget {
   final Subject subject;
   final void Function() onChanged;
-  const SubjectCard(
-      {Key? key, required this.subject, required this.onChanged})
-      : super(key: key);
+  const SubjectCard({Key? key, required this.subject, required this.onChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -115,8 +120,7 @@ class SubjectCard extends StatelessWidget {
             },
           ),
           onTap: () async {
-            await Get.toNamed(Routes.SUBJECTFORM,
-                arguments: {"update": subject, "initialId": null, "initialValues": null});
+            await Get.toNamed(Routes.SUBJECTFORM, arguments: {"update": subject, "initialId": null, "initialValues": null});
             onChanged();
           }),
     );

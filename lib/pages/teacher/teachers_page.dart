@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hybrid_assistance/config/app_pages.dart';
+import 'package:hybrid_assistance/config/app_themes.dart';
 import 'package:hybrid_assistance/models/teacher.dart';
+import 'package:hybrid_assistance/utils/ui_utils.dart';
 
 class TeachersPage extends StatefulWidget {
   const TeachersPage({Key? key}) : super(key: key);
@@ -29,31 +31,34 @@ class _TeachersPageState extends State<TeachersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       appBar: AppBar(
         title: const Text('Maestros'),
-        backgroundColor: Colors.blue,
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () async {
-              await Get.toNamed(Routes.TEACHERFORM, arguments: {
-                "update": null,
-                "initialId": null
-              });
+              await Get.toNamed(Routes.TEACHERFORM, arguments: {"update": null, "initialId": null});
               loadData();
             },
           ),
         ],
       ),
-      body: SafeArea(
-        child: ListView.builder(
-          itemCount: teachers.length,
-          itemBuilder: (context, index) {
-            return TeacherCard(
-              teacher: teachers[index],
-              onChanged: loadData,
-            );
-          },
+      body: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(kBorderRadius)),
+        child: Container(
+          color: kSurfaceColor,
+          child: ListView.builder(
+            padding: kPadding,
+            physics: kBouncyScroll,
+            itemCount: teachers.length,
+            itemBuilder: (context, index) {
+              return TeacherCard(
+                teacher: teachers[index],
+                onChanged: loadData,
+              );
+            },
+          ),
         ),
       ),
     );
@@ -63,8 +68,7 @@ class _TeachersPageState extends State<TeachersPage> {
 class TeacherCard extends StatelessWidget {
   final Teacher teacher;
   final void Function() onChanged;
-  const TeacherCard({Key? key, required this.teacher, required this.onChanged})
-      : super(key: key);
+  const TeacherCard({Key? key, required this.teacher, required this.onChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +83,7 @@ class TeacherCard extends StatelessWidget {
             },
           ),
           onTap: () async {
-            await Get.toNamed(Routes.TEACHERFORM,
-                arguments: {"update": teacher, "initialId": null});
+            await Get.toNamed(Routes.TEACHERFORM, arguments: {"update": teacher, "initialId": null});
             onChanged();
           }),
     );

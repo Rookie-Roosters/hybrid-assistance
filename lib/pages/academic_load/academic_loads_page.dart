@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hybrid_assistance/config/app_pages.dart';
+import 'package:hybrid_assistance/config/app_themes.dart';
 import 'package:hybrid_assistance/models/course.dart';
 import 'package:hybrid_assistance/models/academic_load.dart';
+import 'package:hybrid_assistance/utils/ui_utils.dart';
 import 'package:hybrid_assistance/widgets/course_dropdown.dart';
 
 class AcademicLoadsPage extends StatefulWidget {
@@ -41,9 +43,9 @@ class _AcademicLoadsPageState extends State<AcademicLoadsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       appBar: AppBar(
         title: const Text('Cargas Académicas'),
-        backgroundColor: Colors.blue,
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -58,8 +60,11 @@ class _AcademicLoadsPageState extends State<AcademicLoadsPage> {
           ),
         ],
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(kBorderRadius)),
+        child: Container(
+          color: kSurfaceColor,
+          alignment: Alignment.center,
           child: Column(
             children: [
               const SizedBox(height: 20.0),
@@ -77,23 +82,20 @@ class _AcademicLoadsPageState extends State<AcademicLoadsPage> {
                 height: 20.0,
               ),
               academicLoads.isNotEmpty
-                  ? SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    child: Expanded(
-                        child: ListView.builder(
-                          itemCount: academicLoads.length,
-                          itemBuilder: (context, index) {
-                            return AcademicLoadCard(
-                              academicLoad: academicLoads[index],
-                              onChanged: loadData,
-                            );
-                          },
-                        ),
-                      ),
-                  )
+                  ? ListView.builder(
+                      itemCount: academicLoads.length,
+                      shrinkWrap: true,
+                      physics: kNeverScroll,
+                      itemBuilder: (context, index) {
+                        return AcademicLoadCard(
+                          academicLoad: academicLoads[index],
+                          onChanged: loadData,
+                        ).pb2;
+                      },
+                    )
                   : const Text('No se encontró ningún Carga Académica'),
             ],
-          ),
+          ).scrollable(padding: kPadding).aligned(Alignment.topCenter),
         ),
       ),
     );
@@ -103,9 +105,7 @@ class _AcademicLoadsPageState extends State<AcademicLoadsPage> {
 class AcademicLoadCard extends StatelessWidget {
   final AcademicLoad academicLoad;
   final void Function() onChanged;
-  const AcademicLoadCard(
-      {Key? key, required this.academicLoad, required this.onChanged})
-      : super(key: key);
+  const AcademicLoadCard({Key? key, required this.academicLoad, required this.onChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -126,11 +126,7 @@ class AcademicLoadCard extends StatelessWidget {
             },
           ),
           onTap: () async {
-            await Get.toNamed(Routes.ACADEMICLOADFORM, arguments: {
-              "update": academicLoad,
-              "initialId": null,
-              "initialValues": null
-            });
+            await Get.toNamed(Routes.ACADEMICLOADFORM, arguments: {"update": academicLoad, "initialId": null, "initialValues": null});
             onChanged();
           }),
     );

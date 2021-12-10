@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hybrid_assistance/components/worthy/worthy_button.dart';
+import 'package:hybrid_assistance/config/app_themes.dart';
 import 'package:hybrid_assistance/models/classroom.dart';
 import 'package:hybrid_assistance/models/schedule.dart';
+import 'package:hybrid_assistance/utils/ui_utils.dart';
 import 'package:hybrid_assistance/widgets/course_dropdown.dart';
 import 'package:intl/intl.dart';
 import 'schedule_controller.dart';
@@ -30,43 +33,36 @@ class ScheduleForm extends GetView<ScheduleController> {
     if (update != null) controller.schedule = update;
 
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: update == null
-            ? const Text('Agregar Carga Académica')
-            : const Text('Modificar Carga Académica'),
+        title: update == null ? const Text('Agregar Horario') : const Text('Modificar Horario'),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Form(
-            key: controller.formStateKey,
-            autovalidateMode: AutovalidateMode.always,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
+      body: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(kBorderRadius)),
+        child: Container(
+          color: kSurfaceColor,
+          alignment: Alignment.center,
+          child: Container(
+            alignment: Alignment.topCenter,
+            child: Form(
+              key: controller.formStateKey,
+              autovalidateMode: AutovalidateMode.always,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   TextFormField(
                     decoration: const InputDecoration(
                       labelText: 'ID',
                     ),
                     enabled: false,
-                    initialValue: update == null
-                        ? Get.arguments['initialId'].toString()
-                        : controller.schedule.id.toString(),
-                    validator: (value) =>
-                        controller.schedule.validateNumber(value)
-                            ? null
-                            : 'ID no válido',
-                    onSaved: (value) => controller.schedule.id =
-                        value == null ? 0 : int.tryParse(value)!,
+                    initialValue: update == null ? Get.arguments['initialId'].toString() : controller.schedule.id.toString(),
+                    validator: (value) => controller.schedule.validateNumber(value) ? null : 'ID no válido',
+                    onSaved: (value) => controller.schedule.id = value == null ? 0 : int.tryParse(value)!,
                   ),
                   const SizedBox(height: 20.0),
                   CourseDropdownButton(
-                    update: update == null
-                        ? Get.arguments['initialValues']
-                        : update.course,
-                    onSaved: (newValue) =>
-                        controller.schedule.course = newValue,
+                    update: update == null ? Get.arguments['initialValues'] : update.course,
+                    onSaved: (newValue) => controller.schedule.course = newValue,
                     onChanged: (value) {},
                   ),
                   const SizedBox(
@@ -81,16 +77,9 @@ class ScheduleForm extends GetView<ScheduleController> {
                       labelText: 'Hora de Inicio',
                       hintText: 'Ej. 18:30',
                     ),
-                    initialValue: update == null
-                        ? ''
-                        : DateFormat('HH:mm')
-                            .format(controller.schedule.startTime),
-                    validator: (value) =>
-                        controller.schedule.validateTime(value)
-                            ? null
-                            : 'Hora no válida',
-                    onSaved: (value) => controller.schedule.startTime =
-                        DateFormat("hh:mm").parse(value!),
+                    initialValue: update == null ? '' : DateFormat('HH:mm').format(controller.schedule.startTime),
+                    validator: (value) => controller.schedule.validateTime(value) ? null : 'Hora no válida',
+                    onSaved: (value) => controller.schedule.startTime = DateFormat("hh:mm").parse(value!),
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -100,16 +89,9 @@ class ScheduleForm extends GetView<ScheduleController> {
                       labelText: 'Hora de Finalización',
                       hintText: 'Ej. 18:30',
                     ),
-                    initialValue: update == null
-                        ? ''
-                        : DateFormat('HH:mm')
-                            .format(controller.schedule.endTime),
-                    validator: (value) =>
-                        controller.schedule.validateTime(value)
-                            ? null
-                            : 'Hora no válida',
-                    onSaved: (value) => controller.schedule.endTime =
-                        DateFormat("hh:mm").parse(value!),
+                    initialValue: update == null ? '' : DateFormat('HH:mm').format(controller.schedule.endTime),
+                    validator: (value) => controller.schedule.validateTime(value) ? null : 'Hora no válida',
+                    onSaved: (value) => controller.schedule.endTime = DateFormat("hh:mm").parse(value!),
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -118,20 +100,16 @@ class ScheduleForm extends GetView<ScheduleController> {
                     decoration: const InputDecoration(
                       labelText: 'ID Salón',
                     ),
-                    initialValue: update == null
-                        ? ''
-                        : controller.schedule.classroom!.id.toString(),
+                    initialValue: update == null ? '' : controller.schedule.classroom!.id.toString(),
                     validator: validateClassroom,
-                    onSaved: (value) =>
-                        controller.idClassroom = int.tryParse(value!)!,
+                    onSaved: (value) => controller.idClassroom = int.tryParse(value!)!,
                   ),
                   const Divider(
                     height: 36.0,
                   ),
-                  ElevatedButton(
-                    child: update == null
-                        ? const Text('Agregar')
-                        : const Text('Modificar'),
+                  WorthyButton.elevated(
+                    child: update == null ? const Text('Agregar') : const Text('Modificar'),
+                    color: kSecondaryColor,
                     onPressed: () {
                       if (update == null) {
                         controller.add();
@@ -141,7 +119,7 @@ class ScheduleForm extends GetView<ScheduleController> {
                     },
                   ),
                 ],
-              ),
+              ).scrollable(padding: kPadding),
             ),
           ),
         ),
@@ -152,8 +130,7 @@ class ScheduleForm extends GetView<ScheduleController> {
 
 class WeekDayDropdownButton extends StatefulWidget {
   final ScheduleController controller;
-  const WeekDayDropdownButton({Key? key, required this.controller})
-      : super(key: key);
+  const WeekDayDropdownButton({Key? key, required this.controller}) : super(key: key);
 
   @override
   _WeekDayDropdownButtonState createState() => _WeekDayDropdownButtonState();

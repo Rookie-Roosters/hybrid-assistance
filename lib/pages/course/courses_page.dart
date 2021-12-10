@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hybrid_assistance/config/app_pages.dart';
+import 'package:hybrid_assistance/config/app_themes.dart';
 import 'package:hybrid_assistance/models/group.dart';
 import 'package:hybrid_assistance/models/course.dart';
 import 'package:hybrid_assistance/models/subject.dart';
+import 'package:hybrid_assistance/utils/ui_utils.dart';
 import 'package:hybrid_assistance/widgets/group_dropdown.dart';
 import 'package:hybrid_assistance/widgets/subject_dropdown.dart';
 
@@ -32,7 +34,7 @@ class _CoursesPageState extends State<CoursesPage> {
       if (groups.isNotEmpty) {
         group = groups[0];
       }
-      if(subjects.isNotEmpty) {
+      if (subjects.isNotEmpty) {
         subject = subjects[0];
       }
     }
@@ -48,9 +50,9 @@ class _CoursesPageState extends State<CoursesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       appBar: AppBar(
         title: const Text('Cursos'),
-        backgroundColor: Colors.blue,
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -68,11 +70,16 @@ class _CoursesPageState extends State<CoursesPage> {
           ),
         ],
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(kBorderRadius)),
+        child: Container(
+          color: kSurfaceColor,
+          alignment: Alignment.center,
           child: Column(
             children: [
-              const SizedBox(height: 20.0,),
+              const SizedBox(
+                height: 20.0,
+              ),
               const Text('Grupo'),
               GroupDropdownButton(
                 onSaved: (value) {},
@@ -102,23 +109,20 @@ class _CoursesPageState extends State<CoursesPage> {
                 height: 20.0,
               ),
               courses.isNotEmpty
-                  ? SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    child: Expanded(
-                        child: ListView.builder(
-                          itemCount: courses.length,
-                          itemBuilder: (context, index) {
-                            return CourseCard(
-                              course: courses[index],
-                              onChanged: loadData,
-                            );
-                          },
-                        ),
-                      ),
-                  )
+                  ? ListView.builder(
+                      itemCount: courses.length,
+                      shrinkWrap: true,
+                      physics: kNeverScroll,
+                      itemBuilder: (context, index) {
+                        return CourseCard(
+                          course: courses[index],
+                          onChanged: loadData,
+                        ).pb2;
+                      },
+                    )
                   : const Text('No se encontró ningún Curso'),
             ],
-          ),
+          ).scrollable(padding: kPadding).aligned(Alignment.topCenter),
         ),
       ),
     );
@@ -128,9 +132,7 @@ class _CoursesPageState extends State<CoursesPage> {
 class CourseCard extends StatelessWidget {
   final Course course;
   final void Function() onChanged;
-  const CourseCard(
-      {Key? key, required this.course, required this.onChanged})
-      : super(key: key);
+  const CourseCard({Key? key, required this.course, required this.onChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -145,8 +147,7 @@ class CourseCard extends StatelessWidget {
             },
           ),
           onTap: () async {
-            await Get.toNamed(Routes.COURSEFORM,
-                arguments: {"update": course, "initialId": null, "initialValues": null});
+            await Get.toNamed(Routes.COURSEFORM, arguments: {"update": course, "initialId": null, "initialValues": null});
             onChanged();
           }),
     );

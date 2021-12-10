@@ -58,12 +58,12 @@ class AppPages {
       }),
     ),
     GetPage(
-      name: Routes.CLASSDETAILS, 
+      name: Routes.CLASSDETAILS,
       page: () => const ClassDetails(),
       binding: BindingsBuilder<dynamic>(() {
         Get.lazyPut<ClassDetailsController>(() => ClassDetailsController());
       }),
-      ),
+    ),
     GetPage(
       name: Routes.ADMINHOME,
       page: () => const AdminHome(),

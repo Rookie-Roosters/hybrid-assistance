@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hybrid_assistance/config/app_pages.dart';
+import 'package:hybrid_assistance/config/app_themes.dart';
 import 'package:hybrid_assistance/models/classroom.dart';
+import 'package:hybrid_assistance/utils/ui_utils.dart';
 
 class ClassroomsPage extends StatefulWidget {
   const ClassroomsPage({Key? key}) : super(key: key);
@@ -29,31 +31,34 @@ class _ClassroomsPageState extends State<ClassroomsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       appBar: AppBar(
         title: const Text('Salones'),
-        backgroundColor: Colors.blue,
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () async {
-              await Get.toNamed(Routes.CLASSROOMFORM, arguments: {
-                "update": null,
-                "initialId": await Classroom.getId()
-              });
+              await Get.toNamed(Routes.CLASSROOMFORM, arguments: {"update": null, "initialId": await Classroom.getId()});
               loadData();
             },
           ),
         ],
       ),
-      body: SafeArea(
-        child: ListView.builder(
-          itemCount: classrooms.length,
-          itemBuilder: (context, index) {
-            return ClassroomCard(
-              classroom: classrooms[index],
-              onChanged: loadData,
-            );
-          },
+      body: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(kBorderRadius)),
+        child: Container(
+          color: kSurfaceColor,
+          child: ListView.builder(
+            padding: kPadding,
+            physics: kBouncyScroll,
+            itemCount: classrooms.length,
+            itemBuilder: (context, index) {
+              return ClassroomCard(
+                classroom: classrooms[index],
+                onChanged: loadData,
+              ).pb2;
+            },
+          ),
         ),
       ),
     );
@@ -63,8 +68,7 @@ class _ClassroomsPageState extends State<ClassroomsPage> {
 class ClassroomCard extends StatelessWidget {
   final Classroom classroom;
   final void Function() onChanged;
-  const ClassroomCard({Key? key, required this.classroom, required this.onChanged})
-      : super(key: key);
+  const ClassroomCard({Key? key, required this.classroom, required this.onChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +83,7 @@ class ClassroomCard extends StatelessWidget {
             },
           ),
           onTap: () async {
-            await Get.toNamed(Routes.CLASSROOMFORM,
-                arguments: {"update": classroom, "initialId": null});
+            await Get.toNamed(Routes.CLASSROOMFORM, arguments: {"update": classroom, "initialId": null});
             onChanged();
           }),
     );

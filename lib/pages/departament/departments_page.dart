@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart' hide Center;
 import 'package:get/get.dart';
 import 'package:hybrid_assistance/config/app_pages.dart';
+import 'package:hybrid_assistance/config/app_themes.dart';
 import 'package:hybrid_assistance/models/center.dart';
 import 'package:hybrid_assistance/models/department.dart';
+import 'package:hybrid_assistance/utils/ui_utils.dart';
 import 'package:hybrid_assistance/widgets/center_dropdown.dart';
 
 class DepartmentsPage extends StatefulWidget {
@@ -41,9 +43,9 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       appBar: AppBar(
         title: const Text('Departamentos'),
-        backgroundColor: Colors.blue,
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -58,37 +60,42 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
           ),
         ],
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 20.0),
-            CenterDropdownButton(
-              onSaved: (value) {},
-              update: null,
-              onChanged: (value) {
-                setState(() {
-                  center = value;
-                  loadData();
-                });
-              },
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            departments.isNotEmpty
-                ? Expanded(
-                    child: ListView.builder(
+      body: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(kBorderRadius)),
+        child: Container(
+          color: kSurfaceColor,
+          alignment: Alignment.center,
+          child: Column(
+            children: [
+              const SizedBox(height: 20.0),
+              CenterDropdownButton(
+                onSaved: (value) {},
+                update: null,
+                onChanged: (value) {
+                  setState(() {
+                    center = value;
+                    loadData();
+                  });
+                },
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              departments.isNotEmpty
+                  ? ListView.builder(
                       itemCount: departments.length,
+                      shrinkWrap: true,
+                      physics: kNeverScroll,
                       itemBuilder: (context, index) {
                         return DepartmentCard(
                           department: departments[index],
                           onChanged: loadData,
-                        );
+                        ).pb2;
                       },
-                    ),
-                  )
-                : const Text('No se encontró ningún Departamento'),
-          ],
+                    )
+                  : const Text('No se encontró ningún Departamento'),
+            ],
+          ).scrollable(padding: kPadding).aligned(Alignment.topCenter),
         ),
       ),
     );
@@ -98,9 +105,7 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
 class DepartmentCard extends StatelessWidget {
   final Department department;
   final void Function() onChanged;
-  const DepartmentCard(
-      {Key? key, required this.department, required this.onChanged})
-      : super(key: key);
+  const DepartmentCard({Key? key, required this.department, required this.onChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -115,8 +120,7 @@ class DepartmentCard extends StatelessWidget {
             },
           ),
           onTap: () async {
-            await Get.toNamed(Routes.DEPARTMENTFORM,
-                arguments: {"update": department, "initialId": null, "initialValues": null});
+            await Get.toNamed(Routes.DEPARTMENTFORM, arguments: {"update": department, "initialId": null, "initialValues": null});
             onChanged();
           }),
     );

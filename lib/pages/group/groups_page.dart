@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hybrid_assistance/config/app_pages.dart';
+import 'package:hybrid_assistance/config/app_themes.dart';
 import 'package:hybrid_assistance/models/career.dart';
 import 'package:hybrid_assistance/models/group.dart';
+import 'package:hybrid_assistance/utils/ui_utils.dart';
 import 'package:hybrid_assistance/widgets/career_dropdown.dart';
 
 class GroupsPage extends StatefulWidget {
@@ -41,9 +43,9 @@ class _GroupsPageState extends State<GroupsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       appBar: AppBar(
         title: const Text('Grupos'),
-        backgroundColor: Colors.blue,
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -58,37 +60,42 @@ class _GroupsPageState extends State<GroupsPage> {
           ),
         ],
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 20.0),
-            CareerDropdownButton(
-              onSaved: (value) {},
-              update: null,
-              onChanged: (value) {
-                setState(() {
-                  career = value;
-                  loadData();
-                });
-              },
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            groups.isNotEmpty
-                ? Expanded(
-                    child: ListView.builder(
+      body: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(kBorderRadius)),
+        child: Container(
+          color: kSurfaceColor,
+          alignment: Alignment.center,
+          child: Column(
+            children: [
+              const SizedBox(height: 20.0),
+              CareerDropdownButton(
+                onSaved: (value) {},
+                update: null,
+                onChanged: (value) {
+                  setState(() {
+                    career = value;
+                    loadData();
+                  });
+                },
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              groups.isNotEmpty
+                  ? ListView.builder(
                       itemCount: groups.length,
+                      shrinkWrap: true,
+                      physics: kNeverScroll,
                       itemBuilder: (context, index) {
                         return GroupCard(
                           group: groups[index],
                           onChanged: loadData,
-                        );
+                        ).pb2;
                       },
-                    ),
-                  )
-                : const Text('No se encontró ningún Grupo'),
-          ],
+                    )
+                  : const Text('No se encontró ningún Grupo'),
+            ],
+          ).scrollable(padding: kPadding).aligned(Alignment.topCenter),
         ),
       ),
     );
@@ -98,9 +105,7 @@ class _GroupsPageState extends State<GroupsPage> {
 class GroupCard extends StatelessWidget {
   final Group group;
   final void Function() onChanged;
-  const GroupCard(
-      {Key? key, required this.group, required this.onChanged})
-      : super(key: key);
+  const GroupCard({Key? key, required this.group, required this.onChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -115,8 +120,7 @@ class GroupCard extends StatelessWidget {
             },
           ),
           onTap: () async {
-            await Get.toNamed(Routes.GROUPFORM,
-                arguments: {"update": group, "initialId": null, "initialValues": null});
+            await Get.toNamed(Routes.GROUPFORM, arguments: {"update": group, "initialId": null, "initialValues": null});
             onChanged();
           }),
     );

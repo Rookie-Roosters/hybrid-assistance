@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart' hide Center;
 import 'package:get/get.dart';
+import 'package:hybrid_assistance/components/worthy/worthy_button.dart';
+import 'package:hybrid_assistance/config/app_themes.dart';
 import 'package:hybrid_assistance/models/academic_load.dart';
 import 'package:hybrid_assistance/models/student.dart';
+import 'package:hybrid_assistance/utils/ui_utils.dart';
 import 'package:hybrid_assistance/widgets/course_dropdown.dart';
 import 'academic_load_controller.dart';
 export 'academic_load_controller.dart';
@@ -29,64 +32,55 @@ class AcademicLoadForm extends GetView<AcademicLoadController> {
     if (update != null) controller.academicLoad = update;
 
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: update == null
-            ? const Text('Agregar Carga Académica')
-            : const Text('Modificar Carga Académica'),
+        title: update == null ? const Text('Agregar Carga Académica') : const Text('Modificar Carga Académica'),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Form(
-            key: controller.formStateKey,
-            autovalidateMode: AutovalidateMode.always,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
+      body: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(kBorderRadius)),
+        child: Container(
+          color: kSurfaceColor,
+          alignment: Alignment.center,
+          child: Container(
+            alignment: Alignment.topCenter,
+            child: Form(
+              key: controller.formStateKey,
+              autovalidateMode: AutovalidateMode.always,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   TextFormField(
                     decoration: const InputDecoration(
                       labelText: 'ID',
                     ),
                     enabled: false,
-                    initialValue: update == null
-                        ? Get.arguments['initialId'].toString()
-                        : controller.academicLoad.id.toString(),
-                    validator: (value) =>
-                        controller.academicLoad.validateNumber(value)
-                            ? null
-                            : 'ID no válido',
-                    onSaved: (value) => controller.academicLoad.id =
-                        value == null ? 0 : int.tryParse(value)!,
+                    initialValue: update == null ? Get.arguments['initialId'].toString() : controller.academicLoad.id.toString(),
+                    validator: (value) => controller.academicLoad.validateNumber(value) ? null : 'ID no válido',
+                    onSaved: (value) => controller.academicLoad.id = value == null ? 0 : int.tryParse(value)!,
                   ),
                   const SizedBox(height: 20.0),
                   TextFormField(
                     decoration: const InputDecoration(
                       labelText: 'ID Estudiante',
                     ),
-                    initialValue: update == null
-                        ? ''
-                        : controller.academicLoad.student!.id.toString(),
+                    initialValue: update == null ? '' : controller.academicLoad.student!.id.toString(),
                     validator: validateStudent,
-                    onSaved: (value) =>
-                        controller.idStudent = int.tryParse(value!)!,
+                    onSaved: (value) => controller.idStudent = int.tryParse(value!)!,
                   ),
                   const SizedBox(
                     height: 20.0,
                   ),
                   CourseDropdownButton(
                     update: update == null ? Get.arguments['initialValues'] : update.course,
-                    onSaved: (newValue) =>
-                        controller.academicLoad.course = newValue,
+                    onSaved: (newValue) => controller.academicLoad.course = newValue,
                     onChanged: (value) {},
                   ),
                   const Divider(
                     height: 36.0,
                   ),
-                  ElevatedButton(
-                    child: update == null
-                        ? const Text('Agregar')
-                        : const Text('Modificar'),
+                  WorthyButton.elevated(
+                    child: update == null ? const Text('Agregar') : const Text('Modificar'),
+                    color: kSecondaryColor,
                     onPressed: () {
                       if (update == null) {
                         controller.add();
@@ -96,7 +90,7 @@ class AcademicLoadForm extends GetView<AcademicLoadController> {
                     },
                   ),
                 ],
-              ),
+              ).scrollable(padding: kPadding),
             ),
           ),
         ),

@@ -1,9 +1,6 @@
 import 'package:hybrid_assistance/services/database_service.dart';
 import 'package:intl/intl.dart';
 
-import 'schedule.dart';
-import 'student.dart';
-
 enum AttendanceStatus { absent, present, online }
 
 class Attendance {
@@ -46,15 +43,9 @@ class Attendance {
     }
   }
 
-  static Future<Attendance> getAttendance(
-      int scheduleId, int userId, DateTime date) async {
-    List<String> targetDay =
-        date.subtract(const Duration(hours: 6)).toString().split('.');
-    List<String> nextDay = date
-        .add(const Duration(days: 1))
-        .subtract(const Duration(hours: 6))
-        .toString()
-        .split('.');
+  static Future<Attendance> getAttendance(int scheduleId, int userId, DateTime date) async {
+    List<String> targetDay = date.subtract(const Duration(hours: 6)).toString().split('.');
+    List<String> nextDay = date.add(const Duration(days: 1)).subtract(const Duration(hours: 6)).toString().split('.');
     final result = await DatabaseService.to.connection.query(
       '''
     SELECT att.id, att.id_schedule, att.id_student, att.date_time, att.status FROM attendance att
@@ -62,12 +53,7 @@ class Attendance {
     JOIN student stn ON stn.id = att.id_student
     WHERE sch.id = ? AND stn.id = ? AND att.date_time >= ? AND att.date_time < ?
     ''',
-      [
-        scheduleId,
-        userId,
-        DateFormat('yyyy-MM-dd hh:mm:ss').parse(targetDay[0]).toUtc(),
-        DateFormat('yyyy-MM-dd hh:mm:ss').parse(nextDay[0]).toUtc()
-      ],
+      [scheduleId, userId, DateFormat('yyyy-MM-dd hh:mm:ss').parse(targetDay[0]).toUtc(), DateFormat('yyyy-MM-dd hh:mm:ss').parse(nextDay[0]).toUtc()],
     );
     if (result.length == 1) {
       for (var row in result) {
@@ -83,8 +69,7 @@ class Attendance {
     throw Exception('No attendance found');
   }
 
-  static Future<String> update(
-      int id, int scheduleId, String code, AttendanceStatus status) async {
+  static Future<String> update(int id, int scheduleId, String code, AttendanceStatus status) async {
     String realCode = '';
     final codeCheck = await DatabaseService.to.connection.query('''
       SELECT cou.attendance_code FROM course cou

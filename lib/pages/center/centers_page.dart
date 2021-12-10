@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart' hide Center;
 import 'package:get/get.dart';
 import 'package:hybrid_assistance/config/app_pages.dart';
+import 'package:hybrid_assistance/config/app_themes.dart';
 import 'package:hybrid_assistance/models/center.dart';
+import 'package:hybrid_assistance/utils/ui_utils.dart';
 
 class CentersPage extends StatefulWidget {
   const CentersPage({Key? key}) : super(key: key);
@@ -29,32 +31,35 @@ class _CentersPageState extends State<CentersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       appBar: AppBar(
         title: const Text('Centros'),
-        backgroundColor: Colors.blue,
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'Agregar un Centro',
             onPressed: () async {
-              await Get.toNamed(Routes.CENTERFORM, arguments: {
-                "update": null,
-                "initialId": await Center.getId()
-              });
+              await Get.toNamed(Routes.CENTERFORM, arguments: {"update": null, "initialId": await Center.getId()});
               loadData();
             },
           ),
         ],
       ),
-      body: SafeArea(
-        child: ListView.builder(
-          itemCount: centers.length,
-          itemBuilder: (context, index) {
-            return CenterCard(
-              center: centers[index],
-              onChanged: loadData,
-            );
-          },
+      body: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(kBorderRadius)),
+        child: Container(
+          color: kSurfaceColor,
+          child: ListView.builder(
+            itemCount: centers.length,
+            physics: kBouncyScroll,
+            padding: kPadding,
+            itemBuilder: (context, index) {
+              return CenterCard(
+                center: centers[index],
+                onChanged: loadData,
+              ).pb2;
+            },
+          ),
         ),
       ),
     );
@@ -64,8 +69,7 @@ class _CentersPageState extends State<CentersPage> {
 class CenterCard extends StatelessWidget {
   final Center center;
   final void Function() onChanged;
-  const CenterCard({Key? key, required this.center, required this.onChanged})
-      : super(key: key);
+  const CenterCard({Key? key, required this.center, required this.onChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,8 +84,7 @@ class CenterCard extends StatelessWidget {
             },
           ),
           onTap: () async {
-            await Get.toNamed(Routes.CENTERFORM,
-                arguments: {"update": center, "initialId": null});
+            await Get.toNamed(Routes.CENTERFORM, arguments: {"update": center, "initialId": null});
             onChanged();
           }),
     );
