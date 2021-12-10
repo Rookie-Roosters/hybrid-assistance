@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-12-2021 a las 21:32:08
+-- Tiempo de generación: 10-12-2021 a las 01:25:46
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.12
 
@@ -325,19 +325,22 @@ ALTER TABLE `attendance`
 --
 ALTER TABLE `career`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
   ADD KEY `id_department` (`id_department`);
 
 --
 -- Indices de la tabla `center`
 --
 ALTER TABLE `center`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indices de la tabla `classroom`
 --
 ALTER TABLE `classroom`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indices de la tabla `course`
@@ -353,6 +356,7 @@ ALTER TABLE `course`
 --
 ALTER TABLE `department`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
   ADD KEY `id_center` (`id_center`);
 
 --
